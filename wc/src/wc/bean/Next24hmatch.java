@@ -4,4 +4,5 @@ import java.util.Date;
 
 public class Next24hmatch {
 	private Date matchtime;
+	private String hteam;
 }

@@ -10,7 +10,7 @@ public class WCDao extends ConnectionFactory{
 	
 	public List<Team> queryTeam(Connection conn) {
 		List<Team> list =new ArrayList<Team>();
-		String sql = "select * from worldcup2018.teams";
+		String sql = "select * from worldcup2018.teams te order by te.group asc";
 		try {
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();

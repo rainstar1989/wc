@@ -64,7 +64,7 @@ public class LoginServlet extends HttpServlet {
 				System.out.println(u.getUserid()+"登陆失败");
 			}
 			System.out.println(flag);
-//			response.setContentType("text/html;charset=utf-8");
+			response.setContentType("text/html;charset=utf-8");
 			PrintWriter writer = response.getWriter();
 			writer.write(flag);//返回登录信息
 			writer.flush();

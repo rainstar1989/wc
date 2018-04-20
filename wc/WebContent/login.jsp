@@ -20,7 +20,7 @@
 		</div>
 		<div class="SignContainer-inner">
 			<div class="Login-content">
-				<form class="SignFlow" name="loginform" method="POST" id="loginform" action="">
+				<div class="SignFlow" name="loginform"  id="loginform" >
 					<div class="SignFlow-account">
 						<div class="SignFlowInput">
 							<input type="text" id="userid" class="Input" placeholder="账号">
@@ -31,8 +31,8 @@
 							<input type="text" id="password" class="Input" placeholder="密码">
 						</div>
 					</div>
-					<button class="button" form="loginform" id="submitbt" >登陆</button>
-				</form>
+					<button class="button" id="submitbt" >登陆</button>
+				</div>
 			</div>
 			<div class="SignContainer-switch">
 			</div>

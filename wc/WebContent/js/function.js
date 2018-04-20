@@ -16,18 +16,18 @@ $("#submitbt").click(function(){
     	  },
     	  dataType: "text",
     	  success: function (data){
-    		alert(data);
-//            if(flag == false){
-//            alert("您输入的用户名或密码有错！");$("#userid").focus();return false;
-//            }else{
-//            window.location.href = "index.jsp";//跳转到主页
-//            }
+    		//alert(data);
+            if(data == "false"){
+            alert("您输入的用户名或密码有错！");$("#userid").focus();return false;
+            }else{
+            window.location.href = "index.jsp";//跳转到主页
+            }
           },
           error: function (XMLHttpRequest, textStatus, errorThrown) {
               // 状态码
-              //alert(XMLHttpRequest.status);
+              alert(XMLHttpRequest.status);
               // 状态
-              //alert(XMLHttpRequest.readyState);
+              alert(XMLHttpRequest.readyState);
               // 错误信息   
               alert(textStatus);
           }

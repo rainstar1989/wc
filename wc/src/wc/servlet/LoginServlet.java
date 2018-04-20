@@ -42,37 +42,34 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action=request.getParameter("action");
 		if("login".equals(action)){//用户登陆
-            this.login(request, response);
+//            this.login(request, response);
+			System.out.println("收到登陆请求");
+			UserDao ud=new UserDao();
+			User u=new User();
+			ConnectionFactory coF=new ConnectionFactory();
+			Connection co=coF.getConnection();
+			System.out.println("账号："+request.getParameter("userid")+"试图登陆");
+			request.setCharacterEncoding("UTF-8");
+			u.setUserid(request.getParameter("userid"));
+			u.setPassword(request.getParameter("password"));
+			int f=ud.login(u, co);
+			String flag = "false";
+			if(f>=0) {//用户登陆成功
+				HttpSession session=request.getSession();
+				session.setAttribute("userid",u.getUserid());
+				flag = "true";
+				System.out.println(u.getUserid()+"登陆成功");
+			}else {
+				flag = "false";
+				System.out.println(u.getUserid()+"登陆失败");
+			}
+			System.out.println(flag);
+//			response.setContentType("text/html;charset=utf-8");
+			PrintWriter writer = response.getWriter();
+			writer.write(flag);//返回登录信息
+			writer.flush();
+			writer.close();
         }
 	}
 	
-	private void login(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("收到登陆请求");
-		UserDao ud=new UserDao();
-		User u=new User();
-		ConnectionFactory coF=new ConnectionFactory();
-		Connection co=coF.getConnection();
-		System.out.println("账号："+request.getParameter("userid")+"试图登陆");
-		request.setCharacterEncoding("UTF-8");
-		u.setUserid(request.getParameter("userid"));
-		u.setPassword(request.getParameter("password"));
-		int f=ud.login(u, co);
-		String flag = "false";
-		if(f>=0) {//用户登陆成功
-			HttpSession session=request.getSession();
-			session.setAttribute("userid",u.getUserid());
-			flag = "true";
-			System.out.println(u.getUserid()+"登陆成功");
-		}else {
-			flag = "false";
-			System.out.println(u.getUserid()+"登陆失败");
-		}
-		System.out.println(flag);
-		response.setContentType("text/plain;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		out.write(flag);//返回登录信息
-        out.flush();
-        out.close();
-	}
-
 }

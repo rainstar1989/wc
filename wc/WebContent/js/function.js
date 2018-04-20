@@ -15,7 +15,7 @@ $("#submitbt").click(function(){
 			password:$("#password").val()
     	  },
     	  dataType: "text",
-    	  success: function(data){
+    	  success: function (data){
     		alert(data);
 //            if(flag == false){
 //            alert("您输入的用户名或密码有错！");$("#userid").focus();return false;

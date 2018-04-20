@@ -47,25 +47,30 @@ public class LoginServlet extends HttpServlet {
 	}
 	
 	private void login(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("收到登陆请求");
 		UserDao ud=new UserDao();
 		User u=new User();
 		ConnectionFactory coF=new ConnectionFactory();
 		Connection co=coF.getConnection();
+		System.out.println("账号："+request.getParameter("userid")+"试图登陆");
 		request.setCharacterEncoding("UTF-8");
 		u.setUserid(request.getParameter("userid"));
 		u.setPassword(request.getParameter("password"));
 		int f=ud.login(u, co);
-		boolean flag=false;
+		String flag = "false";
 		if(f>=0) {//用户登陆成功
 			HttpSession session=request.getSession();
 			session.setAttribute("userid",u.getUserid());
-			flag = true;
+			flag = "true";
+			System.out.println(u.getUserid()+"登陆成功");
 		}else {
-			flag = false;
+			flag = "false";
+			System.out.println(u.getUserid()+"登陆失败");
 		}
-		response.setContentType("text/html;charset=utf-8");
+		System.out.println(flag);
+		response.setContentType("text/plain;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		out.print(flag);//返回登录信息
+		out.write(flag);//返回登录信息
         out.flush();
         out.close();
 	}

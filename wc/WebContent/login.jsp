@@ -7,6 +7,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
+<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="js/function.js"></script>
 <title>登陆</title>
 </head>
 <body>
@@ -18,18 +20,18 @@
 		</div>
 		<div class="SignContainer-inner">
 			<div class="Login-content">
-				<form class="SignFlow">
+				<form class="SignFlow" name="loginform" method="POST" id="loginform" action="">
 					<div class="SignFlow-account">
 						<div class="SignFlowInput">
-							<input type="text" name="userid" class="Input" placeholder="账号">
+							<input type="text" id="userid" class="Input" placeholder="账号">
 						</div>
 					</div>
 					<div class="SignFlow-password">
 						<div class="SignFlowInput">
-							<input type="text" name="password" class="Input" placeholder="密码">
+							<input type="text" id="password" class="Input" placeholder="密码">
 						</div>
 					</div>
-					<button class="button" type="submit">登陆</button>
+					<button class="button" form="loginform" id="submitbt" >登陆</button>
 				</form>
 			</div>
 			<div class="SignContainer-switch">

@@ -17,14 +17,14 @@ import wc.dao.UserDao;
 /**
  * Servlet implementation class Useridcheck
  */
-@WebServlet("/Useridcheck")
-public class Useridcheck extends HttpServlet {
+@WebServlet("/UseridcheckServlet")
+public class UseridcheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Useridcheck() {
+    public UseridcheckServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -53,7 +53,7 @@ public class Useridcheck extends HttpServlet {
 		if(f==1) {//id不重复，可注册
 			flag = "true";
 			System.out.println(u.getUserid()+"数据库无记录，可以注册");
-		}if(f==0) {//id重复，不可注册
+		}else if(f==0) {//id重复，不可注册
 			flag = "false";
 			System.out.println(u.getUserid()+"数据库有记录，不可注册");
 		}else {

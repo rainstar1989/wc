@@ -48,6 +48,42 @@
 		alert("注册");
 	});
 	
+	$("#reguserid").blur(function(){
+		if($("#reguserid").val()==""){
+			return false;
+		}else{
+			var checkidurl="UseridcheckServlet";
+			$.ajax({
+				type: "post",
+				url: checkidurl,
+				data:{
+					reguserid:$("#reguserid").val()
+					},
+				dataType: "text",
+				success:function (data){
+					if (data=="false"){
+						$("#hintr").html("账号已注册！");
+						$("#reguserid").focus();
+						return false;
+					}else if (data=="true"){
+						$("#hintr").html("账号可注册！");
+						return false;
+					}else{
+						$("#hintr").html("读取账号错误！");
+					}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					// 状态码
+					alert(XMLHttpRequest.status);
+					// 状态
+					alert(XMLHttpRequest.readyState);
+					// 错误信息   
+					alert(textStatus);
+				}
+			});
+		}
+	});
+	
 	$(".SignContainer-switch").click(function(){
 		$("#loginarea").toggle();
 		$("#registerarea").toggle();

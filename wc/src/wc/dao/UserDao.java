@@ -61,7 +61,7 @@ public class UserDao extends ConnectionFactory {
 		UserDao ud=new UserDao();
 		
 		User u=new User();
-		u.setUserid("test12");
+		u.setUserid("test1");
 		int f=ud.checkId(u,co);
 		System.out.println(f);
 	}

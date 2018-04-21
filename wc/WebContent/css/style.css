@@ -16,7 +16,7 @@
     -ms-flex-pack: center;
     justify-content: center;
     border-radius: 2px;
-    min-height: 560px;
+    min-height: 600px;
     height: calc(100% - 42px);
     box-sizing: border-box;
     background: #0f4583 url(../images/fwc_darkbluebg.png) repeat;
@@ -103,8 +103,18 @@ input[type=text]{
 input[type=password]{
 	color: #ffffff;
 }
-#hint{
+.hint{
 	color: #fb7218;
 	height:22px;
+}
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px #0f4583 inset;
+	border: none;
+}
+.SignContainer-switch {
+	color: #ffffff;
+}
+.SignContainer-switch span {
+	color: #ffad11;
 }
 

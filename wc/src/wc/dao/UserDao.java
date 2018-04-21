@@ -34,7 +34,26 @@ public class UserDao extends ConnectionFactory {
 		return flag;
 	}
 	
-	
+	public int checkId(User user,Connection conn) {
+		int flag=-1;
+		String sql="SELECT * FROM worldcup2018.users us where uid='"+user.getUserid()+"'";
+		try {
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			if(rs.next()) {
+				flag=0;
+			}else {
+				flag=1;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			flag=-2;
+		}
+		finally {
+			closeAll();
+		}
+		return flag;
+	}
 	
 	public static void main(String[] args){
 		ConnectionFactory coF=new ConnectionFactory();
@@ -42,9 +61,8 @@ public class UserDao extends ConnectionFactory {
 		UserDao ud=new UserDao();
 		
 		User u=new User();
-		u.setUserid("test1");
-		u.setPassword("123");
-		int f=ud.login(u,co);
+		u.setUserid("test12");
+		int f=ud.checkId(u,co);
 		System.out.println(f);
 	}
 }

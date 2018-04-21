@@ -62,7 +62,7 @@ public class Useridcheck extends HttpServlet {
 		}
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter writer = response.getWriter();
-		writer.write(flag);//返回是否可注册信息
+		writer.write(flag);//返回是否可以注册信息
 		writer.flush();
 		writer.close();
 	}

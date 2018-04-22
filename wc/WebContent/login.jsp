@@ -21,7 +21,10 @@
 		<div class="SignContainer-inner">
 			<div class="Login-content" id="loginarea">
 				<div class="SignFlow" id="loginform" >
-					<div class="hint" id="hintl"></div>
+					<div class="hint" id="hintl">
+							<img src="images/l.gif" style="display: none;"/>
+							<span></span>
+					</div>
 					<div class="SignFlow-account">
 						<div class="SignFlowInput">
 							<input type="text" id="userid" class="Input" placeholder="账号">
@@ -37,7 +40,10 @@
 			</div>
 			<div class="Login-content" id="registerarea" style="display: none;">
 				<div class="SignFlow"  id="registerform" >
-					<div class="hint" id="hintr"></div>
+					<div class="hint" id="hintr">
+							<img src="images/l.gif" style="display: none;"/>
+							<span></span>
+					</div>
 					<div class="SignFlow-account">
 						<div class="SignFlowInput">
 							<input type="text" id="reguserid" class="Input" placeholder="请输入3-10位账号">

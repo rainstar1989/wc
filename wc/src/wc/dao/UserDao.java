@@ -15,7 +15,7 @@ public class UserDao extends ConnectionFactory {
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			if(rs.next()) {
-				String pwd=user.getPassword();
+				String pwd=SHA.getResult(user.getPassword());
 				if(pwd.equals(rs.getString(2))) {
 					flag=1;
 				}else {
@@ -55,14 +55,36 @@ public class UserDao extends ConnectionFactory {
 		return flag;
 	}
 	
+	public int reg(User user,Connection conn) {
+		int flag=0;
+		String sql="insert into worldcup2018.users (`uid`, `password`, `point`, `remark`) values(?,?,?,?)";
+		try {
+			ptmt=conn.prepareStatement(sql);
+			ptmt.setString(1, user.getUserid());
+			ptmt.setString(2, SHA.getResult(user.getPassword()));
+			ptmt.setInt(3, 0);
+			ptmt.setString(4, user.getRemark());
+			flag=ptmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			flag=-2;
+		}
+		finally {
+			closeAll();
+		}
+		return flag;
+	}
+	
 	public static void main(String[] args){
 		ConnectionFactory coF=new ConnectionFactory();
 		Connection co=coF.getConnection();
 		UserDao ud=new UserDao();
 		
 		User u=new User();
-		u.setUserid("test1");
-		int f=ud.checkId(u,co);
-		System.out.println(f);
+		u.setUserid("test4");
+		u.setPassword("333");
+		u.setRemark("peter");
+		int r=ud.reg(u, co);
+		System.out.println(r);
 	}
 }

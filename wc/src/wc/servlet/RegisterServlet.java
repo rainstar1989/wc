@@ -17,14 +17,14 @@ import wc.dao.UserDao;
 /**
  * Servlet implementation class Useridcheck
  */
-@WebServlet("/UseridcheckServlet")
-public class UseridcheckServlet extends HttpServlet {
+@WebServlet("/RegisterServlet")
+public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UseridcheckServlet() {
+    public RegisterServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,21 +40,31 @@ public class UseridcheckServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("收到userid检查请求");
+		System.out.println("收到注册请求");
 		UserDao ud=new UserDao();
 		User u=new User();
 		ConnectionFactory coF=new ConnectionFactory();
 		Connection co=coF.getConnection();
-		System.out.println("账号："+request.getParameter("reguserid")+"检查是否重复");
 		request.setCharacterEncoding("UTF-8");
 		u.setUserid(request.getParameter("reguserid"));
+		u.setPassword(request.getParameter("regpassword1"));
+		u.setRemark(request.getParameter("regusername"));
 		int f=ud.checkId(u,co);
+		System.out.println("账号："+request.getParameter("reguserid")+"检查是否重复");
+		
 		String flag = "false";
 		if(f==1) {//id不重复，可注册
-			flag = "true";
 			System.out.println(u.getUserid()+"数据库无记录，可以注册");
+			int r=ud.reg(u,co);
+			if (r==1) {
+				flag = "true";
+				System.out.println(u.getUserid()+"注册成功");
+			}else {
+				flag = "false";
+				System.out.println(u.getUserid()+"注册失败");
+			}
 		}else if(f==0) {//id重复，不可注册
-			flag = "false";
+			flag = "duplicate";
 			System.out.println(u.getUserid()+"数据库有记录，不可注册");
 		}else {
 			flag = "error";
@@ -62,7 +72,7 @@ public class UseridcheckServlet extends HttpServlet {
 		}
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter writer = response.getWriter();
-		writer.write(flag);//返回是否可注册信息
+		writer.write(flag);//返回是否完成注册
 		writer.flush();
 		writer.close();
 	}

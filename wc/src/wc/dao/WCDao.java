@@ -2,6 +2,8 @@ package wc.dao;
 
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import wc.bean.Next24hmatch;
 import wc.bean.Team;
@@ -33,6 +35,10 @@ public class WCDao extends ConnectionFactory{
 	
 	//查询未来24小时的比赛
 	public List<Next24hmatch> queryNext24hmatch(Connection conn) {
+		Date today=new Date();
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String nowtime=df.format(today);
+		System.out.println(nowtime);
 		List<Next24hmatch> list =new ArrayList<Next24hmatch>();
 		String sql="select c.evid,c.evtime,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam and left(timediff(c.evtime,'2018-06-17 00:00:00'),length(timediff(c.evtime,'2018-06-17 00:00:00'))-6)/24 between 0 and 1";
 		try {
@@ -41,7 +47,7 @@ public class WCDao extends ConnectionFactory{
 			while(rs.next()) {
 				Next24hmatch next24hmatch=new Next24hmatch();
 				next24hmatch.setMatchid(rs.getInt(1));
-				next24hmatch.setMatchtime(rs.getDate(2));
+				next24hmatch.setMatchtime(rs.getTime(2));
 				next24hmatch.setHteamname(rs.getString(3));
 				next24hmatch.setGteamname(rs.getString(4));
 				list.add(next24hmatch);

@@ -7,6 +7,9 @@ public class Match {
 	private int matchid;
 	private String matchtype;
 	private Date matchtime;
+	private Date matchdate;
+	private String htm;
+	private String gtm;
 	private String hteam;
 	private String gteam;
 	private int hgoal;
@@ -54,5 +57,23 @@ public class Match {
 	public void setGgoal(int ggoal) {
 		this.ggoal=ggoal;
 	}
-
+	public String getHtm() {
+		return htm;
+	}
+	public void setHtm(String htm) {
+		this.htm = htm;
+	}
+	public String getGtm() {
+		return gtm;
+	}
+	public void setGtm(String gtm) {
+		this.gtm = gtm;
+	}
+	public Date getMatchdate() {
+		return matchdate;
+	}
+	public void setMatchdate(Date matchdate) {
+		this.matchdate = matchdate;
+	}
+	
 }

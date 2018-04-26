@@ -2,6 +2,8 @@ package wc.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import wc.bean.User;
 
@@ -81,10 +83,9 @@ public class UserDao extends ConnectionFactory {
 		try {
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
-			if(rs.next()) {
-				
-			}else {
-				
+			while (rs.next()) {
+				user.setPoint(rs.getInt(1));
+				user.setRemark(rs.getString(2));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -97,11 +98,11 @@ public class UserDao extends ConnectionFactory {
 		Connection co=coF.getConnection();
 		UserDao ud=new UserDao();
 		
-		User u=new User();
-		u.setUserid("test4");
-		u.setPassword("333");
-		u.setRemark("peter");
-		int r=ud.reg(u, co);
-		System.out.println(r);
+		String uid="test";
+		User u=ud.userInfo(uid, co);
+		JSONObject json = JSONObject.fromObject(u);
+		String str = json.toString();
+		System.out.println("姓名："+u.getRemark()+" 积分："+u.getPoint());
+		System.out.println(str);
 	}
 }

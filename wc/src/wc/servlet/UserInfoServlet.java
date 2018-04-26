@@ -1,8 +1,8 @@
 package wc.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,20 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import wc.bean.Team;
-import wc.dao.*;
+import net.sf.json.JSONObject;
+import wc.bean.User;
+import wc.dao.ConnectionFactory;
+import wc.dao.UserDao;
 
 /**
- * Servlet implementation class FindTeamServlet
+ * Servlet implementation class UserInfoServlet
  */
-@WebServlet("/FindTeamServlet")
-public class FindTeamServlet extends HttpServlet {
+@WebServlet("/UserInfoServlet")
+public class UserInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindTeamServlet() {
+    public UserInfoServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,21 +39,32 @@ public class FindTeamServlet extends HttpServlet {
 		String loginId=(String)session.getAttribute("loginId");
 		System.out.println("检查是否存在session，loginName:"+loginId);
 		
+		User u=new User();
 		if (loginId==null) {
 			response.sendRedirect("login.html");
 		}else {
 			try {
 				ConnectionFactory coF=new ConnectionFactory();
 				Connection co=coF.getConnection();
-				WCDao td=new WCDao();
+				UserDao ud=new UserDao();
 				
-				List<Team> li=td.queryTeam(co);
-				request.setAttribute("list",li);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			request.getRequestDispatcher("team.jsp").forward(request, response);
+				u=ud.userInfo(loginId, co);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			JSONObject json = JSONObject.fromObject(u);
+			String str = json.toString();
+			
+			System.out.println(str);
+			response.setContentType("text/html;charset=utf-8");
+			PrintWriter writer = response.getWriter();
+			writer.write(str);
+			writer.flush();
+			writer.close();
+			
+			
 		}
+		
 	}
 
 	/**

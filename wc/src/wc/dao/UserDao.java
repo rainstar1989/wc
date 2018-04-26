@@ -75,6 +75,23 @@ public class UserDao extends ConnectionFactory {
 		return flag;
 	}
 	
+	public User userInfo(String uid,Connection conn) {
+		User user=new User();
+		String sql="select us.point,us.remark from worldcup2018.users us where uid='"+uid+"'";
+		try {
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			if(rs.next()) {
+				
+			}else {
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+	
 	public static void main(String[] args){
 		ConnectionFactory coF=new ConnectionFactory();
 		Connection co=coF.getConnection();

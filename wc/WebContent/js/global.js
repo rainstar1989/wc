@@ -1,0 +1,2 @@
+var loginName;
+var uid;

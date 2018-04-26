@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import wc.bean.Team;
 import wc.dao.*;
@@ -32,17 +33,25 @@ public class FindTeamServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			ConnectionFactory coF=new ConnectionFactory();
-			Connection co=coF.getConnection();
-			WCDao td=new WCDao();
-			
-			List<Team> li=td.queryTeam(co);
-			request.setAttribute("list",li);
-		} catch (Exception e) {
-			e.printStackTrace();
+		HttpSession session = request.getSession();
+		String loginName=(String)session.getAttribute("loginName");
+		System.out.println("检查是否存在session，loginName:"+loginName);
+		
+		if (loginName==null) {
+			response.sendRedirect("login.html");
+		}else {
+			try {
+				ConnectionFactory coF=new ConnectionFactory();
+				Connection co=coF.getConnection();
+				WCDao td=new WCDao();
+				
+				List<Team> li=td.queryTeam(co);
+				request.setAttribute("list",li);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			request.getRequestDispatcher("team.jsp").forward(request, response);
 		}
-		request.getRequestDispatcher("team.jsp").forward(request, response);
 	}
 
 	/**

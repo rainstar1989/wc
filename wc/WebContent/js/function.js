@@ -1,5 +1,5 @@
 ﻿$(document).ready(function(){
-	var uid="";
+	
 	var ruid="";
 	$("#submitbt").click(function(){
 		if($("#userid").val()==""){       //验证用户名是否为空
@@ -36,7 +36,7 @@
 					return false;
 				}else{
 					uid=$("#userid").val();
-					window.location.href = "index.jsp";//跳转到主页
+					window.location.href = "mymatch.html";//跳转到主页
 				}
 			},
 			complete:function(XMLHttpRequest,textStatus){

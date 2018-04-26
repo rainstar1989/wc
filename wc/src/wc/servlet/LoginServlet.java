@@ -54,9 +54,18 @@ public class LoginServlet extends HttpServlet {
 			u.setPassword(request.getParameter("password"));
 			int f=ud.login(u, co);
 			String flag = "false";
-			if(f>=0) {//用户登陆成功
+			if(f==1) {//用户登陆成功
 				HttpSession session=request.getSession();
-				session.setAttribute("userid",u.getUserid());
+				session.setAttribute("loginId",u.getUserid());
+				String sessionId=session.getId();
+				if(session.isNew()) {
+					 System.out.println("session创建成功，session的id是："+sessionId);
+					 System.out.println("session中存储的用户名为："+session.getAttribute("loginId"));
+				}
+				else {
+					System.out.println("session已存在，session的id是"+sessionId);
+					System.out.println("session中存储的用户名为："+session.getAttribute("loginId"));
+				}
 				flag = "true";
 				System.out.println(u.getUserid()+"登陆成功");
 			}else {

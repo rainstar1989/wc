@@ -68,7 +68,7 @@ public class WCDao extends ConnectionFactory{
 		Date today=new Date();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String nowtime=df.format(today);//当前时间
-		String nowtime="2018-06-16 23:00:01";//测试时间
+		String nowtime="2018-06-16 23:00:00";//测试时间
 		List<Match> list=new ArrayList<>();
 		String sql="select c.evid,c.evtime,c.hteam,c.gteam,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam and left(timediff(c.evtime,'"+nowtime+"'),length(timediff(c.evtime,'"+nowtime+"'))-6) between 1 and 48 and c.evid not in (SELECT ub.evid FROM worldcup2018.userbetinfo ub where ub.uid='"+uid+"' order by c.evtime asc)";
 		try {
@@ -77,7 +77,13 @@ public class WCDao extends ConnectionFactory{
 			while(rs.next()) {
 				Match match=new Match();
 				match.setMatchid(rs.getInt(1));
-				//日期时间是否需要分两个字段存？
+				match.setMatchdate(rs.getDate(2));
+				match.setMatchtime(rs.getTime(2));
+				match.setHtm(rs.getString(3));
+				match.setGtm(rs.getString(4));
+				match.setHteam(rs.getString(5));
+				match.setGteam(rs.getString(6));
+				list.add(match);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -96,10 +102,11 @@ public class WCDao extends ConnectionFactory{
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time;
 		
-		List<Next24hmatch> li=td.queryNext24hmatch(co);
+		String wid="test";
+		List<Match> li=td.queryMatchtobet(co,wid);
 		for(int i=0;i<li.size();i++) {
-			time=df.format(li.get(i).getMatchtime());
-			System.out.println("比赛时间："+time+"对阵："+li.get(i).getHteamname()+"vs"+li.get(i).getGteamname());
+			
+			System.out.println("比赛日期："+li.get(i).getMatchdate()+"比赛时间："+li.get(i).getMatchtime()+"比赛id："+li.get(i).getMatchid());
 		}
 	}
 }

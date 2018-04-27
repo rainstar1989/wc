@@ -9,7 +9,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;  
 import javax.servlet.http.HttpServletRequest;  
 import javax.servlet.http.HttpServletResponse;  
-import javax.servlet.http.HttpSession;  
+import javax.servlet.http.HttpSession;
+
+import org.apache.jasper.tagplugins.jstl.core.Out;  
 
 public class AuthFilter implements Filter {
 	public void destroy() {  
@@ -42,7 +44,9 @@ public class AuthFilter implements Filter {
                 response.sendRedirect(request.getContextPath() + "/login.html");  
                 // 如果session为空表示用户没有登录就重定向到login.html页面  
                 return;  
-            }  
+            }  else {
+            	System.out.println("未拦截");
+            }
         }  
         // 加入filter链继续向下执行  
         filterChain.doFilter(request, response);  

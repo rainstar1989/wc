@@ -37,7 +37,7 @@ public class UserInfoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String loginId=(String)session.getAttribute("loginId");
-		System.out.println("检查是否存在session，loginName:"+loginId);
+		System.out.println("检查是否存在session，loginId:"+loginId);
 		
 		User u=new User();
 		if (loginId==null) {

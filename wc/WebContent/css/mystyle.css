@@ -5,3 +5,21 @@
 	padding-right:0px;
 	padding-left:0px;
 }
+#userName span{
+	color:#0f4583;
+}
+#userScore span{
+	color:#0f4583;
+}
+body{
+	padding-top:60px;
+}
+.list-group{
+	padding-top:5px;
+}
+.flag{
+	width:32px;
+}
+.wtl{
+	padding-top:5px;
+}

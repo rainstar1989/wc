@@ -7,6 +7,7 @@ $(document).ready(function(){
 		dataType: "json",
 		success: function (data){
 			$("#userName span").html(data.remark);
+			$("#userScore span").html(data.point);
 		},
 		error: function (XMLHttpRequest, textStatus, errorThrown) {
 			// 状态码

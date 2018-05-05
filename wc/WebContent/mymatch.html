@@ -9,16 +9,64 @@
         <link href="css/font-awesome.min.css" rel="stylesheet">
         <link href="css/mystyle.css" rel="stylesheet">
         <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
-        <script type="text/javascript" src="js/wc.js?123"></script>
+        <script type="text/javascript" src="js/wc.js"></script>
         <script type="text/javascript" src="js/global.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top">
             <a class="navbar-brand" id="userName" href="#">用户名：<span></span></a>
+            <a class="navbar-brand" id="userScore" href="#">积分：<span></span></a>
         </nav>
+        <div class="container">
+        	<ul class="nav nav-tabs text-center row">
+        		<li class="active col-xs-6 col-sm-6 col-md-6 col-lg-6"><a href="#dyc" data-toggle="tab">待预测</a></li>
+        		<li class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><a href="#yyc" data-toggle="tab">已预测</a></li>
+        	</ul>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="dyc">
+					<ul class="list-group">
+						<li class="list-group-item row">
+							<div class="row text-center">2018-06-16</div>
+							<div class="row text-center">
+								<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+									<div>沙特阿拉伯</div>
+								</div>
+								<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">00:00</div>
+								<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">俄罗斯</div>
+							</div>
+							<div class="row text-center">
+								<div class="wtl" data-toggle="buttons">
+									<label class="btn btn-primary btn-md "><input type="radio" name="options" id="option1">胜</label>
+									<label class="btn btn-primary btn-md"><input type="radio" name="options" id="option2">平</label>
+									<label class="btn btn-primary btn-md"><input type="radio" name="options" id="option3">负</label>
+									
+								</div>
+							</div>
+						</li>
+						<li class="list-group-item row">
+							<div class="row text-center">2018-06-16</div>
+							<div class="row text-center">
+								<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">英格兰</div>
+								<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">02:00</div>
+								<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">哥斯达黎加</div>
+							</div>
+							<div class="row text-center">
+								<div class="wtl" data-toggle="buttons">
+									<label class="btn btn-primary btn-md "><input type="radio" name="options" id="option1">胜</label>
+									<label class="btn btn-primary btn-md"><input type="radio" name="options" id="option2">平</label>
+									<label class="btn btn-primary btn-md"><input type="radio" name="options" id="option3">负</label>
+									
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-pane fade" id="yyc">已预测</div>
+			</div>
+        </div>
 
-
-        <nav class="navbar navbar-default navbar-fixed-bottom bottomnav" role="navigation">
+        <nav class="navbar navbar-default navbar-fixed-bottom bottomnav container" role="navigation">
         	
         	<ul class="nav navbar-nav text-center">
                 <li class="col-xs-4 col-sm-4 col-md-4 col-lg-4">

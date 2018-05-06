@@ -3,6 +3,7 @@ package wc.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,22 +12,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONObject;
-import wc.bean.User;
+import wc.bean.Match;
+import wc.bean.Team;
 import wc.dao.ConnectionFactory;
-import wc.dao.UserDao;
+import wc.dao.WCDao;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONArray;
 
 /**
- * Servlet implementation class UserInfoServlet
+ * Servlet implementation class MatchTobetServlet
  */
-@WebServlet("/UserInfoServlet")
-public class UserInfoServlet extends HttpServlet {
+@WebServlet("/MatchTobetServlet")
+public class MatchTobetServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserInfoServlet() {
+    public MatchTobetServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,32 +42,29 @@ public class UserInfoServlet extends HttpServlet {
 		String loginId=(String)session.getAttribute("loginId");
 		System.out.println("检查是否存在session，loginId:"+loginId);
 		
-		User u=new User();
+		List<Match> li = null;
 		if (loginId==null) {
 			response.sendRedirect("login.html");
 		}else {
 			try {
 				ConnectionFactory coF=new ConnectionFactory();
 				Connection co=coF.getConnection();
-				UserDao ud=new UserDao();
+				WCDao td=new WCDao();
 				
-				u=ud.userInfo(loginId, co);
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
-			JSONObject json = JSONObject.fromObject(u);
-			String str = json.toString();
+				li=td.queryMatchtobet(co, loginId);
+				
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			JSONArray jsonarray=JSONArray.fromObject(li.toArray());
 			
-			System.out.println(str);
+			System.out.println("jsonarray大小"+jsonarray.size());
 			response.setContentType("text/html;charset=utf-8");
 			PrintWriter writer = response.getWriter();
-			writer.print(str);
+			writer.print(jsonarray.toString());
 			writer.flush();
 			writer.close();
-			
-			
 		}
-		
 	}
 
 	/**

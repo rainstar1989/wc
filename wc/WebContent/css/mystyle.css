@@ -18,7 +18,8 @@ body{
 	padding-top:5px;
 }
 .flag{
-	width:32px;
+	width:25px;
+	margin-left:-10px;
 }
 .wtl{
 	padding-top:5px;

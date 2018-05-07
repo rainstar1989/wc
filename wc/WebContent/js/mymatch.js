@@ -86,6 +86,7 @@ $(document).ready(function(){
 		alert(JSON.stringify(betArray));
 //		https://www.cnblogs.com/matthew-2013/p/3493798.html
 //		https://blog.csdn.net/jsw19901993/article/details/50349893
+		
 	});
 	
 })

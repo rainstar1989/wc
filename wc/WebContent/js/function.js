@@ -35,7 +35,7 @@
 					$("#userid").focus();
 					return false;
 				}else{
-					uid=$("#userid").val();
+					
 					window.location.href = "mymatch.html";//跳转到主页
 				}
 			},

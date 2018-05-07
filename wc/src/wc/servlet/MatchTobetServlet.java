@@ -56,6 +56,7 @@ public class MatchTobetServlet extends HttpServlet {
 		JSONArray jsonarray=JSONArray.fromObject(li.toArray());
 		
 		System.out.println("jsonarray大小"+jsonarray.size());
+		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter writer = response.getWriter();
 		writer.print(jsonarray.toString());

@@ -16,7 +16,17 @@ body{
 }
 .list-group{
 	padding-top:5px;
-	padding-bottom:40px;
+	margin-bottom:5px;
+}
+#betbutton{
+	height:50px;
+	margin-bottom:60px;
+}
+#betbutton:active{
+	background-color:#337ab7;
+}
+#betbutton:focus{
+	background-color:#337ab7;
 }
 .flag{
 	width:25px;

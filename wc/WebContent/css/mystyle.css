@@ -16,6 +16,7 @@ body{
 }
 .list-group{
 	padding-top:5px;
+	padding-bottom:40px;
 }
 .flag{
 	width:25px;
@@ -23,4 +24,22 @@ body{
 }
 .wtl{
 	padding-top:5px;
+}
+.green.btn-md.active{
+	background-color:#1cc750;
+}
+.green.btn-md.active.focus{
+	background-color:#1cc750;
+}
+.yellow.btn-md.active{
+	background-color:#efca18;
+}
+.yellow.btn-md.active.focus{
+	background-color:#efca18;
+}
+.red.btn-md.active{
+	background-color:#e23220;
+}
+.red.btn-md.active.focus{
+	background-color:#e23220;
 }

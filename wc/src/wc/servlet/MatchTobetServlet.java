@@ -40,31 +40,27 @@ public class MatchTobetServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String loginId=(String)session.getAttribute("loginId");
-		System.out.println("检查是否存在session，loginId:"+loginId);
+		System.out.println("matchtobetservlet，session中loginId:"+loginId);
 		
 		List<Match> li = null;
-		if (loginId==null) {
-			response.sendRedirect("login.html");
-		}else {
-			try {
-				ConnectionFactory coF=new ConnectionFactory();
-				Connection co=coF.getConnection();
-				WCDao td=new WCDao();
-				
-				li=td.queryMatchtobet(co, loginId);
-				
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			JSONArray jsonarray=JSONArray.fromObject(li.toArray());
+		try {
+			ConnectionFactory coF=new ConnectionFactory();
+			Connection co=coF.getConnection();
+			WCDao td=new WCDao();
 			
-			System.out.println("jsonarray大小"+jsonarray.size());
-			response.setContentType("text/html;charset=utf-8");
-			PrintWriter writer = response.getWriter();
-			writer.print(jsonarray.toString());
-			writer.flush();
-			writer.close();
-		}
+			li=td.queryMatchtobet(co, loginId);
+			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		JSONArray jsonarray=JSONArray.fromObject(li.toArray());
+		
+		System.out.println("jsonarray大小"+jsonarray.size());
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		writer.print(jsonarray.toString());
+		writer.flush();
+		writer.close();
 	}
 
 	/**

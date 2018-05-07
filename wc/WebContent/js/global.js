@@ -1,2 +1,3 @@
-var loginName;
 var uid;
+var loginName;
+var point;

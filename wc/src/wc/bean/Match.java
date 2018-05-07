@@ -6,8 +6,8 @@ public class Match {
 	
 	private int matchid;
 	private String matchtype;
-	private Date matchtime;
-	private Date matchdate;
+	private String matchtime;
+	private String matchdate;
 	private String htm;
 	private String gtm;
 	private String hteam;
@@ -27,10 +27,10 @@ public class Match {
 	public void setMatchtype(String matchtype) {
 		this.matchtype=matchtype;
 	}
-	public Date getMatchtime() {
+	public String getMatchtime() {
 		return matchtime;
 	}
-	public void setMatchtime(Date matchtime) {
+	public void setMatchtime(String matchtime) {
 		this.matchtime=matchtime;
 	}
 	public String getHteam() {
@@ -69,10 +69,10 @@ public class Match {
 	public void setGtm(String gtm) {
 		this.gtm = gtm;
 	}
-	public Date getMatchdate() {
+	public String getMatchdate() {
 		return matchdate;
 	}
-	public void setMatchdate(Date matchdate) {
+	public void setMatchdate(String matchdate) {
 		this.matchdate = matchdate;
 	}
 	

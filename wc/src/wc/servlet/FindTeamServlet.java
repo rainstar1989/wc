@@ -33,13 +33,13 @@ public class FindTeamServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String loginId=(String)session.getAttribute("loginId");
-		System.out.println("检查是否存在session，loginName:"+loginId);
-		
-		if (loginId==null) {
-			response.sendRedirect("login.html");
-		}else {
+//		HttpSession session = request.getSession();
+//		String loginId=(String)session.getAttribute("loginId");
+//		System.out.println("检查是否存在session，loginName:"+loginId);
+//		
+//		if (loginId==null) {
+//			response.sendRedirect("login.html");
+//		}else {
 			try {
 				ConnectionFactory coF=new ConnectionFactory();
 				Connection co=coF.getConnection();
@@ -51,7 +51,7 @@ public class FindTeamServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 			request.getRequestDispatcher("team.jsp").forward(request, response);
-		}
+//		}
 	}
 
 	/**

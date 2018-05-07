@@ -37,33 +37,27 @@ public class UserInfoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String loginId=(String)session.getAttribute("loginId");
-		System.out.println("检查是否存在session，loginId:"+loginId);
+		System.out.println("userinfoservlet,session中loginId:"+loginId);
 		
 		User u=new User();
-		if (loginId==null) {
-			response.sendRedirect("login.html");
-		}else {
-			try {
-				ConnectionFactory coF=new ConnectionFactory();
-				Connection co=coF.getConnection();
-				UserDao ud=new UserDao();
-				
-				u=ud.userInfo(loginId, co);
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
-			JSONObject json = JSONObject.fromObject(u);
-			String str = json.toString();
+		try {
+			ConnectionFactory coF=new ConnectionFactory();
+			Connection co=coF.getConnection();
+			UserDao ud=new UserDao();
 			
-			System.out.println(str);
-			response.setContentType("text/html;charset=utf-8");
-			PrintWriter writer = response.getWriter();
-			writer.print(str);
-			writer.flush();
-			writer.close();
-			
-			
+			u=ud.userInfo(loginId, co);
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
+		JSONObject json = JSONObject.fromObject(u);
+		String str = json.toString();
+		
+		System.out.println(str);
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		writer.print(str);
+		writer.flush();
+		writer.close();
 		
 	}
 

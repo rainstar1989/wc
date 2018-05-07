@@ -68,7 +68,7 @@ public class WCDao extends ConnectionFactory{
 		Date today=new Date();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String nowtime=df.format(today);//当前时间
-		String nowtime="2018-06-16 23:00:00";//测试时间
+		String nowtime="2018-06-18 23:00:00";//测试时间
 		List<Match> list=new ArrayList<>();
 		String sql="select c.evid,c.evtime,c.hteam,c.gteam,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam and left(timediff(c.evtime,'"+nowtime+"'),length(timediff(c.evtime,'"+nowtime+"'))-6) between 1 and 48 and c.evid not in (SELECT ub.evid FROM worldcup2018.userbetinfo ub where ub.uid='"+uid+"' order by c.evtime asc)";
 		try {
@@ -77,8 +77,8 @@ public class WCDao extends ConnectionFactory{
 			while(rs.next()) {
 				Match match=new Match();
 				match.setMatchid(rs.getInt(1));
-				match.setMatchdate(rs.getDate(2));
-				match.setMatchtime(rs.getTime(2));
+				match.setMatchdate(rs.getDate(2).toString());
+				match.setMatchtime(rs.getTime(2).toString().substring(0, 5));
 				match.setHtm(rs.getString(3));
 				match.setGtm(rs.getString(4));
 				match.setHteam(rs.getString(5));

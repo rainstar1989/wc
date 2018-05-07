@@ -43,12 +43,13 @@
 				$("#hintl img").toggle();
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
-				// 状态码
-				alert(XMLHttpRequest.status);
-				// 状态
-				alert(XMLHttpRequest.readyState);
-				// 错误信息   
-				alert(textStatus);
+//				// 状态码
+//				alert(XMLHttpRequest.status);
+//				// 状态
+//				alert(XMLHttpRequest.readyState);
+//				// 错误信息   
+//				alert(textStatus);
+				alert("LoginServlet ajax出错");
 			}
     	});
 	});
@@ -130,12 +131,13 @@
 					$("#hintr img").toggle();
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
-					// 状态码
-					alert(XMLHttpRequest.status);
-					// 状态
-					alert(XMLHttpRequest.readyState);
-					// 错误信息   
-					alert(textStatus);
+//					// 状态码
+//					alert(XMLHttpRequest.status);
+//					// 状态
+//					alert(XMLHttpRequest.readyState);
+//					// 错误信息   
+//					alert(textStatus);
+					alert("RegisterServlet ajax出错");
 				}
 			});
 		}

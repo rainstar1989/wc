@@ -3,6 +3,9 @@ package wc.dao;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
+
+import org.apache.jasper.tagplugins.jstl.core.Out;
+
 import java.text.SimpleDateFormat;
 
 import wc.bean.Match;
@@ -94,19 +97,51 @@ public class WCDao extends ConnectionFactory{
 		return list;
 	}
 	
+	public int checkBet(String uid,int mid,Connection conn) {
+		int flag=-1;
+		String sql="SELECT * FROM worldcup2018.userbetinfo ubi where uid='"+uid+"' and evid="+mid;
+		try {
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			if(rs.next()) {
+				flag=0;
+			}else {
+				flag=1;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			flag=-2;
+		}
+		finally {
+			closeAll();
+		}
+		return flag;
+	}
+	
+	public int bet(String uid,int mid,String betinfo,Connection conn) {
+		int flag=0;
+		String sql="insert into worldcup2018.userbetinfo (uid,evid,betinfo) values (?,?,?)";
+		try {
+			ptmt=conn.prepareStatement(sql);
+			ptmt.setString(1, uid);
+			ptmt.setInt(2, mid);
+			ptmt.setString(3, betinfo);
+			flag=ptmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		return flag;
+	}
+	
 	public static void main(String[] args){
 		ConnectionFactory coF=new ConnectionFactory();
 		Connection co=coF.getConnection();
 		WCDao td=new WCDao();
 		
-		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String time;
-		
-		String wid="test";
-		List<Match> li=td.queryMatchtobet(co,wid);
-		for(int i=0;i<li.size();i++) {
-			
-			System.out.println("比赛日期："+li.get(i).getMatchdate()+"比赛时间："+li.get(i).getMatchtime()+"比赛id："+li.get(i).getMatchid());
-		}
+		int f=td.bet("test", 12,"w", co);
+		System.out.println(f);
 	}
 }

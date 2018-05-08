@@ -20,7 +20,8 @@ body{
 }
 #betbutton{
 	height:50px;
-	margin-bottom:60px;
+	margin-top:20px;
+	margin-bottom:70px;
 }
 #betbutton:active{
 	background-color:#337ab7;
@@ -52,4 +53,16 @@ body{
 }
 .red.btn-md.active.focus{
 	background-color:#e23220;
+}
+#myModal{
+	margin-top:50%;
+}
+.modal-body{
+	height:100px;
+}
+.md{
+	margin-top:10px;
+}
+.close{
+	font-size:35px;
 }

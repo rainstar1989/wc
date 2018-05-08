@@ -27,6 +27,9 @@ $(document).ready(function(){
 			url: "MatchTobetServlet",
 			data: {},
 			dataType: "json",
+			beforeSend:function(XMLHttpRequest){
+				$("#myModal").modal('toggle');
+			},
 			success: function (data){
 				
 				var str = "";
@@ -58,6 +61,9 @@ $(document).ready(function(){
 					$("#bba").hide();
 				}
 			},
+			complete:function(XMLHttpRequest,textStatus){
+				$("#myModal").modal('toggle');
+			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
 //				// 状态码
 //				alert(XMLHttpRequest.status);
@@ -75,6 +81,8 @@ $(document).ready(function(){
 		matchtobetlist();
 	});
 	
+	var onoff=false;
+	
 	$("#betbutton").click(function(){//点击竞猜按钮提交竞猜结果
 		var betArray=new Array();
 		$(".btn-md.active").each(function(){
@@ -83,10 +91,45 @@ $(document).ready(function(){
 			betObj["betinfo"]=$(this).data("betinfo");
 			betArray.push(betObj);
 		});
-		alert(JSON.stringify(betArray));
-//		https://www.cnblogs.com/matthew-2013/p/3493798.html
-//		https://blog.csdn.net/jsw19901993/article/details/50349893
-		
+		var betString=JSON.stringify(betArray)
+		if (betString=="[]"){
+			return false;
+		}else{
+			
+			$.ajax({
+				type: "post",
+				url: "SubmitBetServlet",
+				data: {myBet:betString},
+				dataType: "text",
+				beforeSend:function(XMLHttpRequest){
+					$("#myModal").modal('toggle');
+				},
+				success: function (data){
+					$("#myModalLabel").toggle();
+					$("#betresp").text(data);
+					$("#betresp").toggle();
+					onoff=true;
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert("SubmitBetServlet ajax出错");
+				}
+			});
+		}
 	});
+	
+	
+	
+	$("#myModal").on('hidden.bs.modal', function(){//模态框消失时重置模态框内容
+		$("#myModalLabel").show();
+		$("#betresp").hide();
+		if (onoff){
+			matchtobetlist();
+			onoff=false;
+		}else{
+			return false;
+		}
+	});
+	
+	
 	
 })

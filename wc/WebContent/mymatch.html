@@ -18,6 +18,7 @@
             <a class="navbar-brand" id="userName" href="#">用户名：<span></span></a>
             <a class="navbar-brand" id="userScore" href="#">积分：<span></span></a>
         </nav>
+        
         <div class="container">
         	<ul class="nav nav-tabs text-center row">
         		<li class="active col-xs-6 col-sm-6 col-md-6 col-lg-6"><a href="#dyc" data-toggle="tab" id="dyctab">待预测</a></li>
@@ -30,9 +31,24 @@
 					</ul>
 					<div id="bba" style="display:none;"><button class='btn btn-primary btn-block' id='betbutton'>竞猜</button></div>
 				</div>
-				<div class="tab-pane fade" id="yyc">已预测</div>
+				<div class="tab-pane fade" id="yyc">
+					比赛类型	对阵队伍	您的预测	比赛结果	本场积分
+				</div>
 			</div>
         </div>
+        
+        <div class="modal " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title text-center md" id="myModalLabel"><img src="images/doge.gif"> 请稍等...</h4>
+						<h4 class="modal-title text-center md" id="betresp" style="display:none;"></h4>
+					</div>
+					
+				</div>
+			</div>
+		</div>
 
         <nav class="navbar navbar-default navbar-fixed-bottom bottomnav container" role="navigation">
         	

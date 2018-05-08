@@ -14,7 +14,7 @@
     <url-pattern>/UserInfoServlet</url-pattern>
     <url-pattern>/FindTeamServlet</url-pattern>
     <url-pattern>/MatchTobetServlet</url-pattern>
-    
+    <url-pattern>/SubmitBetServlet</url-pattern>
   </filter-mapping>
   <session-config>
     <session-timeout>15</session-timeout>

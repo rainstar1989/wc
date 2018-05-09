@@ -1,4 +1,11 @@
-﻿$(document).ready(function(){
+﻿window.onpageshow = function (event) {
+if (event.persisted) {//如果是读的缓存让页面强制刷新
+        window.location.reload()
+    }
+}
+
+
+$(document).ready(function(){
 	
 	var ruid="";
 	$("#submitbt").click(function(){

@@ -62,10 +62,15 @@ public class SubmitBetServlet extends HttpServlet {
 			String bi=jsonobj.getString("betinfo");
 			
 			int f=td.checkBet(loginId, mid, co);
-			if(f==1) {//id不重复，可注册
-				int c=td.bet(loginId, mid, bi, co);
-				System.out.println("用户id："+loginId+",比赛id："+mid+",计入:"+bi);
-				count=count+c;
+			if(f==1) {//比赛id不重复
+				int cm=td.checkMatchTime(mid, co);
+				if(cm==1) {//竞猜时间早于比赛时间
+					int c=td.bet(loginId, mid, bi, co);
+					System.out.println("用户id："+loginId+",比赛id："+mid+",计入:"+bi);
+					count=count+c;
+				}else {
+					System.out.println("开赛时间已过无法下注，用户id："+loginId+",比赛id："+mid);
+				}
 			}else {
 				System.out.println("用户id："+loginId+",比赛id："+mid+",已存在未计入");
 			}

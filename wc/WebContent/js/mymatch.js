@@ -1,3 +1,9 @@
+window.onpageshow = function (event) {
+if (event.persisted) {//如果是读的缓存让页面强制刷新
+        window.location.reload()
+    }
+}
+
 $(document).ready(function(){
 	var userinfourl="UserInfoServlet"; 
 	$.ajax({
@@ -44,7 +50,7 @@ $(document).ready(function(){
 					str+="<div class='col-xs-4 col-sm-4 col-md-4 col-lg-4'>"+data[i].gteam+"</div>";
 					str+="</div>";
 					str+="<div class='row text-center'>";
-					str+="<div class='wtl' data-toggle='buttons'>";
+					str+="<div class='btn-group wtl' data-toggle='buttons'>";
 					str+="<label class='btn btn-primary btn-md green checkbb' data-matchid='"+data[i].matchid+"' data-betinfo='w'><input type='radio' name='options' >胜</label>";
 					str+="<label class='btn btn-primary btn-md yellow checkbb' data-matchid='"+data[i].matchid+"' data-betinfo='t'><input type='radio' name='options' >平</label>";
 					str+="<label class='btn btn-primary btn-md red checkbb' data-matchid='"+data[i].matchid+"' data-betinfo='l'><input type='radio' name='options' >负</label>";

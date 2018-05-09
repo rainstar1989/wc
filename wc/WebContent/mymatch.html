@@ -19,6 +19,19 @@
             <a class="navbar-brand" id="userScore" href="#">积分：<span></span></a>
         </nav>
         
+        <div class="modal " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title text-center md" id="myModalLabel"><img src="images/doge.gif"> 请稍等...</h4>
+						<h4 class="modal-title text-center md" id="betresp" style="display:none;"></h4>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+        
         <div class="container" id="wdyc">
         	<ul class="nav nav-tabs text-center row">
         		<li class="active col-xs-6 col-sm-6 col-md-6 col-lg-6"><a href="#dyc" data-toggle="tab" id="dyctab">待预测</a></li>
@@ -38,32 +51,21 @@
         </div>
         
         <div class="container" id="phb" style="display:none;"></div>
-        <div class="container" id="bszx" style="display:none;"></div>
+        <div class="container" id="jfgz" style="display:none;"></div>
         
-        <div class="modal " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-body">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title text-center md" id="myModalLabel"><img src="images/doge.gif"> 请稍等...</h4>
-						<h4 class="modal-title text-center md" id="betresp" style="display:none;"></h4>
-					</div>
-					
-				</div>
-			</div>
-		</div>
+        
 
         <nav class="navbar navbar-default navbar-fixed-bottom bottomnav container" role="navigation">
         	
         	<ul class="nav navbar-nav text-center">
-                <li class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                     <a href="#"><i class="icon-calendar"> </i>比赛资讯</a>
+        		<li class="col-xs-4 col-sm-4 col-md-4 col-lg-4 active">
+                    <a href="#"><i class="icon-user"> </i>我的预测</a>
                 </li>
                 <li class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                      <a href="#"><i class="icon-bar-chart"> </i>排行榜</a>
                 </li>
-                <li class="col-xs-4 col-sm-4 col-md-4 col-lg-4 active">
-                    <a href="#"><i class="icon-user"> </i>我的预测</a>
+                <li class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                     <a href="#"><i class="icon-calendar"> </i>积分规则</a>
                 </li>
             </ul>
         	

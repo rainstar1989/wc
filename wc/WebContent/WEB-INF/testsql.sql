@@ -17,4 +17,5 @@ select count(ub.evid) from worldcup2018.userbetinfo ub,worldcup2018.events ev wh
 select c.evid,c.evtime,a.tmname as '主队名称', b.tmname as '客队名称', d.betinfo, c.evresult, d.betresult from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b,worldcup2018.userbetinfo d where a.tmid=c.hteam and b.tmid=c.gteam and c.evid=d.evid and d.uid='test' order by c.evtime asc;
 /*列出所有比赛*/
 select c.evid,c.evtime,c.hteam,c.gteam,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam order by c.evtime asc;
-
+/*检查比赛时间*/
+select * from worldcup2018.events ev where ev.evid=6 and evtime<'2018-06-17 00:00:01';

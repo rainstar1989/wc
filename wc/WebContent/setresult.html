@@ -9,7 +9,6 @@
         <link href="css/font-awesome.min.css" rel="stylesheet">
         <link href="css/mystyle.css" rel="stylesheet">
         <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
-        <script type="text/javascript" src="js/mymatch.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
     </head>
 <body>
@@ -20,15 +19,29 @@
         	</ul>
 			<div class="tab-content">
 				<div class="tab-pane fade in active" id="dtx">
-					<table class="table table-condensed">
+					<table class="table table-condensed table-striped text-center">
 						<tr>
-							<th>比赛id</th><th>比赛日期</th><th>对阵</th><th>比分</th><th>赛果</th>
+							<td>比赛id</td><td>比赛日期</td><td>对阵</td><td>赛果</td>
 						</tr>
 						<tr>
-							<td></td><td></td><td></td><td></td><td></td>
+							<td>1</td>
+							<td>06-11</td>
+							<td>哥斯达黎加vs俄罗斯</td>
+							<td>
+								<div class='row text-center'>
+									<div class='btn-group wtl' data-toggle='buttons'>
+										<label class='btn btn-primary btn-xs green checkbb'><input type='radio' name='options' >胜</label>
+										<label class='btn btn-primary btn-xs yellow checkbb'><input type='radio' name='options' >平</label>
+										<label class='btn btn-primary btn-xs red checkbb'><input type='radio' name='options' >负</label>
+									</div>
+								</div>
+							</td>
 						</tr>
 						<tr>
-							<td></td><td></td><td></td><td></td><td></td>
+							<td>2</td>
+							<td>06-12</td>
+							<td>意大利vs美国</td>
+							<td>平</td>
 						</tr>
 					</table>
 					<div id="dtxbd" style=""><button class='btn btn-primary btn-block' id='dtxbb'>竞猜</button></div>
@@ -41,11 +54,11 @@
 	<nav class="navbar navbar-default navbar-fixed-bottom bottomnav container" role="navigation">
         	
         	<ul class="nav navbar-nav text-center">
+        		<li class="col-xs-6 col-sm-6 col-md-6 col-lg-6 active">
+                     <a href="#"><i class="icon-bar-chart"> </i>赛果填报</a>
+                </li>
                 <li class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                      <a href="#"><i class="icon-calendar"> </i>淘汰赛</a>
-                </li>
-                <li class="col-xs-6 col-sm-6 col-md-6 col-lg-6 active">
-                     <a href="#"><i class="icon-bar-chart"> </i>赛果填报</a>
                 </li>
             </ul>
         	

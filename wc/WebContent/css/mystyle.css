@@ -36,26 +36,26 @@ body{
 .wtl{
 	padding-top:5px;
 }
-.green.btn-md.active{
+.green.active{
 	background-color:#1cc750;
 }
-.green.btn-md.active.focus{
+.green.active.focus{
 	background-color:#1cc750;
 }
-.yellow.btn-md.active{
+.yellow.active{
 	background-color:#efca18;
 }
-.yellow.btn-md.active.focus{
+.yellow.active.focus{
 	background-color:#efca18;
 }
-.red.btn-md.active{
+.red.active{
 	background-color:#e23220;
 }
-.red.btn-md.active.focus{
+.red.active.focus{
 	background-color:#e23220;
 }
 #myModal{
-	margin-top:50%;
+	margin-top:200px;
 }
 .modal-body{
 	height:100px;

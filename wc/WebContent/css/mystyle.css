@@ -66,3 +66,8 @@ body{
 .close{
 	font-size:35px;
 }
+@media (min-width: 768px){
+	.navbar-nav{
+	float:none;
+	}
+}

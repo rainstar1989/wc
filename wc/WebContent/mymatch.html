@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>mymatch</title>
+        <title>我的预测</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/font-awesome.min.css" rel="stylesheet">
         <link href="css/mystyle.css" rel="stylesheet">
@@ -19,7 +19,7 @@
             <a class="navbar-brand" id="userScore" href="#">积分：<span></span></a>
         </nav>
         
-        <div class="container">
+        <div class="container" id="wdyc">
         	<ul class="nav nav-tabs text-center row">
         		<li class="active col-xs-6 col-sm-6 col-md-6 col-lg-6"><a href="#dyc" data-toggle="tab" id="dyctab">待预测</a></li>
         		<li class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><a href="#yyc" data-toggle="tab" id="yyctab">已预测</a></li>
@@ -36,6 +36,9 @@
 				</div>
 			</div>
         </div>
+        
+        <div class="container" id="phb" style="display:none;"></div>
+        <div class="container" id="bszx" style="display:none;"></div>
         
         <div class="modal " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
 			<div class="modal-dialog">

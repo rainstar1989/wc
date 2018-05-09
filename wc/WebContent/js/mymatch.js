@@ -45,9 +45,9 @@ $(document).ready(function(){
 					str+="</div>";
 					str+="<div class='row text-center'>";
 					str+="<div class='wtl' data-toggle='buttons'>";
-					str+="<label class='btn btn-primary btn-md green' data-matchid='"+data[i].matchid+"' data-betinfo='w'><input type='radio' name='options' >胜</label>";
-					str+="<label class='btn btn-primary btn-md yellow' data-matchid='"+data[i].matchid+"' data-betinfo='t'><input type='radio' name='options' >平</label>";
-					str+="<label class='btn btn-primary btn-md red' data-matchid='"+data[i].matchid+"' data-betinfo='l'><input type='radio' name='options' >负</label>";
+					str+="<label class='btn btn-primary btn-md green checkbb' data-matchid='"+data[i].matchid+"' data-betinfo='w'><input type='radio' name='options' >胜</label>";
+					str+="<label class='btn btn-primary btn-md yellow checkbb' data-matchid='"+data[i].matchid+"' data-betinfo='t'><input type='radio' name='options' >平</label>";
+					str+="<label class='btn btn-primary btn-md red checkbb' data-matchid='"+data[i].matchid+"' data-betinfo='l'><input type='radio' name='options' >负</label>";
 					str+="</div>";
 					str+="</div>";
 					str+="</li>";
@@ -85,7 +85,7 @@ $(document).ready(function(){
 	
 	$("#betbutton").click(function(){//点击竞猜按钮提交竞猜结果
 		var betArray=new Array();
-		$(".btn-md.active").each(function(){
+		$(".checkbb.active").each(function(){
 			var betObj={};
 			betObj["matchid"]=$(this).data("matchid");
 			betObj["betinfo"]=$(this).data("betinfo");

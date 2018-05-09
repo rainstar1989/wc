@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>设置赛果</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/mystyle.css" rel="stylesheet">
+        <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+        <script type="text/javascript" src="js/mymatch.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    </head>
+<body>
+	<div class="container">
+		<ul class="nav nav-tabs text-center row">
+        		<li class="active col-xs-6 col-sm-6 col-md-6 col-lg-6"><a href="#dtx" data-toggle="tab" id="dtxtab">待填写</a></li>
+        		<li class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><a href="#ytx" data-toggle="tab" id="ytxtab">已填写</a></li>
+        	</ul>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="dtx">
+					<table class="table table-condensed">
+						<tr>
+							<th>比赛id</th><th>比赛日期</th><th>对阵</th><th>比分</th><th>赛果</th>
+						</tr>
+						<tr>
+							<td></td><td></td><td></td><td></td><td></td>
+						</tr>
+						<tr>
+							<td></td><td></td><td></td><td></td><td></td>
+						</tr>
+					</table>
+					<div id="dtxbd" style=""><button class='btn btn-primary btn-block' id='dtxbb'>竞猜</button></div>
+				</div>
+				<div class="tab-pane fade" id="ytx">
+					比赛类型	对阵队伍	您的预测	比赛结果	本场积分
+				</div>
+			</div>
+	</div>
+	<nav class="navbar navbar-default navbar-fixed-bottom bottomnav container" role="navigation">
+        	
+        	<ul class="nav navbar-nav text-center">
+                <li class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                     <a href="#"><i class="icon-calendar"> </i>淘汰赛</a>
+                </li>
+                <li class="col-xs-6 col-sm-6 col-md-6 col-lg-6 active">
+                     <a href="#"><i class="icon-bar-chart"> </i>赛果填报</a>
+                </li>
+            </ul>
+        	
+            
+        </nav>
+</body>
+</html>

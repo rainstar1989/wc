@@ -12,9 +12,10 @@
     <filter-name>AuthFilter</filter-name>
     <url-pattern>*.html</url-pattern>
     <url-pattern>/UserInfoServlet</url-pattern>
-    <url-pattern>/FindTeamServlet</url-pattern>
     <url-pattern>/MatchTobetServlet</url-pattern>
     <url-pattern>/SubmitBetServlet</url-pattern>
+    <url-pattern>/SetResultServlet</url-pattern>
+    <url-pattern>/MatchUnfinishedServlet</url-pattern>
   </filter-mapping>
   <session-config>
     <session-timeout>15</session-timeout>

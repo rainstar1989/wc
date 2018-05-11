@@ -4,29 +4,28 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
-import org.apache.jasper.tagplugins.jstl.core.Out;
+import net.sf.json.JSONArray;
 
 import java.text.SimpleDateFormat;
 
 import wc.bean.Match;
-import wc.bean.Next24hmatch;
 import wc.bean.Team;
 
 public class WCDao extends ConnectionFactory{
 	
-	public List<Team> queryTeam(Connection conn) {
-		List<Team> list =new ArrayList<Team>();
-		String sql = "select * from worldcup2018.teams te order by te.group asc";
+	public List<Match> queryMatchUnfinished(Connection conn) {
+		List<Match> list =new ArrayList<Match>();
+		String sql = "select c.evid,c.evtime,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam and c.evresult is null order by c.evtime asc";
 		try {
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			while(rs.next()) {
-				Team team=new Team();
-				team.setTeamid(rs.getString(1));
-				team.setTeamname(rs.getString(2));
-				team.setGroup(rs.getString(3));
-				team.setGppoint(rs.getInt(4));
-				list.add(team);
+				Match match=new Match();
+				match.setMatchid(rs.getInt(1));
+				match.setMatchdate(rs.getDate(2).toString());
+				match.setHteam(rs.getString(3));
+				match.setGteam(rs.getString(4));
+				list.add(match);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -37,37 +36,9 @@ public class WCDao extends ConnectionFactory{
 		return list;
 	}
 	
-	//查询未来24小时的比赛
-	public List<Next24hmatch> queryNext24hmatch(Connection conn) {
-		Date today=new Date();
-		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//		String nowtime=df.format(today);//当前时间
-		String nowtime="2018-06-17 00:00:01";//测试时间
-		System.out.println(nowtime);
-		List<Next24hmatch> list =new ArrayList<Next24hmatch>();
-		String sql="select c.evid,c.evtime,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam and left(timediff(c.evtime,'"+nowtime+"'),length(timediff(c.evtime,'"+nowtime+"'))-6) between 0 and 24";
-		try {
-			ptmt=conn.prepareStatement(sql);
-			rs=ptmt.executeQuery();
-			while(rs.next()) {
-				Next24hmatch next24hmatch=new Next24hmatch();
-				next24hmatch.setMatchid(rs.getInt(1));
-				next24hmatch.setMatchtime(rs.getTimestamp(2));
-				next24hmatch.setHteamname(rs.getString(3));
-				next24hmatch.setGteamname(rs.getString(4));
-				list.add(next24hmatch);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		finally {
-			closeAll();
-		}
-		return list;
-	}
 	
-	//列出用户需要竞猜的48小时以内的比赛（赛前1小时截止）
-	public List<Match> queryMatchtobet(Connection conn,String uid){
+	
+	public List<Match> queryMatchtobet(Connection conn,String uid){//列出用户需要竞猜的48小时以内的比赛（赛前1小时截止）
 		Date today=new Date();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String nowtime=df.format(today);//当前时间
@@ -97,7 +68,7 @@ public class WCDao extends ConnectionFactory{
 		return list;
 	}
 	
-	public int checkBet(String uid,int mid,Connection conn) {
+	public int checkBet(String uid,int mid,Connection conn) {//检查竞猜的比赛是否已经竞猜过
 		int flag=-1;
 		String sql="SELECT * FROM worldcup2018.userbetinfo ubi where uid='"+uid+"' and evid="+mid;
 		try {
@@ -118,7 +89,7 @@ public class WCDao extends ConnectionFactory{
 		return flag;
 	}
 	
-	public int checkMatchTime(int mid,Connection conn) {
+	public int checkMatchTime(int mid,Connection conn) {//检查竞猜的比赛是否已经过期
 		Date today=new Date();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String nowtime=df.format(today);//当前时间
@@ -144,7 +115,7 @@ public class WCDao extends ConnectionFactory{
 		return flag;
 	}
 	
-	public int bet(String uid,int mid,String betinfo,Connection conn) {
+	public int bet(String uid,int mid,String betinfo,Connection conn) {//写入竞猜结果
 		int flag=0;
 		String sql="insert into worldcup2018.userbetinfo (uid,evid,betinfo) values (?,?,?)";
 		try {
@@ -167,7 +138,9 @@ public class WCDao extends ConnectionFactory{
 		Connection co=coF.getConnection();
 		WCDao td=new WCDao();
 		
-		int f=td.checkMatchTime(7, co);
-		System.out.println(f);
+		List<Match> li=td.queryMatchUnfinished(co);
+		JSONArray jsonarray=JSONArray.fromObject(li.toArray());
+		
+		System.out.println(jsonarray.toString());
 	}
 }

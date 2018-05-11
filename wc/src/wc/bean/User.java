@@ -5,6 +5,8 @@ public class User {
 	private String password;
 	private int point;
 	private String remark;
+	private String auth;
+	
 	public String getUserid() {
 		return userid;
 	}
@@ -28,6 +30,12 @@ public class User {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public String getAuth() {
+		return auth;
+	}
+	public void setAuth(String auth) {
+		this.auth = auth;
 	}
 	
 	

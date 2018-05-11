@@ -1,6 +1,7 @@
 package wc.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.util.List;
 
@@ -11,20 +12,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import wc.bean.Team;
-import wc.dao.*;
+import net.sf.json.JSONArray;
+import wc.bean.Match;
+import wc.dao.ConnectionFactory;
+import wc.dao.WCDao;
 
 /**
- * Servlet implementation class FindTeamServlet
+ * Servlet implementation class SetResultServlet
  */
-@WebServlet("/FindTeamServlet")
-public class FindTeamServlet extends HttpServlet {
+@WebServlet("/SetResultServlet")
+public class SetResultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindTeamServlet() {
+    public SetResultServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,33 +36,18 @@ public class FindTeamServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		HttpSession session = request.getSession();
-//		String loginId=(String)session.getAttribute("loginId");
-//		System.out.println("检查是否存在session，loginName:"+loginId);
-//		
-//		if (loginId==null) {
-//			response.sendRedirect("login.html");
-//		}else {
-			try {
-				ConnectionFactory coF=new ConnectionFactory();
-				Connection co=coF.getConnection();
-				WCDao td=new WCDao();
-				
-				List<Team> li=td.queryTeam(co);
-				request.setAttribute("list",li);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			request.getRequestDispatcher("team.jsp").forward(request, response);
-//		}
+		doPost(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		HttpSession session = request.getSession();
+		String loginId=(String)session.getAttribute("loginId");
+		System.out.println("SetResultServlet，session中loginId:"+loginId);
+		
+		
 	}
 
 }

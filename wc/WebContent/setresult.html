@@ -10,8 +10,26 @@
         <link href="css/mystyle.css" rel="stylesheet">
         <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/setresult.js"></script>
     </head>
 <body>
+	<div style="margin-bottom:55px;margin-right:20px;">
+		<a class="pull-right" href="mymatch.html"><h4>返回竞猜</h4></a>
+	</div>
+	
+	<div class="modal " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title text-center md" id="myModalLabel"><img src="images/doge.gif"> 请稍等...</h4>
+						<h4 class="modal-title text-center md" id="setresp" style="display:none;"></h4>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	
 	<div class="container">
 		<ul class="nav nav-tabs text-center row">
         		<li class="active col-xs-6 col-sm-6 col-md-6 col-lg-6"><a href="#dtx" data-toggle="tab" id="dtxtab">待填写</a></li>
@@ -19,32 +37,10 @@
         	</ul>
 			<div class="tab-content">
 				<div class="tab-pane fade in active" id="dtx">
-					<table class="table table-condensed table-striped text-center">
-						<tr>
-							<td>比赛id</td><td>比赛日期</td><td>对阵</td><td>赛果</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>06-11</td>
-							<td>哥斯达黎加vs俄罗斯</td>
-							<td>
-								<div class='row text-center'>
-									<div class='btn-group wtl' data-toggle='buttons'>
-										<label class='btn btn-primary btn-xs green checkbb'><input type='radio' name='options' >胜</label>
-										<label class='btn btn-primary btn-xs yellow checkbb'><input type='radio' name='options' >平</label>
-										<label class='btn btn-primary btn-xs red checkbb'><input type='radio' name='options' >负</label>
-									</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>06-12</td>
-							<td>意大利vs美国</td>
-							<td>平</td>
-						</tr>
+					<table class="table table-condensed table-striped text-center" id="unfinishedlist">
+						
 					</table>
-					<div id="dtxbd" style=""><button class='btn btn-primary btn-block' id='dtxbb'>竞猜</button></div>
+					<div id="dtxbd" style="display:none;"><button class='btn btn-primary btn-block bbb' id='dtxbb'>提交</button></div>
 				</div>
 				<div class="tab-pane fade" id="ytx">
 					比赛类型	对阵队伍	您的预测	比赛结果	本场积分

@@ -12,8 +12,6 @@ public class Match {
 	private String gtm;
 	private String hteam;
 	private String gteam;
-	private int hgoal;
-	private int ggoal;
 	
 	public int getMatchid() {
 		return matchid;
@@ -44,18 +42,6 @@ public class Match {
 	}
 	public void setGteam(String gteam) {
 		this.gteam=gteam;
-	}
-	public int getHgoal() {
-		return hgoal;
-	}
-	public void setHgoal(int hgoal) {
-		this.hgoal=hgoal;
-	}
-	public int getGgoal() {
-		return ggoal;
-	}
-	public void setGgoal(int ggoal) {
-		this.ggoal=ggoal;
 	}
 	public String getHtm() {
 		return htm;

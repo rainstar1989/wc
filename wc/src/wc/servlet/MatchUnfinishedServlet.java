@@ -3,6 +3,7 @@ package wc.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,22 +12,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONObject;
-import wc.bean.User;
+import net.sf.json.JSONArray;
+import wc.bean.Match;
 import wc.dao.ConnectionFactory;
-import wc.dao.UserDao;
+import wc.dao.WCDao;
 
 /**
- * Servlet implementation class UserInfoServlet
+ * Servlet implementation class MatchUnfinishedServlet
  */
-@WebServlet("/UserInfoServlet")
-public class UserInfoServlet extends HttpServlet {
+@WebServlet("/MatchUnfinishedServlet")
+public class MatchUnfinishedServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserInfoServlet() {
+    public MatchUnfinishedServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,29 +38,28 @@ public class UserInfoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String loginId=(String)session.getAttribute("loginId");
-		System.out.println("userinfoservlet,session中loginId:"+loginId);
+		System.out.println("MatchUnfinishedServlet，session中loginId:"+loginId);
 		
-		User u=new User();
+		List<Match> li = null;
 		try {
 			ConnectionFactory coF=new ConnectionFactory();
 			Connection co=coF.getConnection();
-			UserDao ud=new UserDao();
+			WCDao td=new WCDao();
 			
-			u=ud.userInfo(loginId, co);
+			li=td.queryMatchUnfinished(co);
 			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		JSONObject json = JSONObject.fromObject(u);
-		String str = json.toString();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		JSONArray jsonarray=JSONArray.fromObject(li.toArray());
 		
-		System.out.println(str);
+		System.out.println("jsonarray大小"+jsonarray.size());
+		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter writer = response.getWriter();
-		writer.print(str);
+		writer.print(jsonarray.toString());
 		writer.flush();
 		writer.close();
-		
 	}
 
 	/**

@@ -79,13 +79,14 @@ public class UserDao extends ConnectionFactory {
 	
 	public User userInfo(String uid,Connection conn) {
 		User user=new User();
-		String sql="select us.point,us.remark from worldcup2018.users us where uid='"+uid+"'";
+		String sql="select us.point,us.remark,us.auth from worldcup2018.users us where uid='"+uid+"'";
 		try {
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			while (rs.next()) {
 				user.setPoint(rs.getInt(1));
 				user.setRemark(rs.getString(2));
+				user.setAuth(rs.getString(3));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -98,11 +99,11 @@ public class UserDao extends ConnectionFactory {
 		Connection co=coF.getConnection();
 		UserDao ud=new UserDao();
 		
-		String uid="test";
+		String uid="rainstar1989";
 		User u=ud.userInfo(uid, co);
 		JSONObject json = JSONObject.fromObject(u);
 		String str = json.toString();
-		System.out.println("姓名："+u.getRemark()+" 积分："+u.getPoint());
+		System.out.println("姓名："+u.getRemark()+" 积分："+u.getPoint()+"权限："+u.getAuth());
 		System.out.println(str);
 	}
 }

@@ -14,6 +14,9 @@ $(document).ready(function(){
 		success: function (data){
 			$("#userName span").html(data.remark);
 			$("#userScore span").html(data.point);
+			if (data.auth=="admin"){
+				$("#manage").show();
+			}
 		},
 		error: function (XMLHttpRequest, textStatus, errorThrown) {
 //			// 状态码

@@ -71,3 +71,10 @@ body{
 	float:none;
 	}
 }
+.inputt{
+	width:80px;
+}
+.table>tbody>tr>td{
+	padding-left:0px;
+	padding-right:0px;
+}

@@ -17,7 +17,7 @@ $(document).ready(function(){
 			},
 			success: function (data){
 				
-				var str = "<tr><td>比赛id</td><td>比赛日期</td><td>对阵</td><td>赛果</td></tr>";
+				var str = "<tbody><tr><td>比赛id</td><td>比赛日期</td><td>对阵</td><td>赛果</td></tr>";
 				for(var i=0;i<data.length;i++){
 					str+="<tr><td>"+data[i].matchid+"</td><td>"+data[i].matchdate+"</td><td>"+data[i].hteam+"vs"+data[i].gteam+"</td>";
 					str+="<td><div class='row text-center'>";
@@ -25,7 +25,7 @@ $(document).ready(function(){
 					str+="<label class='btn btn-primary btn-md green checkbb' data-matchid='"+data[i].matchid+"' data-matchresult='w'><input type='radio' name='options' >胜</label>";
 					str+="<label class='btn btn-primary btn-md yellow checkbb' data-matchid='"+data[i].matchid+"' data-matchresult='t'><input type='radio' name='options' >平</label>";
 					str+="<label class='btn btn-primary btn-md red checkbb' data-matchid='"+data[i].matchid+"' data-matchresult='l'><input type='radio' name='options' >负</label>";
-					str+="</div></div></td></tr>";
+					str+="</div></div></td></tr></tbody>";
 				}
 				$("#unfinishedlist").html(str);
 				if (data.length>0){

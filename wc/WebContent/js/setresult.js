@@ -22,9 +22,9 @@ $(document).ready(function(){
 					str+="<tr><td>"+data[i].matchid+"</td><td>"+data[i].matchdate+"</td><td>"+data[i].hteam+"vs"+data[i].gteam+"</td>";
 					str+="<td><div class='row text-center'>";
 					str+="<div class='btn-group wtl' data-toggle='buttons'>";
-					str+="<label class='btn btn-primary btn-md green checkbb' data-matchid='' data-matchresult='w'><input type='radio' name='options' >胜</label>";
-					str+="<label class='btn btn-primary btn-md yellow checkbb' data-matchid='' data-matchresult='t'><input type='radio' name='options' >平</label>";
-					str+="<label class='btn btn-primary btn-md red checkbb' data-matchid='' data-matchresult='l'><input type='radio' name='options' >负</label>";
+					str+="<label class='btn btn-primary btn-md green checkbb' data-matchid='"+data[i].matchid+"' data-matchresult='w'><input type='radio' name='options' >胜</label>";
+					str+="<label class='btn btn-primary btn-md yellow checkbb' data-matchid='"+data[i].matchid+"' data-matchresult='t'><input type='radio' name='options' >平</label>";
+					str+="<label class='btn btn-primary btn-md red checkbb' data-matchid='"+data[i].matchid+"' data-matchresult='l'><input type='radio' name='options' >负</label>";
 					str+="</div></div></td></tr>";
 				}
 				$("#unfinishedlist").html(str);
@@ -58,39 +58,39 @@ $(document).ready(function(){
 	
 	var onoff=false;
 	
-//	$("#betbutton").click(function(){//点击竞猜按钮提交竞猜结果
-//		var betArray=new Array();
-//		$(".checkbb.active").each(function(){
-//			var betObj={};
-//			betObj["matchid"]=$(this).data("matchid");
-//			betObj["betinfo"]=$(this).data("betinfo");
-//			betArray.push(betObj);
-//		});
-//		var betString=JSON.stringify(betArray)
-//		if (betString=="[]"){
-//			return false;
-//		}else{
-//			
-//			$.ajax({
-//				type: "post",
-//				url: "SubmitBetServlet",
-//				data: {myBet:betString},
-//				dataType: "text",
-//				beforeSend:function(XMLHttpRequest){
-//					$("#myModal").modal('toggle');
-//				},
-//				success: function (data){
-//					$("#myModalLabel").toggle();
-//					$("#betresp").text(data);
-//					$("#betresp").toggle();
-//					onoff=true;
-//				},
-//				error: function (XMLHttpRequest, textStatus, errorThrown) {
-//					alert("SubmitBetServlet ajax出错");
-//				}
-//			});
-//		}
-//	});
+	$("#dtxbb").click(function(){//点击竞猜按钮提交竞猜结果
+		var resArray=new Array();
+		$(".checkbb.active").each(function(){
+			var resObj={};
+			resObj["matchid"]=$(this).data("matchid");
+			resObj["matchresult"]=$(this).data("matchresult");
+			resArray.push(resObj);
+		});
+		var resString=JSON.stringify(resArray)
+		if (resString=="[]"){
+			return false;
+		}else{
+			
+			$.ajax({
+				type: "post",
+				url: "SetResultServlet",
+				data: {myresult:resString},
+				dataType: "text",
+				beforeSend:function(XMLHttpRequest){
+					$("#myModal").modal('toggle');
+				},
+				success: function (data){
+					$("#myModalLabel").toggle();
+					$("#setresp").text(data);
+					$("#setresp").toggle();
+					onoff=true;
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert("SubmitBetServlet ajax出错");
+				}
+			});
+		}
+	});
 	
 	
 	
@@ -105,6 +105,19 @@ $(document).ready(function(){
 		}
 	});
 	
+	$("#sgtba").click(function(){
+		$("#sgtb").show();
+		$("#sgtba").addClass("active");
+		$("#tts").hide();
+		$("#ttsa").removeClass("active");
+	});
+	
+	$("#ttsa").click(function(){
+		$("#tts").show();
+		$("#ttsa").addClass("active");
+		$("#sgtb").hide();
+		$("#sgtba").removeClass("active");
+	});
 	
 	
 })

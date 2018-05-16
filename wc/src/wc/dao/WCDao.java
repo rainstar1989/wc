@@ -229,7 +229,7 @@ public class WCDao extends ConnectionFactory{
 	
 	public List<Match> queryPlayoffsMatch(Connection conn){
 		List<Match> list =new ArrayList<Match>();
-		String sql = "select evid,hteam,gteam from worldcup2018.events where evtype!='groupmatch'";
+		String sql = "select evid,hteam,gteam from worldcup2018.events where evtype!='groupmatch' order by evid asc";
 		try {
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();

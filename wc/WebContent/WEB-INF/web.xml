@@ -16,6 +16,7 @@
     <url-pattern>/SubmitBetServlet</url-pattern>
     <url-pattern>/SetResultServlet</url-pattern>
     <url-pattern>/MatchUnfinishedServlet</url-pattern>
+    <url-pattern>/PlayOffsServlet</url-pattern>
   </filter-mapping>
   <session-config>
     <session-timeout>15</session-timeout>

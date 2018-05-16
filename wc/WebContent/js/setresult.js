@@ -25,8 +25,9 @@ $(document).ready(function(){
 					str+="<label class='btn btn-primary btn-md green checkbb' data-matchid='"+data[i].matchid+"' data-matchresult='w'><input type='radio' name='options' >胜</label>";
 					str+="<label class='btn btn-primary btn-md yellow checkbb' data-matchid='"+data[i].matchid+"' data-matchresult='t'><input type='radio' name='options' >平</label>";
 					str+="<label class='btn btn-primary btn-md red checkbb' data-matchid='"+data[i].matchid+"' data-matchresult='l'><input type='radio' name='options' >负</label>";
-					str+="</div></div></td></tr></tbody>";
+					str+="</div></div></td></tr>";
 				}
+				str+="</tbody>";
 				$("#unfinishedlist").html(str);
 				if (data.length>0){
 					
@@ -51,6 +52,53 @@ $(document).ready(function(){
 		});
 	};
 	matchtofinish();//setresult页面载入时读取未填写结果的比赛列表
+	
+	function playoffsmatch(){//读取淘汰赛列表
+		$.ajax({
+			type: "get",
+			url: "PlayOffsServlet",
+			data: {},
+			dataType: "json",
+			beforeSend:function(XMLHttpRequest){
+				$("#myModal").modal('toggle');
+			},
+			success: function (data){
+				var str = "<tbody><tr><td>比赛id</td><td>主队</td><td>客队</td><td>操作</td></tr>";
+				for(var i=0;i<data.length;i++){
+					str+="<tr><td>"+data[i].matchid+"</td><td><input type='text' class='inputt htm' value='"+data[i].htm+"'></td>";
+					str+="<td><input type='text' class='inputt gtm' value='"+data[i].gtm+"'></td>";
+					str+="<td><button class='btn btn-primary btn-block pob' data-mid='"+data[i].matchid+"'>提交</button></td></tr>";
+				}
+				str+="</tbody>";
+				$("#playoffslist").html(str);
+				
+				$(".pob").on("click",function(){//提交淘汰赛队名
+					var pomid=$(this).data("mid");
+					var pohtm=$(this).parent().siblings().children(".htm").val();
+					var pogtm=$(this).parent().siblings().children(".gtm").val();
+					alert(pomid+"-"+pohtm+"-"+pogtm);
+				});
+				
+				$(".inputt").on("click",function(){
+					$(this).select();
+				});
+			},
+			complete:function(XMLHttpRequest,textStatus){
+				$("#myModal").modal('toggle');
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+//				// 状态码
+//				alert(XMLHttpRequest.status);
+//				// 状态
+//				alert(XMLHttpRequest.readyState);
+//				// 错误信息   
+//				alert(textStatus);
+				alert("PlayOffsServlet ajax出错");
+			}
+		});
+		
+		
+	}
 	
 	$("#dtxtab").click(function(){//点击未填写标签执行读取未填写结果的比赛列表
 		matchtofinish();
@@ -110,6 +158,7 @@ $(document).ready(function(){
 		$("#sgtba").addClass("active");
 		$("#tts").hide();
 		$("#ttsa").removeClass("active");
+		matchtofinish();
 	});
 	
 	$("#ttsa").click(function(){
@@ -117,7 +166,11 @@ $(document).ready(function(){
 		$("#ttsa").addClass("active");
 		$("#sgtb").hide();
 		$("#sgtba").removeClass("active");
+		playoffsmatch();
 	});
+	
+	
+	
 	
 	
 })

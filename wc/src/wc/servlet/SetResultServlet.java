@@ -95,6 +95,8 @@ public class SetResultServlet extends HttpServlet {
 								}
 								int sbr=wd.setBetResult(buid, mid, bbetresult, co);
 								System.out.println("-----比赛id："+mid+"用户id："+buid+"计入是否猜对："+bbetresult);
+								//计算积分
+								
 							}
 						}
 					}

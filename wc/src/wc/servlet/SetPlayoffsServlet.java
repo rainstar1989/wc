@@ -1,6 +1,7 @@
 package wc.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 
 import javax.servlet.ServletException;
@@ -65,9 +66,16 @@ public class SetPlayoffsServlet extends HttpServlet {
 		}else {
 			int f=wd.setPlayoffsMatch(pomid, pohtm, pogtm, co);
 			if(f==1) {
-				
+				flag="修改成功！";
+			}else {
+				flag="修改失败！";
 			}
 		}
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		writer.write(flag);//返回是否提交成功
+		writer.flush();
+		writer.close();
 	}
 
 }

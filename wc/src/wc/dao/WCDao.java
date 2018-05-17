@@ -37,6 +37,37 @@ public class WCDao extends ConnectionFactory{
 		return list;
 	}
 	
+	public List<Match> queryMatchFinished(Connection conn) {//列出已填写比赛结果的比赛
+		List<Match> list =new ArrayList<Match>();
+		String sql = "select c.evid,a.tmname as '主队名称', b.tmname as '客队名称', c.evresult from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam and c.evresult is not null order by c.evtime desc";
+		
+		try {
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			while(rs.next()) {
+				Match match=new Match();
+				match.setMatchid(rs.getInt(1));
+				match.setHteam(rs.getString(2));
+				match.setGteam(rs.getString(3));
+				if (rs.getString(4).equals("w")) {
+					match.setMatchresult("胜");
+				}else if(rs.getString(4).equals("t")) {
+					match.setMatchresult("平");
+				}else if(rs.getString(4).equals("l")) {
+					match.setMatchresult("负");
+				}
+				
+				list.add(match);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		return list;
+	}
+	
 	public int checkMatchResult(int mid,Connection conn) {//检查填写比赛结果是否已经填写过
 		int flag=-1;
 		String sql="select * from worldcup2018.events where evid="+mid+" and evresult is not null";

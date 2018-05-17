@@ -12,6 +12,7 @@ public class Match {
 	private String gtm;
 	private String hteam;
 	private String gteam;
+	private String matchresult;
 	
 	public int getMatchid() {
 		return matchid;
@@ -60,6 +61,12 @@ public class Match {
 	}
 	public void setMatchdate(String matchdate) {
 		this.matchdate = matchdate;
+	}
+	public String getMatchresult() {
+		return matchresult;
+	}
+	public void setMatchresult(String matchresult) {
+		this.matchresult = matchresult;
 	}
 	
 }

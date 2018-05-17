@@ -53,6 +53,38 @@ $(document).ready(function(){
 	};
 	matchtofinish();//setresult页面载入时读取未填写结果的比赛列表
 	
+	function matchfinished(){//读取未填写结果的比赛列表
+		$.ajax({
+			type: "get",
+			url: "MatchFinishedServlet",
+			data: {},
+			dataType: "json",
+			beforeSend:function(XMLHttpRequest){
+				$("#myModal").modal('toggle');
+			},
+			success: function (data){
+				var str ="<tbody><tr><td>比赛id</td><td>对阵</td><td>赛果</td></tr>";
+				for(var i=0;i<data.length;i++){
+					str+="<tr><td>"+data[i].matchid+"</td><td>"+data[i].hteam+"vs"+data[i].gteam+"</td><td>"+data[i].matchresult+"</td></tr>";
+				}
+				str+="</tbody>";
+				$("#finishedlist").html(str);
+			},
+			complete:function(XMLHttpRequest,textStatus){
+				$("#myModal").modal('toggle');
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+//				// 状态码
+//				alert(XMLHttpRequest.status);
+//				// 状态
+//				alert(XMLHttpRequest.readyState);
+//				// 错误信息   
+//				alert(textStatus);
+				alert("MatchFinishedServlet ajax出错");
+			}
+		});
+	}
+	
 	function playoffsmatch(){//读取淘汰赛列表
 		$.ajax({
 			type: "get",
@@ -76,7 +108,26 @@ $(document).ready(function(){
 					var pomid=$(this).data("mid");
 					var pohtm=$(this).parent().siblings().children(".htm").val();
 					var pogtm=$(this).parent().siblings().children(".gtm").val();
-					alert(pomid+"-"+pohtm+"-"+pogtm);
+					
+					$.ajax({
+						type: "post",
+						url: "SetPlayoffsServlet",
+						data: {pomid:pomid,pohtm:pohtm,pogtm:pogtm},
+						dataType: "text",
+						beforeSend:function(XMLHttpRequest){
+							$("#myModal").modal('toggle');
+						},
+						success: function (data){
+							$("#myModalLabel").toggle();
+							$("#setresp").text(data);
+							$("#setresp").toggle();
+							onoff=true;
+							rorp="setplayoffs";
+						},
+						error: function (XMLHttpRequest, textStatus, errorThrown) {
+							alert("SetPlayoffsServlet ajax出错");
+						}
+					});
 				});
 				
 				$(".inputt").on("click",function(){
@@ -104,7 +155,12 @@ $(document).ready(function(){
 		matchtofinish();
 	});
 	
+	$("#ytxtab").click(function(){//点击填写标签执行读取已填写结果的比赛列表
+		matchfinished();
+	});
+	
 	var onoff=false;
+	var rorp=null;//setresult还是setplayoffs
 	
 	$("#dtxbb").click(function(){//点击竞猜按钮提交竞猜结果
 		var resArray=new Array();
@@ -132,9 +188,10 @@ $(document).ready(function(){
 					$("#setresp").text(data);
 					$("#setresp").toggle();
 					onoff=true;
+					rorp="setresult";
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
-					alert("SubmitBetServlet ajax出错");
+					alert("SetResultServlet ajax出错");
 				}
 			});
 		}
@@ -146,7 +203,12 @@ $(document).ready(function(){
 		$("#myModalLabel").show();
 		$("#setresp").hide();
 		if (onoff){
-			matchtofinish();
+			if(rorp=="setresult"){
+				matchtofinish();
+			}else if(rorp=="setplayoffs"){
+				playoffsmatch();
+			}
+			rorp=null;
 			onoff=false;
 		}else{
 			return false;

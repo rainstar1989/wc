@@ -18,6 +18,7 @@
     <url-pattern>/MatchUnfinishedServlet</url-pattern>
     <url-pattern>/PlayOffsServlet</url-pattern>
     <url-pattern>/SetPlayoffsServlet</url-pattern>
+    <url-pattern>/MatchFinishedServlet</url-pattern>
   </filter-mapping>
   <session-config>
     <session-timeout>15</session-timeout>

@@ -249,14 +249,28 @@ public class WCDao extends ConnectionFactory{
 		return list;
 	}
 	
+	public int setPlayoffsMatch(int mid,String htm,String gtm,Connection conn) {
+		int flag=0;
+		String sql="update worldcup2018.events set hteam='"+htm+"',gteam='"+gtm+"' where evid="+mid;
+		try {
+			ptmt=conn.prepareStatement(sql);
+			
+			flag=ptmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		return flag;
+	}
+	
 	public static void main(String[] args){
 		ConnectionFactory coF=new ConnectionFactory();
 		Connection co=coF.getConnection();
 		WCDao td=new WCDao();
 		
-		int ff=td.setBetResult("test", 10, false, co);
-		int f=td.checkBetResult("test", 10, co);
-		System.out.println(ff);
+		int f=td.setPlayoffsMatch(49, "A1", "B2", co);
 		System.out.println(f);
 	}
 }

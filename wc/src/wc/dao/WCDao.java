@@ -147,9 +147,9 @@ public class WCDao extends ConnectionFactory{
 		return flag;
 	}
 	
-	public int setBetResult(String uid,int mid,boolean betresult,Connection conn) {//写入竞猜结果
+	public int setBetResult(String uid,int mid,boolean betresult,int point,Connection conn) {//写入竞猜结果
 		int flag=0;
-		String sql="update worldcup2018.userbetinfo set betresult ="+betresult+" where uid='"+uid+"' and evid="+mid;
+		String sql="update worldcup2018.userbetinfo set betresult ="+betresult+",point="+point+" where uid='"+uid+"' and evid="+mid;
 		try {
 			ptmt=conn.prepareStatement(sql);
 			
@@ -296,12 +296,46 @@ public class WCDao extends ConnectionFactory{
 		return flag;
 	}
 	
+	public int calMatchPoint(int mid,Connection conn) {
+		int matchpoint=0;
+		String sql="select evtype from worldcup2018.events where evid="+mid;
+		String matchtype=null;
+		try {
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			while(rs.next()) {
+				matchtype=rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		if(matchtype.equals("groupmatch")) {
+			matchpoint=1;
+		}else if(matchtype.equals("roundof16")) {
+			matchpoint=2;
+		}else if(matchtype.equals("quarter-finals")) {
+			matchpoint=3;
+		}else if(matchtype.equals("semi-finals")) {
+			matchpoint=4;
+		}else if(matchtype.equals("matchfor3")) {
+			matchpoint=5;
+		}else if(matchtype.equals("final")) {
+			matchpoint=6;
+		}else {
+			System.out.println("比赛类型有问题！");
+		}
+		return matchpoint;
+	}
+	
 	public static void main(String[] args){
 		ConnectionFactory coF=new ConnectionFactory();
 		Connection co=coF.getConnection();
 		WCDao td=new WCDao();
 		
-		int f=td.setPlayoffsMatch(49, "A1", "B2", co);
+		int f=td.calMatchPoint(64, co);
 		System.out.println(f);
 	}
 }

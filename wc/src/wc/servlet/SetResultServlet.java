@@ -88,15 +88,19 @@ public class SetResultServlet extends HttpServlet {
 							int cbr=wd.checkBetResult(buid, mid, co);
 							if(cbr==1) {
 								boolean bbetresult;
+								int point=0;
 								if (bbetinfo.equals(mrt)) {
 									bbetresult=true;
+									point=wd.calMatchPoint(mid, co);
 								}else {
 									bbetresult=false;
 								}
-								int sbr=wd.setBetResult(buid, mid, bbetresult, co);
-								System.out.println("-----比赛id："+mid+"用户id："+buid+"计入是否猜对："+bbetresult);
-								//计算积分
-								
+								int sbr=wd.setBetResult(buid, mid, bbetresult,point, co);
+								if(sbr==1) {
+									System.out.println("-----比赛id："+mid+"用户id："+buid+"计入是否猜对："+bbetresult+"本场积分"+point);
+								}else {
+									System.out.println("-----比赛id："+mid+"用户id："+buid+"未计入结果！");
+								}
 							}
 						}
 					}

@@ -5,10 +5,7 @@
 	padding-right:0px;
 	padding-left:0px;
 }
-#userName span{
-	color:#0f4583;
-}
-#userScore span{
+.titlename span{
 	color:#0f4583;
 }
 body{

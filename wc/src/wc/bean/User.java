@@ -3,9 +3,10 @@ package wc.bean;
 public class User {
 	private String userid;
 	private String password;
-	private int point;
 	private String remark;
 	private String auth;
+	private int userpoint;
+	private int bingonumber;
 	
 	public String getUserid() {
 		return userid;
@@ -19,12 +20,7 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public int getPoint() {
-		return point;
-	}
-	public void setPoint(int point) {
-		this.point = point;
-	}
+	
 	public String getRemark() {
 		return remark;
 	}
@@ -36,6 +32,18 @@ public class User {
 	}
 	public void setAuth(String auth) {
 		this.auth = auth;
+	}
+	public int getUserpoint() {
+		return userpoint;
+	}
+	public void setUserpoint(int userpoint) {
+		this.userpoint = userpoint;
+	}
+	public int getBingonumber() {
+		return bingonumber;
+	}
+	public void setBingonumber(int bingonumber) {
+		this.bingonumber = bingonumber;
 	}
 	
 	

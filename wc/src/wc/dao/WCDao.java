@@ -258,7 +258,7 @@ public class WCDao extends ConnectionFactory{
 		return flag;
 	}
 	
-	public List<Match> queryPlayoffsMatch(Connection conn){
+	public List<Match> queryPlayoffsMatch(Connection conn){//列出淘汰赛
 		List<Match> list =new ArrayList<Match>();
 		String sql = "select evid,hteam,gteam from worldcup2018.events where evtype!='groupmatch' order by evid asc";
 		try {
@@ -280,7 +280,7 @@ public class WCDao extends ConnectionFactory{
 		return list;
 	}
 	
-	public int setPlayoffsMatch(int mid,String htm,String gtm,Connection conn) {
+	public int setPlayoffsMatch(int mid,String htm,String gtm,Connection conn) {//修改淘汰赛队名
 		int flag=0;
 		String sql="update worldcup2018.events set hteam='"+htm+"',gteam='"+gtm+"' where evid="+mid;
 		try {
@@ -296,7 +296,7 @@ public class WCDao extends ConnectionFactory{
 		return flag;
 	}
 	
-	public int calMatchPoint(int mid,Connection conn) {
+	public int calMatchPoint(int mid,Connection conn) {//计算单场积分
 		int matchpoint=0;
 		String sql="select evtype from worldcup2018.events where evid="+mid;
 		String matchtype=null;
@@ -330,12 +330,89 @@ public class WCDao extends ConnectionFactory{
 		return matchpoint;
 	}
 	
+	public int queryUserPoint(String userid,Connection conn) {//计算用户积分
+		int userpoint=0;
+		String sql="select sum(ub.point) from worldcup2018.userbetinfo ub where uid='"+userid+"'";
+		try {
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			while(rs.next()) {
+				userpoint=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		return userpoint;
+	}
+	
+	public int queryBingoNumber(String userid,Connection conn) {//计算用户猜对场数
+		int bingonumber=0;
+		String sql="select count(ub.evid) from worldcup2018.userbetinfo ub where ub.betresult is true and ub.uid='"+userid+"'";
+		try {
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			while(rs.next()) {
+				bingonumber=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		return bingonumber;
+	}
+	
+	public List<BetInfo> queryBetedMatch(String userid,Connection conn){
+		List<BetInfo> list=new ArrayList();
+		String sql="select ub.evid,ub.betinfo,ub.betresult,ub.point,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.userbetinfo ub,worldcup2018.events ev,worldcup2018.teams a,worldcup2018.teams b where uid='"+userid+"' and ub.evid=ev.evid and a.tmid=ev.hteam and b.tmid=ev.gteam order by ev.evtime desc";
+		try {
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			while(rs.next()) {
+				BetInfo bi=new BetInfo();
+				bi.setMatchid(rs.getInt(1));
+				if (rs.getString(2).equals("w")) {
+					bi.setBetinfo("胜");
+				}else if(rs.getString(2).equals("t")) {
+					bi.setBetinfo("平");
+				}else if(rs.getString(2).equals("l")) {
+					bi.setBetinfo("负");
+				}
+				if (rs.getObject(3)==null) {
+					bi.setBetresult("未赛");
+				}else {
+					if(rs.getBoolean(3)) {
+						bi.setBetresult("对");
+					}else {
+						bi.setBetresult("错");
+					}
+				}
+				bi.setMatchpoint(rs.getInt(4));
+				bi.setHteam(rs.getString(5));
+				bi.setGteam(rs.getString(6));
+				list.add(bi);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		return list;
+	}
+	
 	public static void main(String[] args){
 		ConnectionFactory coF=new ConnectionFactory();
 		Connection co=coF.getConnection();
 		WCDao td=new WCDao();
 		
-		int f=td.calMatchPoint(64, co);
-		System.out.println(f);
+		List<BetInfo> list=td.queryBetedMatch("test", co);
+		for (int i=0;i<list.size();i++) {
+			System.out.println(list.get(i).getMatchid()+"--"+list.get(i).getBetinfo()+"--"+list.get(i).getBetresult()+"--"+list.get(i).getMatchpoint());
+		}
 	}
 }

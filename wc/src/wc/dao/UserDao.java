@@ -59,13 +59,12 @@ public class UserDao extends ConnectionFactory {
 	
 	public int reg(User user,Connection conn) {
 		int flag=0;
-		String sql="insert into worldcup2018.users (`uid`, `password`, `point`, `remark`) values(?,?,?,?)";
+		String sql="insert into worldcup2018.users (`uid`, `password`, `remark`) values(?,?,?,?)";
 		try {
 			ptmt=conn.prepareStatement(sql);
 			ptmt.setString(1, user.getUserid());
 			ptmt.setString(2, SHA.getResult(user.getPassword()));
-			ptmt.setInt(3, 0);
-			ptmt.setString(4, user.getRemark());
+			ptmt.setString(3, user.getRemark());
 			flag=ptmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,14 +78,13 @@ public class UserDao extends ConnectionFactory {
 	
 	public User userInfo(String uid,Connection conn) {
 		User user=new User();
-		String sql="select us.point,us.remark,us.auth from worldcup2018.users us where uid='"+uid+"'";
+		String sql="select us.remark,us.auth from worldcup2018.users us where uid='"+uid+"'";
 		try {
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			while (rs.next()) {
-				user.setPoint(rs.getInt(1));
-				user.setRemark(rs.getString(2));
-				user.setAuth(rs.getString(3));
+				user.setRemark(rs.getString(1));
+				user.setAuth(rs.getString(2));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -103,7 +101,7 @@ public class UserDao extends ConnectionFactory {
 		User u=ud.userInfo(uid, co);
 		JSONObject json = JSONObject.fromObject(u);
 		String str = json.toString();
-		System.out.println("姓名："+u.getRemark()+" 积分："+u.getPoint()+"权限："+u.getAuth());
+		System.out.println("姓名："+u.getRemark()+"权限："+u.getAuth());
 		System.out.println(str);
 	}
 }

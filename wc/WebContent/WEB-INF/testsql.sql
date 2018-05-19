@@ -12,7 +12,7 @@ select c.evid,c.evtime,a.tmname as '主队名称', b.tmname as '客队名称' fr
 /*用户未猜的未来48小时内比赛*/
 select c.evid,c.evtime,c.hteam,c.gteam,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam and left(timediff(c.evtime,'2018-06-16 23:00:00'),length(timediff(c.evtime,'2018-06-16 23:00:00'))-6) between 1 and 48 and c.evid not in (SELECT ub.evid FROM worldcup2018.userbetinfo ub where ub.uid='test2') order by c.evtime asc;
 /*计算猜对场数*/
-select count(ub.evid) from worldcup2018.userbetinfo ub,worldcup2018.events ev where ub.betresult is true and ub.uid='test2' and ub.evid=ev.evid and ev.evtype='groupmatch';
+select count(ub.evid) from worldcup2018.userbetinfo ub where ub.betresult is true and ub.uid='test';
 /*已竞猜比赛*/
 select c.evid,c.evtime,a.tmname as '主队名称', b.tmname as '客队名称', d.betinfo, c.evresult, d.betresult from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b,worldcup2018.userbetinfo d where a.tmid=c.hteam and b.tmid=c.gteam and c.evid=d.evid and d.uid='test' order by c.evtime asc;
 /*列出所有没有结果的比赛*/
@@ -21,3 +21,7 @@ select c.evid,c.evtime,a.tmname as '主队名称', b.tmname as '客队名称' fr
 select * from worldcup2018.events ev where ev.evid=6 and evtime<'2018-06-17 00:00:01';
 
 select evtype from worldcup2018.events where evid=60;
+
+select sum(ub.point) from worldcup2018.userbetinfo ub where uid='test';
+
+select ub.evid,ub.betinfo,ub.betresult,ub.point,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.userbetinfo ub,worldcup2018.events ev,worldcup2018.teams a,worldcup2018.teams b where uid='test' and ub.evid=ev.evid and a.tmid=ev.hteam and b.tmid=ev.gteam order by ev.evtime desc;

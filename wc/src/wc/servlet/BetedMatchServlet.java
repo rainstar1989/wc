@@ -3,6 +3,8 @@ package wc.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,23 +13,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONObject;
-import wc.bean.User;
+import net.sf.json.JSONArray;
+import wc.bean.BetInfo;
 import wc.dao.ConnectionFactory;
-import wc.dao.UserDao;
 import wc.dao.WCDao;
 
 /**
- * Servlet implementation class UserInfoServlet
+ * Servlet implementation class BetedMatchServlet
  */
-@WebServlet("/UserInfoServlet")
-public class UserInfoServlet extends HttpServlet {
+@WebServlet("/BetedMatchServlet")
+public class BetedMatchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserInfoServlet() {
+    public BetedMatchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,32 +39,22 @@ public class UserInfoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String loginId=(String)session.getAttribute("loginId");
-		System.out.println("userinfoservlet,session中loginId:"+loginId);
+		System.out.println("BetedMatchServlet，session中loginId:"+loginId);
 		
-		User u=new User();
-		try {
-			ConnectionFactory coF=new ConnectionFactory();
-			Connection co=coF.getConnection();
-			UserDao ud=new UserDao();
-			WCDao wd=new WCDao();
-			
-			u=ud.userInfo(loginId, co);
-			u.setUserpoint(wd.queryUserPoint(loginId, co));
-			u.setBingonumber(wd.queryBingoNumber(loginId, co));
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		JSONObject json = JSONObject.fromObject(u);
-		String str = json.toString();
+		ConnectionFactory coF=new ConnectionFactory();
+		Connection co=coF.getConnection();
+		WCDao td=new WCDao();
 		
-		System.out.println(str);
+		List<BetInfo> li=new ArrayList();
+		li=td.queryBetedMatch(loginId, co);
+		JSONArray jsonarray=JSONArray.fromObject(li.toArray());
+		System.out.println("jsonarray大小"+jsonarray.size()+jsonarray.toString());
+		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter writer = response.getWriter();
-		writer.print(str);
+		writer.print(jsonarray.toString());
 		writer.flush();
 		writer.close();
-		
 	}
 
 	/**

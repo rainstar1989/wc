@@ -13,7 +13,8 @@ $(document).ready(function(){
 		dataType: "json",
 		success: function (data){
 			$("#userName span").html(data.remark);
-			$("#userScore span").html(data.point);
+			$("#userScore span").html(data.userpoint);
+			$("#bingoNumber span").html(data.bingonumber);
 			if (data.auth=="admin"){
 				$("#manage").show();
 			}
@@ -84,10 +85,47 @@ $(document).ready(function(){
 			}
 		});
 	};
+	
+	function betedmatchlist(){//读取已预测比赛列表
+		$.ajax({
+			type: "get",
+			url: "BetedMatchServlet",
+			data: {},
+			dataType: "json",
+			beforeSend:function(XMLHttpRequest){
+				$("#myModal").modal('toggle');
+			},
+			success: function (data){
+				var str ="<tbody><tr><td>比赛id</td><td>对阵</td><td>您的预测</td><td>是否猜中</td><td>本场积分</td></tr>";
+				for(var i=0;i<data.length;i++){
+					str+="<tr><td>"+data[i].matchid+"</td><td>"+data[i].hteam+"vs"+data[i].gteam+"</td><td>"+data[i].betinfo+"</td><td>"+data[i].betresult+"</td><td>"+data[i].matchpoint+"</td></tr>";
+				}
+				str+="</tbody>";
+				$("#betedmatchlist").html(str);
+			},
+			complete:function(XMLHttpRequest,textStatus){
+				$("#myModal").modal('toggle');
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+//				// 状态码
+//				alert(XMLHttpRequest.status);
+//				// 状态
+//				alert(XMLHttpRequest.readyState);
+//				// 错误信息   
+//				alert(textStatus);
+				alert("BetedMatchServlet ajax出错");
+			}
+		});
+	}
+	
 	matchtobetlist();//mymatch页面载入时执行读取未预测比赛列表
 	
 	$("#dyctab").click(function(){//点击未预测标签执行读取未预测比赛列表
 		matchtobetlist();
+	});
+	
+	$("#yyctab").click(function(){//点击已预测标签执行读取已预测比赛列表
+		betedmatchlist();
 	});
 	
 	var onoff=false;

@@ -64,7 +64,7 @@ public class UserDao extends ConnectionFactory {
 	
 	public int reg(User user) {
 		int flag=0;
-		String sql="insert into worldcup2018.users (`uid`, `password`, `remark`) values(?,?,?,?)";
+		String sql="insert into worldcup2018.users (`uid`, `password`, `remark`) values(?,?,?)";
 		try {
 			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);

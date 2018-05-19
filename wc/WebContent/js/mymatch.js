@@ -118,6 +118,42 @@ $(document).ready(function(){
 		});
 	}
 	
+	function scoreboard(){
+		$.ajax({
+			type: "get",
+			url: "ScoreBoardServlet",
+			data: {},
+			dataType: "json",
+			beforeSend:function(XMLHttpRequest){
+				$("#myModal").modal('toggle');
+			},
+			success: function (data){
+				var str = "<tbody><tr><td>排名</td><td>昵称</td><td>猜对场数</td><td>积分</td></tr>";
+				for(var i=0;i<data.length;i++){
+					var myclass="";
+					if(data[i].remark==$("#userName span").html()){
+						myclass="class='myname'";
+					}
+					str+="<tr><td>"+data[i].rank+"</td><td "+myclass+">"+data[i].remark+"</td><td>"+data[i].bingonumber+"</td><td>"+data[i].userpoint+"</td></tr>";
+				}
+				str+="</tbody>";
+				$("#scoreboardlist").html(str);
+			},
+			complete:function(XMLHttpRequest,textStatus){
+				$("#myModal").modal('toggle');
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+//				// 状态码
+//				alert(XMLHttpRequest.status);
+//				// 状态
+//				alert(XMLHttpRequest.readyState);
+//				// 错误信息   
+//				alert(textStatus);
+				alert("ScoreBoardServlet ajax出错");
+			}
+		});
+	}
+	
 	matchtobetlist();//mymatch页面载入时执行读取未预测比赛列表
 	
 	$("#dyctab").click(function(){//点击未预测标签执行读取未预测比赛列表
@@ -177,6 +213,33 @@ $(document).ready(function(){
 		}
 	});
 	
+	$("#wdyca").click(function(){
+		$("#wdyc").show();
+		$("#wdyca").addClass("active");
+		$("#phb").hide();
+		$("#phba").removeClass("active");
+		$("#jfgz").hide();
+		$("#jfgza").removeClass("active");
+		matchtobetlist();
+	});
 	
+	$("#phba").click(function(){
+		$("#phb").show();
+		$("#phba").addClass("active");
+		$("#wdyc").hide();
+		$("#wdyca").removeClass("active");
+		$("#jfgz").hide();
+		$("#jfgza").removeClass("active");
+		scoreboard();
+	});
+	
+	$("#jfgza").click(function(){
+		$("#jfgz").show();
+		$("#jfgza").addClass("active");
+		$("#wdyc").hide();
+		$("#wdyca").removeClass("active");
+		$("#phb").hide();
+		$("#phba").removeClass("active");
+	});
 	
 })

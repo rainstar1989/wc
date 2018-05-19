@@ -1,12 +1,14 @@
 package wc.bean;
+import java.util.Comparator;
 
-public class User {
+public class User implements Comparable<User>{
 	private String userid;
 	private String password;
 	private String remark;
 	private String auth;
 	private int userpoint;
 	private int bingonumber;
+	private int rank;
 	
 	public String getUserid() {
 		return userid;
@@ -44,6 +46,21 @@ public class User {
 	}
 	public void setBingonumber(int bingonumber) {
 		this.bingonumber = bingonumber;
+	}
+	
+	public int getRank() {
+		return rank;
+	}
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+	@Override
+	public int compareTo(User o) {
+		int i = this.getUserpoint()-o.getUserpoint();
+		if(i==0) {
+			return this.bingonumber-o.getBingonumber();
+		}
+		return i;
 	}
 	
 	

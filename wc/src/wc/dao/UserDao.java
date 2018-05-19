@@ -1,10 +1,14 @@
 package wc.dao;
 
 import java.sql.Connection;
+
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
+import wc.bean.BetInfo;
 import wc.bean.User;
 
 public class UserDao extends ConnectionFactory {
@@ -90,6 +94,27 @@ public class UserDao extends ConnectionFactory {
 			e.printStackTrace();
 		}
 		return user;
+	}
+	
+	public List<User> userList(Connection conn){
+		List<User> list=new ArrayList();
+		String sql="select us.uid,us.remark from worldcup2018.users us";
+		try {
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			while(rs.next()) {
+				User u=new User();
+				u.setUserid(rs.getString(1));
+				u.setRemark(rs.getString(2));
+				list.add(u);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		return list;
 	}
 	
 	public static void main(String[] args){

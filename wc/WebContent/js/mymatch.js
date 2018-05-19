@@ -220,7 +220,13 @@ $(document).ready(function(){
 		$("#phba").removeClass("active");
 		$("#jfgz").hide();
 		$("#jfgza").removeClass("active");
-		matchtobetlist();
+		if($("#dyc").hasClass("active")){
+			matchtobetlist();
+		}
+		if($("#yyc").hasClass("active")){
+			betedmatchlist();
+		}
+		
 	});
 	
 	$("#phba").click(function(){

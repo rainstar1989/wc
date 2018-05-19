@@ -46,13 +46,11 @@ public class LoginServlet extends HttpServlet {
 			System.out.println("收到登陆请求");
 			UserDao ud=new UserDao();
 			User u=new User();
-			ConnectionFactory coF=new ConnectionFactory();
-			Connection co=coF.getConnection();
 			System.out.println("账号："+request.getParameter("userid")+"试图登陆");
 			request.setCharacterEncoding("UTF-8");
 			u.setUserid(request.getParameter("userid"));
 			u.setPassword(request.getParameter("password"));
-			int f=ud.login(u, co);
+			int f=ud.login(u);
 			String flag = "false";
 			if(f==1) {//用户登陆成功
 				HttpSession session=request.getSession();

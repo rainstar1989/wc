@@ -47,8 +47,7 @@ public class SetPlayoffsServlet extends HttpServlet {
 		System.out.println("SetPlayoffsServlet，session中loginId:"+loginId);
 		
 		User u=new User();
-		ConnectionFactory coF=new ConnectionFactory();
-		Connection co=coF.getConnection();
+		
 		UserDao ud=new UserDao();
 		WCDao wd=new WCDao();
 		request.setCharacterEncoding("UTF-8");
@@ -59,12 +58,12 @@ public class SetPlayoffsServlet extends HttpServlet {
 		
 		String flag=null;
 		
-		u=ud.userInfo(loginId, co);
+		u=ud.userInfo(loginId);
 		System.out.println(u.getAuth());
 		if (!u.getAuth().equals("admin")) {
 			flag="您没有管理员权限！";
 		}else {
-			int f=wd.setPlayoffsMatch(pomid, pohtm, pogtm, co);
+			int f=wd.setPlayoffsMatch(pomid, pohtm, pogtm);
 			if(f==1) {
 				flag="修改成功！";
 			}else {

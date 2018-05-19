@@ -43,19 +43,18 @@ public class RegisterServlet extends HttpServlet {
 		System.out.println("收到注册请求");
 		UserDao ud=new UserDao();
 		User u=new User();
-		ConnectionFactory coF=new ConnectionFactory();
-		Connection co=coF.getConnection();
+		
 		request.setCharacterEncoding("UTF-8");
 		u.setUserid(request.getParameter("reguserid"));
 		u.setPassword(request.getParameter("regpassword1"));
 		u.setRemark(request.getParameter("regusername"));
-		int f=ud.checkId(u,co);
+		int f=ud.checkId(u);
 		System.out.println("账号："+request.getParameter("reguserid")+"检查是否重复");
 		
 		String flag = "false";
 		if(f==1) {//id不重复，可注册
 			System.out.println(u.getUserid()+"数据库无记录，可以注册");
-			int r=ud.reg(u,co);
+			int r=ud.reg(u);
 			if (r==1) {
 				flag = "true";
 				System.out.println(u.getUserid()+"注册成功");

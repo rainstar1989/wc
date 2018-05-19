@@ -40,10 +40,8 @@ public class MatchFinishedServlet extends HttpServlet {
 		String loginId=(String)session.getAttribute("loginId");
 		System.out.println("MatchFinishedServlet，session中loginId:"+loginId);
 		
-		ConnectionFactory coF=new ConnectionFactory();
-		Connection co=coF.getConnection();
 		WCDao td=new WCDao();
-		List<Match> li =td.queryMatchFinished(co);
+		List<Match> li =td.queryMatchFinished();
 		JSONArray jsonarray=JSONArray.fromObject(li.toArray());
 		
 		System.out.println("jsonarray大小"+jsonarray.size());

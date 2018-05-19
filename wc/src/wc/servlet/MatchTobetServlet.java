@@ -44,11 +44,9 @@ public class MatchTobetServlet extends HttpServlet {
 		
 		List<Match> li = null;
 		try {
-			ConnectionFactory coF=new ConnectionFactory();
-			Connection co=coF.getConnection();
 			WCDao td=new WCDao();
 			
-			li=td.queryMatchtobet(co, loginId);
+			li=td.queryMatchtobet(loginId);
 			
 			} catch (Exception e) {
 				e.printStackTrace();

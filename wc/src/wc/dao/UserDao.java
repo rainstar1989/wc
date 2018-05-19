@@ -13,11 +13,11 @@ import wc.bean.User;
 
 public class UserDao extends ConnectionFactory {
 	
-	public int login(User user,Connection conn) {
+	public int login(User user) {
 		int flag=-1;
 		String sql="SELECT * FROM worldcup2018.users us where uid='"+user.getUserid()+"'";
 		try {
-			
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			if(rs.next()) {
@@ -40,10 +40,11 @@ public class UserDao extends ConnectionFactory {
 		return flag;
 	}
 	
-	public int checkId(User user,Connection conn) {
+	public int checkId(User user) {
 		int flag=-1;
 		String sql="SELECT * FROM worldcup2018.users us where uid='"+user.getUserid()+"'";
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			if(rs.next()) {
@@ -61,10 +62,11 @@ public class UserDao extends ConnectionFactory {
 		return flag;
 	}
 	
-	public int reg(User user,Connection conn) {
+	public int reg(User user) {
 		int flag=0;
 		String sql="insert into worldcup2018.users (`uid`, `password`, `remark`) values(?,?,?,?)";
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			ptmt.setString(1, user.getUserid());
 			ptmt.setString(2, SHA.getResult(user.getPassword()));
@@ -80,10 +82,11 @@ public class UserDao extends ConnectionFactory {
 		return flag;
 	}
 	
-	public User userInfo(String uid,Connection conn) {
+	public User userInfo(String uid) {
 		User user=new User();
 		String sql="select us.remark,us.auth from worldcup2018.users us where uid='"+uid+"'";
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			while (rs.next()) {
@@ -96,16 +99,19 @@ public class UserDao extends ConnectionFactory {
 		return user;
 	}
 	
-	public List<User> userList(Connection conn){
+	public List<User> userList(){
 		List<User> list=new ArrayList();
-		String sql="select us.uid,us.remark from worldcup2018.users us";
+		String sql="select us.uid,us.remark,us.userpoint,us.bingonumber from worldcup2018.users us order by us.userpoint desc,us.bingonumber desc";
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			while(rs.next()) {
 				User u=new User();
 				u.setUserid(rs.getString(1));
 				u.setRemark(rs.getString(2));
+				u.setUserpoint(rs.getInt(3));
+				u.setBingonumber(rs.getInt(4));
 				list.add(u);
 			}
 		} catch (SQLException e) {
@@ -117,13 +123,28 @@ public class UserDao extends ConnectionFactory {
 		return list;
 	}
 	
+	public int setPoint(String uid,int userpoint,int bingonumber) {
+		int flag=0;
+		String sql="update worldcup2018.users set userpoint="+userpoint+",bingonumber="+bingonumber+" where uid='"+uid+"'";
+		try {
+			conn=getConnection();
+			ptmt=conn.prepareStatement(sql);
+			
+			flag=ptmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		return flag;
+	}
+	
 	public static void main(String[] args){
-		ConnectionFactory coF=new ConnectionFactory();
-		Connection co=coF.getConnection();
 		UserDao ud=new UserDao();
 		
 		String uid="rainstar1989";
-		User u=ud.userInfo(uid, co);
+		User u=ud.userInfo(uid);
 		JSONObject json = JSONObject.fromObject(u);
 		String str = json.toString();
 		System.out.println("姓名："+u.getRemark()+"权限："+u.getAuth());

@@ -46,8 +46,6 @@ public class SubmitBetServlet extends HttpServlet {
 		String loginId=(String)session.getAttribute("loginId");
 		System.out.println("SubmitBetServlet，session中loginId:"+loginId);
 		
-		ConnectionFactory coF=new ConnectionFactory();
-		Connection co=coF.getConnection();
 		WCDao td=new WCDao();
 		
 		request.setCharacterEncoding("UTF-8");
@@ -61,11 +59,11 @@ public class SubmitBetServlet extends HttpServlet {
 			int mid=jsonobj.getInt("matchid");
 			String bi=jsonobj.getString("betinfo");
 			
-			int f=td.checkBet(loginId, mid, co);
+			int f=td.checkBet(loginId, mid);
 			if(f==1) {//比赛id不重复
-				int cm=td.checkMatchTime(mid, co);
+				int cm=td.checkMatchTime(mid);
 				if(cm==1) {//竞猜时间早于比赛时间
-					int c=td.bet(loginId, mid, bi, co);
+					int c=td.bet(loginId, mid, bi);
 					System.out.println("用户id："+loginId+",比赛id："+mid+",计入:"+bi);
 					count=count+c;
 				}else {

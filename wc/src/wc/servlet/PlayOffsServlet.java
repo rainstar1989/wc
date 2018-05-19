@@ -41,12 +41,10 @@ public class PlayOffsServlet extends HttpServlet {
 		String loginId=(String)session.getAttribute("loginId");
 		System.out.println("PlayOffsServlet，session中loginId:"+loginId);
 		
-		ConnectionFactory coF=new ConnectionFactory();
-		Connection co=coF.getConnection();
 		WCDao td=new WCDao();
 		
 		List<Match> li=new ArrayList<Match>();
-		li=td.queryPlayoffsMatch(co);
+		li=td.queryPlayoffsMatch();
 		JSONArray jsonarray=JSONArray.fromObject(li.toArray());
 		
 		System.out.println("jsonarray大小"+jsonarray.size()+jsonarray.toString());

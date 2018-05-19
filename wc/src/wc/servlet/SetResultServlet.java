@@ -52,8 +52,6 @@ public class SetResultServlet extends HttpServlet {
 		System.out.println("SetResultServlet，session中loginId:"+loginId);
 		
 		User u=new User();
-		ConnectionFactory coF=new ConnectionFactory();
-		Connection co=coF.getConnection();
 		UserDao ud=new UserDao();
 		WCDao wd=new WCDao();
 		request.setCharacterEncoding("UTF-8");
@@ -64,7 +62,7 @@ public class SetResultServlet extends HttpServlet {
 		
 		String flag=null;
 		
-		u=ud.userInfo(loginId, co);
+		u=ud.userInfo(loginId);
 		System.out.println(u.getAuth());
 		if (!u.getAuth().equals("admin")) {
 			flag="您没有管理员权限！";
@@ -74,41 +72,58 @@ public class SetResultServlet extends HttpServlet {
 				jsonobj=jsonarray.getJSONObject(i);
 				int mid=jsonobj.getInt("matchid");
 				String mrt=jsonobj.getString("matchresult");
-				int f=wd.checkMatchResult(mid, co);
+				int f=wd.checkMatchResult(mid);
 				if(f==1) {//比赛未填写结果
-					int c=wd.setMatchResult(mid, mrt, co);
+					int c=wd.setMatchResult(mid, mrt);
 					System.out.println("比赛id："+mid+"计入结果："+mrt);
 					count=count+c;
 					if(c==1) {
 						List<BetInfo> bl=new ArrayList();
-						bl=wd.queryBetInfo(mid, co);
+						bl=wd.queryBetInfo(mid);
 						for(int j=0;j<bl.size();j++) {
 							String buid=bl.get(j).getUserid();
 							String bbetinfo=bl.get(j).getBetinfo();
-							int cbr=wd.checkBetResult(buid, mid, co);
+							int cbr=wd.checkBetResult(buid, mid);
 							if(cbr==1) {
 								boolean bbetresult;
 								int point=0;
 								if (bbetinfo.equals(mrt)) {
 									bbetresult=true;
-									point=wd.calMatchPoint(mid, co);
+									point=wd.calMatchPoint(mid);
 								}else {
 									bbetresult=false;
 								}
-								int sbr=wd.setBetResult(buid, mid, bbetresult,point, co);
+								int sbr=wd.setBetResult(buid, mid, bbetresult,point);
 								if(sbr==1) {
 									System.out.println("-----比赛id："+mid+"用户id："+buid+"计入是否猜对："+bbetresult+"本场积分"+point);
 								}else {
 									System.out.println("-----比赛id："+mid+"用户id："+buid+"未计入结果！");
 								}
+								
+							}else {
+								System.out.println("比赛id："+mid+"用户id："+buid+"betresult已存在未计入");
 							}
 						}
+					}else {
+						System.out.println("比赛id："+mid+"计入结果失败");
 					}
 				}else {
 					System.out.println("比赛id："+mid+"已有结果未计入");
 				}
 			}
 			flag="本次写入"+count+"场";
+		}
+		List<User> listu=ud.userList();
+		for (int k=0;k<listu.size();k++){
+			String uuuid=listu.get(k).getUserid();
+			int usp=wd.queryUserPoint(uuuid);
+			int bnb=wd.queryBingoNumber(uuuid);
+			int sp=ud.setPoint(uuuid, usp, bnb);
+			if (sp==1) {
+				System.out.println(uuuid+"计入积分成功");
+			}else {
+				System.out.println(uuuid+"计入积分失败");
+			}
 		}
 		
 		response.setContentType("text/html;charset=utf-8");

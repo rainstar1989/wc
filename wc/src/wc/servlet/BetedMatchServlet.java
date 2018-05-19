@@ -41,12 +41,11 @@ public class BetedMatchServlet extends HttpServlet {
 		String loginId=(String)session.getAttribute("loginId");
 		System.out.println("BetedMatchServlet，session中loginId:"+loginId);
 		
-		ConnectionFactory coF=new ConnectionFactory();
-		Connection co=coF.getConnection();
+		
 		WCDao td=new WCDao();
 		
 		List<BetInfo> li=new ArrayList();
-		li=td.queryBetedMatch(loginId, co);
+		li=td.queryBetedMatch(loginId);
 		JSONArray jsonarray=JSONArray.fromObject(li.toArray());
 		System.out.println("jsonarray大小"+jsonarray.size()+jsonarray.toString());
 		

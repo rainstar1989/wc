@@ -42,11 +42,9 @@ public class MatchUnfinishedServlet extends HttpServlet {
 		
 		List<Match> li = null;
 		try {
-			ConnectionFactory coF=new ConnectionFactory();
-			Connection co=coF.getConnection();
 			WCDao td=new WCDao();
 			
-			li=td.queryMatchUnfinished(co);
+			li=td.queryMatchUnfinished();
 			
 			} catch (Exception e) {
 				e.printStackTrace();

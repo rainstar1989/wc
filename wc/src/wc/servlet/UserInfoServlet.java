@@ -42,14 +42,12 @@ public class UserInfoServlet extends HttpServlet {
 		
 		User u=new User();
 		try {
-			ConnectionFactory coF=new ConnectionFactory();
-			Connection co=coF.getConnection();
 			UserDao ud=new UserDao();
 			WCDao wd=new WCDao();
 			
-			u=ud.userInfo(loginId, co);
-			u.setUserpoint(wd.queryUserPoint(loginId, co));
-			u.setBingonumber(wd.queryBingoNumber(loginId, co));
+			u=ud.userInfo(loginId);
+			u.setUserpoint(wd.queryUserPoint(loginId));
+			u.setBingonumber(wd.queryBingoNumber(loginId));
 			
 		}catch (Exception e) {
 			e.printStackTrace();

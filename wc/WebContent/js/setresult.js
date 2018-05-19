@@ -220,7 +220,13 @@ $(document).ready(function(){
 		$("#sgtba").addClass("active");
 		$("#tts").hide();
 		$("#ttsa").removeClass("active");
-		matchtofinish();
+		if($("#dtx").hasClass("active")){
+			matchtofinish();
+		}
+		if($("#ytx").hasClass("active")){
+			matchfinished();
+		}
+		
 	});
 	
 	$("#ttsa").click(function(){

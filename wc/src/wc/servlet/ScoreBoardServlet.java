@@ -42,21 +42,11 @@ public class ScoreBoardServlet extends HttpServlet {
 		String loginId=(String)session.getAttribute("loginId");
 		System.out.println("ScoreBoardServlet，session中loginId:"+loginId);
 		
-		ConnectionFactory coF=new ConnectionFactory();
-		Connection co=coF.getConnection();
-		WCDao td=new WCDao();
 		UserDao ud=new UserDao();
 		
-		List<User> li=ud.userList(co);
+		List<User> li=ud.userList();
 		for (int i=0;i<li.size();i++) {
-			int up=td.queryUserPoint(li.get(i).getUserid(), co);
-			int bn=td.queryBingoNumber(li.get(i).getUserid(), co);
-			li.get(i).setUserpoint(up);
-			li.get(i).setBingonumber(bn);
-		}
-		Collections.sort(li,Collections.reverseOrder());
-		for (int j=0;j<li.size();j++) {
-			li.get(j).setRank(j+1);
+			li.get(i).setRank(i+1);
 		}
 		JSONArray jsonarray=JSONArray.fromObject(li.toArray());
 		System.out.println("jsonarray大小"+jsonarray.size()+jsonarray.toString());

@@ -14,10 +14,11 @@ import wc.bean.Team;
 
 public class WCDao extends ConnectionFactory{
 	
-	public List<Match> queryMatchUnfinished(Connection conn) {//列出未填写比赛结果的比赛
+	public List<Match> queryMatchUnfinished() {//列出未填写比赛结果的比赛
 		List<Match> list =new ArrayList<Match>();
 		String sql = "select c.evid,c.evtime,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam and c.evresult is null order by c.evtime asc";
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			while(rs.next()) {
@@ -37,11 +38,12 @@ public class WCDao extends ConnectionFactory{
 		return list;
 	}
 	
-	public List<Match> queryMatchFinished(Connection conn) {//列出已填写比赛结果的比赛
+	public List<Match> queryMatchFinished() {//列出已填写比赛结果的比赛
 		List<Match> list =new ArrayList<Match>();
 		String sql = "select c.evid,a.tmname as '主队名称', b.tmname as '客队名称', c.evresult from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam and c.evresult is not null order by c.evtime desc";
 		
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			while(rs.next()) {
@@ -68,10 +70,11 @@ public class WCDao extends ConnectionFactory{
 		return list;
 	}
 	
-	public int checkMatchResult(int mid,Connection conn) {//检查填写比赛结果是否已经填写过
+	public int checkMatchResult(int mid) {//检查填写比赛结果是否已经填写过
 		int flag=-1;
 		String sql="select * from worldcup2018.events where evid="+mid+" and evresult is not null";
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			if(rs.next()) {
@@ -89,10 +92,11 @@ public class WCDao extends ConnectionFactory{
 		return flag;
 	}
 	
-	public int setMatchResult(int mid,String mrt,Connection conn) {//写入比赛结果
+	public int setMatchResult(int mid,String mrt) {//写入比赛结果
 		int flag=0;
 		String sql="update worldcup2018.events set evresult='"+mrt+"' WHERE evid="+mid;
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			
 			flag=ptmt.executeUpdate();
@@ -105,10 +109,11 @@ public class WCDao extends ConnectionFactory{
 		return flag;
 	}
 	
-	public List<BetInfo> queryBetInfo(int mid,Connection conn){//查询某场比赛所有用户的竞猜结果
+	public List<BetInfo> queryBetInfo(int mid){//查询某场比赛所有用户的竞猜结果
 		List<BetInfo> list=new ArrayList();
 		String sql="select uid,betinfo from worldcup2018.userbetinfo where evid="+mid;
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			while(rs.next()) {
@@ -126,10 +131,11 @@ public class WCDao extends ConnectionFactory{
 		return list;
 	}
 	
-	public int checkBetResult(String uid,int mid,Connection conn) {//检查竞猜的比赛是否已有竞猜结果
+	public int checkBetResult(String uid,int mid) {//检查竞猜的比赛是否已有竞猜结果
 		int flag=-1;
 		String sql="SELECT * FROM worldcup2018.userbetinfo ubi where uid='"+uid+"' and evid="+mid+" and betresult is not null";
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			if(rs.next()) {
@@ -147,10 +153,11 @@ public class WCDao extends ConnectionFactory{
 		return flag;
 	}
 	
-	public int setBetResult(String uid,int mid,boolean betresult,int point,Connection conn) {//写入竞猜结果
+	public int setBetResult(String uid,int mid,boolean betresult,int point) {//写入竞猜结果
 		int flag=0;
 		String sql="update worldcup2018.userbetinfo set betresult ="+betresult+",point="+point+" where uid='"+uid+"' and evid="+mid;
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			
 			flag=ptmt.executeUpdate();
@@ -163,7 +170,7 @@ public class WCDao extends ConnectionFactory{
 		return flag;
 	}
 	
-	public List<Match> queryMatchtobet(Connection conn,String uid){//列出用户需要竞猜的48小时以内的比赛（赛前1小时截止）
+	public List<Match> queryMatchtobet(String uid){//列出用户需要竞猜的48小时以内的比赛（赛前1小时截止）
 		Date today=new Date();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String nowtime=df.format(today);//当前时间
@@ -171,6 +178,7 @@ public class WCDao extends ConnectionFactory{
 		List<Match> list=new ArrayList();
 		String sql="select c.evid,c.evtime,c.hteam,c.gteam,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam and left(timediff(c.evtime,'"+nowtime+"'),length(timediff(c.evtime,'"+nowtime+"'))-6) between 1 and 48 and c.evid not in (SELECT ub.evid FROM worldcup2018.userbetinfo ub where ub.uid='"+uid+"' order by c.evtime asc)";
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			while(rs.next()) {
@@ -193,10 +201,11 @@ public class WCDao extends ConnectionFactory{
 		return list;
 	}
 	
-	public int checkBet(String uid,int mid,Connection conn) {//检查竞猜的比赛是否已经竞猜过
+	public int checkBet(String uid,int mid) {//检查竞猜的比赛是否已经竞猜过
 		int flag=-1;
 		String sql="SELECT * FROM worldcup2018.userbetinfo ubi where uid='"+uid+"' and evid="+mid;
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			if(rs.next()) {
@@ -214,7 +223,7 @@ public class WCDao extends ConnectionFactory{
 		return flag;
 	}
 	
-	public int checkMatchTime(int mid,Connection conn) {//检查竞猜的比赛是否已经过期
+	public int checkMatchTime(int mid) {//检查竞猜的比赛是否已经过期
 		Date today=new Date();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String nowtime=df.format(today);//当前时间
@@ -223,6 +232,7 @@ public class WCDao extends ConnectionFactory{
 		int flag=-1;
 		String sql="select * from worldcup2018.events ev where ev.evid="+mid+" and evtime<'"+nowtime+"'";
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			if(rs.next()) {
@@ -240,10 +250,11 @@ public class WCDao extends ConnectionFactory{
 		return flag;
 	}
 	
-	public int bet(String uid,int mid,String betinfo,Connection conn) {//写入竞猜结果
+	public int bet(String uid,int mid,String betinfo) {//写入竞猜结果
 		int flag=0;
 		String sql="insert into worldcup2018.userbetinfo (uid,evid,betinfo) values (?,?,?)";
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			ptmt.setString(1, uid);
 			ptmt.setInt(2, mid);
@@ -258,10 +269,11 @@ public class WCDao extends ConnectionFactory{
 		return flag;
 	}
 	
-	public List<Match> queryPlayoffsMatch(Connection conn){//列出淘汰赛
+	public List<Match> queryPlayoffsMatch(){//列出淘汰赛
 		List<Match> list =new ArrayList<Match>();
 		String sql = "select evid,hteam,gteam from worldcup2018.events where evtype!='groupmatch' order by evid asc";
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			while(rs.next()) {
@@ -280,10 +292,11 @@ public class WCDao extends ConnectionFactory{
 		return list;
 	}
 	
-	public int setPlayoffsMatch(int mid,String htm,String gtm,Connection conn) {//修改淘汰赛队名
+	public int setPlayoffsMatch(int mid,String htm,String gtm) {//修改淘汰赛队名
 		int flag=0;
 		String sql="update worldcup2018.events set hteam='"+htm+"',gteam='"+gtm+"' where evid="+mid;
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			
 			flag=ptmt.executeUpdate();
@@ -296,11 +309,12 @@ public class WCDao extends ConnectionFactory{
 		return flag;
 	}
 	
-	public int calMatchPoint(int mid,Connection conn) {//计算单场积分
+	public int calMatchPoint(int mid) {//计算单场积分
 		int matchpoint=0;
 		String sql="select evtype from worldcup2018.events where evid="+mid;
 		String matchtype=null;
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			while(rs.next()) {
@@ -330,10 +344,11 @@ public class WCDao extends ConnectionFactory{
 		return matchpoint;
 	}
 	
-	public int queryUserPoint(String userid,Connection conn) {//计算用户积分
+	public int queryUserPoint(String userid) {//计算用户积分
 		int userpoint=0;
 		String sql="select sum(ub.point) from worldcup2018.userbetinfo ub where uid='"+userid+"'";
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			while(rs.next()) {
@@ -348,10 +363,11 @@ public class WCDao extends ConnectionFactory{
 		return userpoint;
 	}
 	
-	public int queryBingoNumber(String userid,Connection conn) {//计算用户猜对场数
+	public int queryBingoNumber(String userid) {//计算用户猜对场数
 		int bingonumber=0;
 		String sql="select count(ub.evid) from worldcup2018.userbetinfo ub where ub.betresult is true and ub.uid='"+userid+"'";
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			while(rs.next()) {
@@ -366,10 +382,11 @@ public class WCDao extends ConnectionFactory{
 		return bingonumber;
 	}
 	
-	public List<BetInfo> queryBetedMatch(String userid,Connection conn){
+	public List<BetInfo> queryBetedMatch(String userid){
 		List<BetInfo> list=new ArrayList();
 		String sql="select ub.evid,ub.betinfo,ub.betresult,ub.point,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.userbetinfo ub,worldcup2018.events ev,worldcup2018.teams a,worldcup2018.teams b where uid='"+userid+"' and ub.evid=ev.evid and a.tmid=ev.hteam and b.tmid=ev.gteam order by ev.evtime desc";
 		try {
+			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
 			rs=ptmt.executeQuery();
 			while(rs.next()) {
@@ -406,11 +423,9 @@ public class WCDao extends ConnectionFactory{
 	}
 	
 	public static void main(String[] args){
-		ConnectionFactory coF=new ConnectionFactory();
-		Connection co=coF.getConnection();
 		WCDao td=new WCDao();
 		
-		List<BetInfo> list=td.queryBetedMatch("test", co);
+		List<BetInfo> list=td.queryBetedMatch("test");
 		for (int i=0;i<list.size();i++) {
 			System.out.println(list.get(i).getMatchid()+"--"+list.get(i).getBetinfo()+"--"+list.get(i).getBetresult()+"--"+list.get(i).getMatchpoint());
 		}

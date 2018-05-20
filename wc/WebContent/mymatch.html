@@ -15,10 +15,12 @@
     </head>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top">
-            <a class="navbar-brand titlename" id="userName" href="#">用户名：<span></span></a>
-            <a class="navbar-brand titlename" id="userScore" href="#">积分：<span></span></a>
-            <a class="navbar-brand titlename" id="bingoNumber" href="#">猜对场次：<span></span></a>
-			<a class="pull-right " id="manage" style="display:none;" href="setresult.html">设置赛果</a>
+        	<div class="container-fluid">
+        		<a class="navbar-text titlename" id="userName" href="#">用户名：<span></span></a><br>
+            	<a class="navbar-text titlename" id="userScore" href="#">积分：<span></span></a>
+            	<a class="navbar-text titlename" id="bingoNumber" href="#">猜对场次：<span></span></a>
+				<a class="navbar-text" id="manage" style="display:none;" href="setresult.html">设置赛果</a>
+        	</div>
         </nav>
         
         <div class="modal " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">

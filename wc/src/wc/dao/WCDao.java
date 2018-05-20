@@ -174,7 +174,7 @@ public class WCDao extends ConnectionFactory{
 		Date today=new Date();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String nowtime=df.format(today);//当前时间
-		String nowtime="2018-06-14 00:00:00";//测试时间
+		String nowtime="2018-06-15 00:00:00";//测试时间
 		List<Match> list=new ArrayList();
 		String sql="select c.evid,c.evtime,c.hteam,c.gteam,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam and left(timediff(c.evtime,'"+nowtime+"'),length(timediff(c.evtime,'"+nowtime+"'))-6) between 1 and 48 and c.evid not in (SELECT ub.evid FROM worldcup2018.userbetinfo ub where ub.uid='"+uid+"' order by c.evtime asc)";
 		try {
@@ -227,7 +227,7 @@ public class WCDao extends ConnectionFactory{
 		Date today=new Date();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String nowtime=df.format(today);//当前时间
-		String nowtime="2018-06-14 00:00:00";//测试时间
+		String nowtime="2018-06-15 00:00:00";//测试时间
 		
 		int flag=-1;
 		String sql="select * from worldcup2018.events ev where ev.evid="+mid+" and evtime<'"+nowtime+"'";

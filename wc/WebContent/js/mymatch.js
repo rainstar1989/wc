@@ -1,14 +1,14 @@
-window.onpageshow = function (event) {
-if (event.persisted) {//如果是读的缓存让页面强制刷新
-        window.location.reload()
-    }
-}
+
 
 $(document).ready(function(){
+	
+	
+	
 	var userinfourl="UserInfoServlet"; 
 	$.ajax({
 		type: "get",
 		url: userinfourl,
+		cache:false,
 		data: {},
 		dataType: "json",
 		success: function (data){
@@ -19,14 +19,21 @@ $(document).ready(function(){
 				$("#manage").show();
 			}
 		},
-		error: function (XMLHttpRequest, textStatus, errorThrown) {
+		error: function (xhr, textStatus, errorThrown) {
 //			// 状态码
 //			alert(XMLHttpRequest.status);
 //			// 状态
 //			alert(XMLHttpRequest.readyState);
 //			// 错误信息   
 //			alert(textStatus);
-			alert("UserInfoServlet ajax出错");
+			var sessionStatus = xhr.getResponseHeader('sessionstatus');
+	        if(sessionStatus == 'timeout') {
+	            alert("会话过期，请重新登陆！");
+	            window.location.replace("login.html");
+	        }else{
+	        	alert("UserInfoServlet ajax出错");
+	        }
+			
 		}
 	});
 	
@@ -35,6 +42,7 @@ $(document).ready(function(){
 		$.ajax({
 			type: "get",
 			url: "MatchTobetServlet",
+			cache:false,
 			data: {},
 			dataType: "json",
 			beforeSend:function(XMLHttpRequest){
@@ -74,14 +82,21 @@ $(document).ready(function(){
 			complete:function(XMLHttpRequest,textStatus){
 				$("#myModal").modal('toggle');
 			},
-			error: function (XMLHttpRequest, textStatus, errorThrown) {
+			error: function (xhr, textStatus, errorThrown) {
 //				// 状态码
 //				alert(XMLHttpRequest.status);
 //				// 状态
 //				alert(XMLHttpRequest.readyState);
 //				// 错误信息   
 //				alert(textStatus);
-				alert("MatchTobetServlet ajax出错");
+				var sessionStatus = xhr.getResponseHeader('sessionstatus');
+		        if(sessionStatus == 'timeout') {
+		            alert("会话过期，请重新登陆！");
+		            window.location.replace("login.html");
+		        }else{
+		        	alert("MatchTobetServlet ajax出错");
+		        }
+				
 			}
 		});
 	};
@@ -90,6 +105,7 @@ $(document).ready(function(){
 		$.ajax({
 			type: "get",
 			url: "BetedMatchServlet",
+			cache:false,
 			data: {},
 			dataType: "json",
 			beforeSend:function(XMLHttpRequest){
@@ -106,14 +122,21 @@ $(document).ready(function(){
 			complete:function(XMLHttpRequest,textStatus){
 				$("#myModal").modal('toggle');
 			},
-			error: function (XMLHttpRequest, textStatus, errorThrown) {
+			error: function (xhr, textStatus, errorThrown) {
 //				// 状态码
 //				alert(XMLHttpRequest.status);
 //				// 状态
 //				alert(XMLHttpRequest.readyState);
 //				// 错误信息   
 //				alert(textStatus);
-				alert("BetedMatchServlet ajax出错");
+				var sessionStatus = xhr.getResponseHeader('sessionstatus');
+		        if(sessionStatus == 'timeout') {
+		            alert("会话过期，请重新登陆！");
+		            window.location.replace("login.html");
+		        }else{
+		        	alert("BetedMatchServlet ajax出错");
+		        }
+				
 			}
 		});
 	}
@@ -122,6 +145,7 @@ $(document).ready(function(){
 		$.ajax({
 			type: "get",
 			url: "ScoreBoardServlet",
+			cache:false,
 			data: {},
 			dataType: "json",
 			beforeSend:function(XMLHttpRequest){
@@ -142,14 +166,21 @@ $(document).ready(function(){
 			complete:function(XMLHttpRequest,textStatus){
 				$("#myModal").modal('toggle');
 			},
-			error: function (XMLHttpRequest, textStatus, errorThrown) {
+			error: function (xhr, textStatus, errorThrown) {
 //				// 状态码
 //				alert(XMLHttpRequest.status);
 //				// 状态
 //				alert(XMLHttpRequest.readyState);
 //				// 错误信息   
 //				alert(textStatus);
-				alert("ScoreBoardServlet ajax出错");
+				var sessionStatus = xhr.getResponseHeader('sessionstatus');
+		        if(sessionStatus == 'timeout') {
+		            alert("会话过期，请重新登陆！");
+		            window.location.replace("login.html");
+		        }else{
+		        	alert("ScoreBoardServlet ajax出错");
+		        }
+				
 			}
 		});
 	}
@@ -182,6 +213,7 @@ $(document).ready(function(){
 			$.ajax({
 				type: "post",
 				url: "SubmitBetServlet",
+				cache:false,
 				data: {myBet:betString},
 				dataType: "text",
 				beforeSend:function(XMLHttpRequest){
@@ -193,8 +225,15 @@ $(document).ready(function(){
 					$("#betresp").toggle();
 					onoff=true;
 				},
-				error: function (XMLHttpRequest, textStatus, errorThrown) {
-					alert("SubmitBetServlet ajax出错");
+				error: function (xhr, textStatus, errorThrown) {
+					var sessionStatus = xhr.getResponseHeader('sessionstatus');
+			        if(sessionStatus == 'timeout') {
+			            alert("会话过期，请重新登陆！");
+			            window.location.replace("login.html");
+			        }else{
+			        	alert("SubmitBetServlet ajax出错");
+			        }
+					
 				}
 			});
 		}

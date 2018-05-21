@@ -1,8 +1,3 @@
-window.onpageshow = function (event) {
-if (event.persisted) {//如果是读的缓存让页面强制刷新
-        window.location.reload()
-    }
-}
 
 $(document).ready(function(){
 	
@@ -10,6 +5,7 @@ $(document).ready(function(){
 		$.ajax({
 			type: "get",
 			url: "MatchUnfinishedServlet",
+			cache:false,
 			data: {},
 			dataType: "json",
 			beforeSend:function(XMLHttpRequest){
@@ -40,14 +36,21 @@ $(document).ready(function(){
 			complete:function(XMLHttpRequest,textStatus){
 				$("#myModal").modal('toggle');
 			},
-			error: function (XMLHttpRequest, textStatus, errorThrown) {
+			error: function (xhr, textStatus, errorThrown) {
 //				// 状态码
 //				alert(XMLHttpRequest.status);
 //				// 状态
 //				alert(XMLHttpRequest.readyState);
 //				// 错误信息   
 //				alert(textStatus);
-				alert("MatchUnfinishedServlet ajax出错");
+				var sessionStatus = xhr.getResponseHeader('sessionstatus');
+		        if(sessionStatus == 'timeout') {
+		            alert("会话过期，请重新登陆！");
+		            window.location.replace("login.html");
+		        }else{
+		        	alert("MatchUnfinishedServlet ajax出错");
+		        }
+				
 			}
 		});
 	};
@@ -57,6 +60,7 @@ $(document).ready(function(){
 		$.ajax({
 			type: "get",
 			url: "MatchFinishedServlet",
+			cache:false,
 			data: {},
 			dataType: "json",
 			beforeSend:function(XMLHttpRequest){
@@ -73,14 +77,21 @@ $(document).ready(function(){
 			complete:function(XMLHttpRequest,textStatus){
 				$("#myModal").modal('toggle');
 			},
-			error: function (XMLHttpRequest, textStatus, errorThrown) {
+			error: function (xhr, textStatus, errorThrown) {
 //				// 状态码
 //				alert(XMLHttpRequest.status);
 //				// 状态
 //				alert(XMLHttpRequest.readyState);
 //				// 错误信息   
 //				alert(textStatus);
-				alert("MatchFinishedServlet ajax出错");
+				var sessionStatus = xhr.getResponseHeader('sessionstatus');
+		        if(sessionStatus == 'timeout') {
+		            alert("会话过期，请重新登陆！");
+		            window.location.replace("login.html");
+		        }else{
+		        	alert("MatchFinishedServlet ajax出错");
+		        }
+				
 			}
 		});
 	}
@@ -89,6 +100,7 @@ $(document).ready(function(){
 		$.ajax({
 			type: "get",
 			url: "PlayOffsServlet",
+			cache:false,
 			data: {},
 			dataType: "json",
 			beforeSend:function(XMLHttpRequest){
@@ -112,6 +124,7 @@ $(document).ready(function(){
 					$.ajax({
 						type: "post",
 						url: "SetPlayoffsServlet",
+						cache:false,
 						data: {pomid:pomid,pohtm:pohtm,pogtm:pogtm},
 						dataType: "text",
 						beforeSend:function(XMLHttpRequest){
@@ -124,8 +137,15 @@ $(document).ready(function(){
 							onoff=true;
 							rorp="setplayoffs";
 						},
-						error: function (XMLHttpRequest, textStatus, errorThrown) {
-							alert("SetPlayoffsServlet ajax出错");
+						error: function (xhr, textStatus, errorThrown) {
+							var sessionStatus = xhr.getResponseHeader('sessionstatus');
+					        if(sessionStatus == 'timeout') {
+					            alert("会话过期，请重新登陆！");
+					            window.location.replace("login.html");
+					        }else{
+					        	alert("SetPlayoffsServlet ajax出错");
+					        }
+							
 						}
 					});
 				});
@@ -178,6 +198,7 @@ $(document).ready(function(){
 			$.ajax({
 				type: "post",
 				url: "SetResultServlet",
+				cache:false,
 				data: {myresult:resString},
 				dataType: "text",
 				beforeSend:function(XMLHttpRequest){
@@ -191,7 +212,14 @@ $(document).ready(function(){
 					rorp="setresult";
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
-					alert("SetResultServlet ajax出错");
+					var sessionStatus = xhr.getResponseHeader('sessionstatus');
+			        if(sessionStatus == 'timeout') {
+			            alert("会话过期，请重新登陆！");
+			            window.location.replace("login.html");
+			        }else{
+			        	alert("SetResultServlet ajax出错");
+			        }
+					
 				}
 			});
 		}

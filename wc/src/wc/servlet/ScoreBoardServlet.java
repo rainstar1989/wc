@@ -2,8 +2,6 @@ package wc.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,9 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import wc.bean.User;
-import wc.dao.ConnectionFactory;
 import wc.dao.UserDao;
-import wc.dao.WCDao;
 
 /**
  * Servlet implementation class ScoreBoardServlet

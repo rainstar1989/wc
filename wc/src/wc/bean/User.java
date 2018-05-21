@@ -1,5 +1,5 @@
 package wc.bean;
-import java.util.Comparator;
+
 
 public class User implements Comparable<User>{
 	private String userid;

@@ -2,7 +2,6 @@ package wc.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import wc.bean.BetInfo;
-import wc.dao.ConnectionFactory;
 import wc.dao.WCDao;
 
 /**
@@ -44,7 +42,7 @@ public class BetedMatchServlet extends HttpServlet {
 		
 		WCDao td=new WCDao();
 		
-		List<BetInfo> li=new ArrayList();
+		List<BetInfo> li=new ArrayList<BetInfo>();
 		li=td.queryBetedMatch(loginId);
 		JSONArray jsonarray=JSONArray.fromObject(li.toArray());
 		System.out.println("jsonarray大小"+jsonarray.size()+jsonarray.toString());

@@ -1,14 +1,13 @@
 package wc.dao;
 
-import java.sql.Connection;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.json.JSONArray;
+
 import net.sf.json.JSONObject;
-import wc.bean.BetInfo;
+
 import wc.bean.User;
 
 public class UserDao extends ConnectionFactory {
@@ -22,10 +21,19 @@ public class UserDao extends ConnectionFactory {
 			rs=ptmt.executeQuery();
 			if(rs.next()) {
 				String pwd=SHA.getResult(user.getPassword());
-				if(pwd.equals(rs.getString(2))) {
-					flag=1;
+				if(rs.getString(2)==null) {
+					int r=resetPassword(user.getUserid(),pwd);
+					if(r==1){
+						flag=1;
+					}else {
+						flag=-1;
+					}
 				}else {
-					flag=-1;
+					if(pwd.equals(rs.getString(2))) {
+						flag=1;
+					}else {
+						flag=-1;
+					}
 				}
 			}else {
 				flag=-1;
@@ -100,7 +108,7 @@ public class UserDao extends ConnectionFactory {
 	}
 	
 	public List<User> userList(){
-		List<User> list=new ArrayList();
+		List<User> list=new ArrayList<User>();
 		String sql="select us.uid,us.remark,us.userpoint,us.bingonumber from worldcup2018.users us order by us.userpoint desc,us.bingonumber desc";
 		try {
 			conn=getConnection();
@@ -126,6 +134,23 @@ public class UserDao extends ConnectionFactory {
 	public int setPoint(String uid,int userpoint,int bingonumber) {
 		int flag=0;
 		String sql="update worldcup2018.users set userpoint="+userpoint+",bingonumber="+bingonumber+" where uid='"+uid+"'";
+		try {
+			conn=getConnection();
+			ptmt=conn.prepareStatement(sql);
+			
+			flag=ptmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		return flag;
+	}
+	
+	public int resetPassword(String userid,String password) {
+		int flag=0;
+		String sql="update worldcup2018.users set password='"+password+"' where uid='"+userid+"'";
 		try {
 			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);

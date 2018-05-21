@@ -2,7 +2,6 @@ package wc.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import wc.bean.BetInfo;
 import wc.bean.User;
-import wc.dao.ConnectionFactory;
 import wc.dao.UserDao;
 import wc.dao.WCDao;
 
@@ -78,7 +76,7 @@ public class SetResultServlet extends HttpServlet {
 					System.out.println("比赛id："+mid+"计入结果："+mrt);
 					count=count+c;
 					if(c==1) {
-						List<BetInfo> bl=new ArrayList();
+						List<BetInfo> bl=new ArrayList<BetInfo>();
 						bl=wd.queryBetInfo(mid);
 						for(int j=0;j<bl.size();j++) {
 							String buid=bl.get(j).getUserid();

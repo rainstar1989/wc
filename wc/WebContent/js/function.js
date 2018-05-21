@@ -1,9 +1,4 @@
-﻿window.onpageshow = function (event) {
-if (event.persisted) {//如果是读的缓存让页面强制刷新
-        window.location.reload()
-    }
-}
-
+﻿
 
 $(document).ready(function(){
 	
@@ -25,6 +20,7 @@ $(document).ready(function(){
 		$.ajax({
 			type: "post",
 			url: param,
+			cache:false,
 			data: {
 				userid:$("#userid").val(),
 				password:$("#password").val()
@@ -93,6 +89,7 @@ $(document).ready(function(){
 			$.ajax({
 				type: "post",
 				url: param,
+				cache:false,
 				data: {
 					reguserid:$("#reguserid").val(),
 					regpassword1:$("#regpassword1").val(),

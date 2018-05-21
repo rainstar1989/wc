@@ -2,7 +2,6 @@ package wc.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import wc.bean.Match;
-import wc.dao.ConnectionFactory;
 import wc.dao.WCDao;
 
 /**

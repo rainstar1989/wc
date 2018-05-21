@@ -1,6 +1,5 @@
 package wc.bean;
 
-import java.util.Date;
 
 public class Match {
 	

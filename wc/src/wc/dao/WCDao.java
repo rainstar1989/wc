@@ -4,13 +4,11 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
-import net.sf.json.JSONArray;
 
 import java.text.SimpleDateFormat;
 
 import wc.bean.BetInfo;
 import wc.bean.Match;
-import wc.bean.Team;
 
 public class WCDao extends ConnectionFactory{
 	
@@ -110,7 +108,7 @@ public class WCDao extends ConnectionFactory{
 	}
 	
 	public List<BetInfo> queryBetInfo(int mid){//查询某场比赛所有用户的竞猜结果
-		List<BetInfo> list=new ArrayList();
+		List<BetInfo> list=new ArrayList<BetInfo>();
 		String sql="select uid,betinfo from worldcup2018.userbetinfo where evid="+mid;
 		try {
 			conn=getConnection();
@@ -174,9 +172,9 @@ public class WCDao extends ConnectionFactory{
 		Date today=new Date();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String nowtime=df.format(today);//当前时间
-		String nowtime="2018-06-15 00:00:00";//测试时间
-		List<Match> list=new ArrayList();
-		String sql="select c.evid,c.evtime,c.hteam,c.gteam,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam and left(timediff(c.evtime,'"+nowtime+"'),length(timediff(c.evtime,'"+nowtime+"'))-6) between 1 and 48 and c.evid not in (SELECT ub.evid FROM worldcup2018.userbetinfo ub where ub.uid='"+uid+"' order by c.evtime asc)";
+		String nowtime="2018-06-30 00:00:00";//测试时间
+		List<Match> list=new ArrayList<Match>();
+		String sql="select c.evid,c.evtime,c.hteam,c.gteam,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam and left(timediff(c.evtime,'"+nowtime+"'),length(timediff(c.evtime,'"+nowtime+"'))-6) between 1 and 48 and c.evid not in (SELECT ub.evid FROM worldcup2018.userbetinfo ub where ub.uid='"+uid+"') order by c.evtime asc";
 		try {
 			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
@@ -227,7 +225,7 @@ public class WCDao extends ConnectionFactory{
 		Date today=new Date();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String nowtime=df.format(today);//当前时间
-		String nowtime="2018-06-15 00:00:00";//测试时间
+		String nowtime="2018-06-30 00:00:00";//测试时间
 		
 		int flag=-1;
 		String sql="select * from worldcup2018.events ev where ev.evid="+mid+" and evtime<'"+nowtime+"'";
@@ -271,7 +269,7 @@ public class WCDao extends ConnectionFactory{
 	
 	public List<Match> queryPlayoffsMatch(){//列出淘汰赛
 		List<Match> list =new ArrayList<Match>();
-		String sql = "select evid,hteam,gteam from worldcup2018.events where evtype!='groupmatch' order by evid asc";
+		String sql = "select evid,hteam,gteam from worldcup2018.events where evtype!='groupmatch' order by evtime asc";
 		try {
 			conn=getConnection();
 			ptmt=conn.prepareStatement(sql);
@@ -383,7 +381,7 @@ public class WCDao extends ConnectionFactory{
 	}
 	
 	public List<BetInfo> queryBetedMatch(String userid){
-		List<BetInfo> list=new ArrayList();
+		List<BetInfo> list=new ArrayList<BetInfo>();
 		String sql="select ub.evid,ub.betinfo,ub.betresult,ub.point,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.userbetinfo ub,worldcup2018.events ev,worldcup2018.teams a,worldcup2018.teams b where uid='"+userid+"' and ub.evid=ev.evid and a.tmid=ev.hteam and b.tmid=ev.gteam order by ev.evtime desc";
 		try {
 			conn=getConnection();

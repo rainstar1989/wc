@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;  
 import javax.servlet.http.HttpSession;
 
-import org.apache.jasper.tagplugins.jstl.core.Out;  
 
 public class AuthFilter implements Filter {
 	public void destroy() {  
@@ -36,14 +35,22 @@ public class AuthFilter implements Filter {
                 currentURL.length());  
         // 截取到当前文件名用于比较  
         HttpSession session = request.getSession(false);  
+        String requestType = request.getHeader("X-Requested-With");
         if (!"/login.html".equals(targetURL)) {// 判断当前页是否是重定向以后的登录页面页面，如果是就不做session的判断，防止出现死循环  
             if (session == null || session.getAttribute("loginId") == null) {  
-                // *用户登录以后需手动添加session  
-                System.out.println("request.getContextPath()="  
-                        + request.getContextPath());  
-                response.sendRedirect(request.getContextPath() + "/login.html");  
-                // 如果session为空表示用户没有登录就重定向到login.html页面  
-                return;  
+            	if("XMLHttpRequest".equalsIgnoreCase(requestType)){//ajax请求
+            	      response.setHeader("sessionstatus", "timeout"); 
+            	      response.sendError(518, "session timeout."); 
+            	      System.out.println("ajax过期");
+            	      return;
+            	}else {
+            		// *用户登录以后需手动添加session  
+                    System.out.println("request.getContextPath()="  
+                            + request.getContextPath());  
+                    response.sendRedirect(request.getContextPath() + "/login.html");  
+                    // 如果session为空表示用户没有登录就重定向到login.html页面  
+                    return;
+            	}
             }  else {
             	System.out.println("未拦截");
             }
@@ -55,7 +62,8 @@ public class AuthFilter implements Filter {
          * 的一个参数。在调用此对象的doFilter方法时，激活下一个相关的过滤器。如果没有另* 
          * 一个过滤器与servlet或JSP页面关联，则servlet或JSP页面被激活。 
          */  
-    }  
+    }
+	
   
     public void init(FilterConfig filterConfig) throws ServletException {  
     }

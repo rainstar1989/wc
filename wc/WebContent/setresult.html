@@ -10,7 +10,7 @@
         <link href="css/mystyle.css" rel="stylesheet">
         <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/setresult.js"></script>
+        <script type="text/javascript" src="js/setresult.js?1"></script>
     </head>
 <body>
 	<div class="container-fluid">
@@ -56,14 +56,26 @@
 		</table>
 	</div>
 	
+	<div class="container" id="jccc"  style="display:none;">
+		<div class="container-fluid">
+        	<a class="navbar-text titlename" id="betablematchcount" href="#">可竞猜场数：<span></span></a>
+        </div>
+		<table class="table table-striped text-center tablelist" id="cclist">
+			
+		</table>
+	</div>
+	
 	<nav class="navbar navbar-default navbar-fixed-bottom bottomnav container" role="navigation">
         	
         	<ul class="nav navbar-nav text-center">
-        		<li class="col-xs-6 col-sm-6 col-md-6 col-lg-6 active" id="sgtba">
+        		<li class="col-xs-4 col-sm-4 col-md-4 col-lg-4 active" id="sgtba">
                      <a><i class="icon-bar-chart"> </i>赛果填报</a>
                 </li>
-                <li class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="ttsa">
+                <li class="col-xs-4 col-sm-4 col-md-4 col-lg-4" id="ttsa">
                      <a><i class="icon-calendar"> </i>淘汰赛</a>
+                </li>
+                <li class="col-xs-4 col-sm-4 col-md-4 col-lg-4" id="jccca">
+                     <a><i class="icon-user"> </i>竞猜场次</a>
                 </li>
             </ul>
         	

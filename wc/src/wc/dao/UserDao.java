@@ -165,6 +165,29 @@ public class UserDao extends ConnectionFactory {
 		return flag;
 	}
 	
+	public List<User> betedCount(){
+		List<User> list=new ArrayList<User>();
+		String sql="select ub.uid,us.remark,count(ub.evid) from worldcup2018.userbetinfo ub,worldcup2018.users us where ub.uid=us.uid group by ub.uid";
+		try {
+			conn=getConnection();
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			while(rs.next()) {
+				User u=new User();
+				u.setUserid(rs.getString(1));
+				u.setRemark(rs.getString(2));
+				u.setBetedcount(rs.getInt(3));
+				list.add(u);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		return list;
+	}
+	
 	public static void main(String[] args){
 		UserDao ud=new UserDao();
 		

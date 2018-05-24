@@ -172,7 +172,7 @@ public class WCDao extends ConnectionFactory{
 		Date today=new Date();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String nowtime=df.format(today);//当前时间
-		String nowtime="2018-06-30 00:00:00";//测试时间
+		String nowtime="2018-06-21 00:00:00";//测试时间
 		List<Match> list=new ArrayList<Match>();
 		String sql="select c.evid,c.evtime,c.hteam,c.gteam,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.events c,worldcup2018.teams a,worldcup2018.teams b where a.tmid=c.hteam and b.tmid=c.gteam and left(timediff(c.evtime,'"+nowtime+"'),length(timediff(c.evtime,'"+nowtime+"'))-6) between 1 and 48 and c.evid not in (SELECT ub.evid FROM worldcup2018.userbetinfo ub where ub.uid='"+uid+"') order by c.evtime asc";
 		try {
@@ -225,7 +225,7 @@ public class WCDao extends ConnectionFactory{
 		Date today=new Date();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String nowtime=df.format(today);//当前时间
-		String nowtime="2018-06-30 00:00:00";//测试时间
+		String nowtime="2018-06-21 00:00:00";//测试时间
 		
 		int flag=-1;
 		String sql="select * from worldcup2018.events ev where ev.evid="+mid+" and evtime<'"+nowtime+"'";
@@ -380,7 +380,7 @@ public class WCDao extends ConnectionFactory{
 		return bingonumber;
 	}
 	
-	public List<BetInfo> queryBetedMatch(String userid){
+	public List<BetInfo> queryBetedMatch(String userid){//列出已竞猜比赛列表
 		List<BetInfo> list=new ArrayList<BetInfo>();
 		String sql="select ub.evid,ub.betinfo,ub.betresult,ub.point,a.tmname as '主队名称', b.tmname as '客队名称' from worldcup2018.userbetinfo ub,worldcup2018.events ev,worldcup2018.teams a,worldcup2018.teams b where uid='"+userid+"' and ub.evid=ev.evid and a.tmid=ev.hteam and b.tmid=ev.gteam order by ev.evtime desc";
 		try {
@@ -420,12 +420,35 @@ public class WCDao extends ConnectionFactory{
 		return list;
 	}
 	
-	public static void main(String[] args){
-		WCDao td=new WCDao();
+	public int countBetableMatch() {//计算可竞猜场数
+		Date today=new Date();
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		String nowtime=df.format(today);//当前时间
+		String nowtime="2018-06-21 00:00:00";//测试时间
 		
-		List<BetInfo> list=td.queryBetedMatch("test");
-		for (int i=0;i<list.size();i++) {
-			System.out.println(list.get(i).getMatchid()+"--"+list.get(i).getBetinfo()+"--"+list.get(i).getBetresult()+"--"+list.get(i).getMatchpoint());
+		int counts=0;
+		String sql="select count(evid) from worldcup2018.events where left(timediff(evtime,'"+nowtime+"'),length(timediff(evtime,'"+nowtime+"'))-6) < 48";
+		try {
+			conn=getConnection();
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			while(rs.next()) {
+				counts=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		finally {
+			closeAll();
+		}
+		return counts;
+	}
+	
+	
+	public static void main(String[] args){
+		Date today=new Date();
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String nowtime=df.format(today);
+		System.out.println(nowtime);
 	}
 }

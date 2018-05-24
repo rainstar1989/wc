@@ -157,14 +157,15 @@ $(document).ready(function(){
 			complete:function(XMLHttpRequest,textStatus){
 				$("#myModal").modal('toggle');
 			},
-			error: function (XMLHttpRequest, textStatus, errorThrown) {
-//				// 状态码
-//				alert(XMLHttpRequest.status);
-//				// 状态
-//				alert(XMLHttpRequest.readyState);
-//				// 错误信息   
-//				alert(textStatus);
-				alert("PlayOffsServlet ajax出错");
+			error: function (xhr, textStatus, errorThrown) {
+				var sessionStatus = xhr.getResponseHeader('sessionstatus');
+		        if(sessionStatus == 'timeout') {
+		            alert("会话过期，请重新登陆！");
+		            window.location.replace("login.html");
+		        }else{
+		        	alert("PlayOffsServlet ajax出错");
+		        }
+				
 			}
 		});
 		
@@ -211,7 +212,7 @@ $(document).ready(function(){
 					onoff=true;
 					rorp="setresult";
 				},
-				error: function (XMLHttpRequest, textStatus, errorThrown) {
+				error: function (xhr, textStatus, errorThrown) {
 					var sessionStatus = xhr.getResponseHeader('sessionstatus');
 			        if(sessionStatus == 'timeout') {
 			            alert("会话过期，请重新登陆！");
@@ -248,6 +249,8 @@ $(document).ready(function(){
 		$("#sgtba").addClass("active");
 		$("#tts").hide();
 		$("#ttsa").removeClass("active");
+		$("#jccc").hide();
+		$("#jccca").removeClass("active");
 		if($("#dtx").hasClass("active")){
 			matchtofinish();
 		}
@@ -262,10 +265,84 @@ $(document).ready(function(){
 		$("#ttsa").addClass("active");
 		$("#sgtb").hide();
 		$("#sgtba").removeClass("active");
+		$("#jccc").hide();
+		$("#jccca").removeClass("active");
 		playoffsmatch();
 	});
 	
+	$("#jccca").click(function(){
+		$("#jccc").show();
+		$("#jccca").addClass("active");
+		$("#sgtb").hide();
+		$("#sgtba").removeClass("active");
+		$("#tts").hide();
+		$("#ttsa").removeClass("active");
+		betablematchcount();
+		betedmatchcount();
+	});
 	
+	function betablematchcount(){
+		$.ajax({
+			type: "get",
+			url: "BetableMatchcountServlet",
+			cache:false,
+			data: {},
+			dataType: "text",
+			beforeSend:function(XMLHttpRequest){
+				$("#myModal").modal('toggle');
+			},
+			success: function (data){
+				$("#betablematchcount span").html(data);
+			},
+			complete:function(XMLHttpRequest,textStatus){
+				$("#myModal").modal('toggle');
+			},
+			error: function (xhr, textStatus, errorThrown) {
+				var sessionStatus = xhr.getResponseHeader('sessionstatus');
+		        if(sessionStatus == 'timeout') {
+		            alert("会话过期，请重新登陆！");
+		            window.location.replace("login.html");
+		        }else{
+		        	alert("BetableMatchcountServlet ajax出错");
+		        }
+				
+			}
+		});
+	};
+	
+	function betedmatchcount(){
+		$.ajax({
+			type: "get",
+			url: "BetedMatchcountServlet",
+			cache:false,
+			data: {},
+			dataType: "json",
+			beforeSend:function(XMLHttpRequest){
+				$("#myModal").modal('toggle');
+			},
+			success: function (data){
+				var str = "<tbody><tr><td>昵称</td><td>已竞猜场次</td></tr>";
+				for(var i=0;i<data.length;i++){
+					str+="<tr><td>"+data[i].remark+"</td><td>"+data[i].betedcount+"</td></tr>";
+				}
+				str+="</tbody>";
+				$("#cclist").html(str);
+			},
+			complete:function(XMLHttpRequest,textStatus){
+				$("#myModal").modal('toggle');
+			},
+			error: function (xhr, textStatus, errorThrown) {
+				var sessionStatus = xhr.getResponseHeader('sessionstatus');
+		        if(sessionStatus == 'timeout') {
+		            alert("会话过期，请重新登陆！");
+		            window.location.replace("login.html");
+		        }else{
+		        	alert("BetedMatchcountServlet ajax出错");
+		        }
+				
+			}
+		});
+	};
 	
 	
 	

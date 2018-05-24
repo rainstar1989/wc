@@ -9,6 +9,7 @@ public class User implements Comparable<User>{
 	private int userpoint;
 	private int bingonumber;
 	private int rank;
+	private int betedcount;
 	
 	public String getUserid() {
 		return userid;
@@ -53,6 +54,13 @@ public class User implements Comparable<User>{
 	}
 	public void setRank(int rank) {
 		this.rank = rank;
+	}
+	
+	public int getBetedcount() {
+		return betedcount;
+	}
+	public void setBetedcount(int betedcount) {
+		this.betedcount = betedcount;
 	}
 	@Override
 	public int compareTo(User o) {

@@ -1,3 +1,0 @@
-
-var loginName;
-var point;

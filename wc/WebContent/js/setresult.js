@@ -9,7 +9,7 @@ $(document).ready(function(){
 			data: {},
 			dataType: "json",
 			beforeSend:function(XMLHttpRequest){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('show');
 			},
 			success: function (data){
 				
@@ -34,7 +34,7 @@ $(document).ready(function(){
 				}
 			},
 			complete:function(XMLHttpRequest,textStatus){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('hide');
 			},
 			error: function (xhr, textStatus, errorThrown) {
 //				// 状态码
@@ -64,7 +64,7 @@ $(document).ready(function(){
 			data: {},
 			dataType: "json",
 			beforeSend:function(XMLHttpRequest){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('show');
 			},
 			success: function (data){
 				var str ="<tbody><tr><td>比赛id</td><td>对阵</td><td>赛果</td></tr>";
@@ -75,7 +75,7 @@ $(document).ready(function(){
 				$("#finishedlist").html(str);
 			},
 			complete:function(XMLHttpRequest,textStatus){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('hide');
 			},
 			error: function (xhr, textStatus, errorThrown) {
 //				// 状态码
@@ -104,7 +104,7 @@ $(document).ready(function(){
 			data: {},
 			dataType: "json",
 			beforeSend:function(XMLHttpRequest){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('show');
 			},
 			success: function (data){
 				var str = "<tbody><tr><td>比赛id</td><td>主队</td><td>客队</td><td>操作</td></tr>";
@@ -155,7 +155,7 @@ $(document).ready(function(){
 				});
 			},
 			complete:function(XMLHttpRequest,textStatus){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('hide');
 			},
 			error: function (xhr, textStatus, errorThrown) {
 				var sessionStatus = xhr.getResponseHeader('sessionstatus');
@@ -203,9 +203,10 @@ $(document).ready(function(){
 				data: {myresult:resString},
 				dataType: "text",
 				beforeSend:function(XMLHttpRequest){
-					$("#myModal").modal('toggle');
+					$("#myModal").modal('show');
 				},
 				success: function (data){
+					$("#myModal").modal('show');
 					$("#myModalLabel").toggle();
 					$("#setresp").text(data);
 					$("#setresp").toggle();
@@ -289,13 +290,13 @@ $(document).ready(function(){
 			data: {},
 			dataType: "text",
 			beforeSend:function(XMLHttpRequest){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('show');
 			},
 			success: function (data){
 				$("#betablematchcount span").html(data);
 			},
 			complete:function(XMLHttpRequest,textStatus){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('hide');
 			},
 			error: function (xhr, textStatus, errorThrown) {
 				var sessionStatus = xhr.getResponseHeader('sessionstatus');
@@ -318,7 +319,7 @@ $(document).ready(function(){
 			data: {},
 			dataType: "json",
 			beforeSend:function(XMLHttpRequest){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('show');
 			},
 			success: function (data){
 				var str = "<tbody><tr><td>昵称</td><td>已竞猜场次</td></tr>";
@@ -329,7 +330,7 @@ $(document).ready(function(){
 				$("#cclist").html(str);
 			},
 			complete:function(XMLHttpRequest,textStatus){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('hide');
 			},
 			error: function (xhr, textStatus, errorThrown) {
 				var sessionStatus = xhr.getResponseHeader('sessionstatus');

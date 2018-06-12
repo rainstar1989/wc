@@ -46,7 +46,7 @@ $(document).ready(function(){
 			data: {},
 			dataType: "json",
 			beforeSend:function(XMLHttpRequest){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('show');
 			},
 			success: function (data){
 				
@@ -80,7 +80,7 @@ $(document).ready(function(){
 				}
 			},
 			complete:function(XMLHttpRequest,textStatus){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('hide');
 			},
 			error: function (xhr, textStatus, errorThrown) {
 //				// 状态码
@@ -109,7 +109,7 @@ $(document).ready(function(){
 			data: {},
 			dataType: "json",
 			beforeSend:function(XMLHttpRequest){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('show');
 			},
 			success: function (data){
 				var str ="<tbody><tr><td>比赛id</td><td>对阵</td><td>您的预测</td><td>是否猜中</td><td>本场积分</td></tr>";
@@ -120,7 +120,7 @@ $(document).ready(function(){
 				$("#betedmatchlist").html(str);
 			},
 			complete:function(XMLHttpRequest,textStatus){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('hide');
 			},
 			error: function (xhr, textStatus, errorThrown) {
 //				// 状态码
@@ -149,7 +149,7 @@ $(document).ready(function(){
 			data: {},
 			dataType: "json",
 			beforeSend:function(XMLHttpRequest){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('show');
 			},
 			success: function (data){
 				var str = "<tbody><tr><td>排名</td><td>昵称</td><td>猜对场数</td><td>积分</td></tr>";
@@ -164,7 +164,7 @@ $(document).ready(function(){
 				$("#scoreboardlist").html(str);
 			},
 			complete:function(XMLHttpRequest,textStatus){
-				$("#myModal").modal('toggle');
+				$("#myModal").modal('hide');
 			},
 			error: function (xhr, textStatus, errorThrown) {
 //				// 状态码
@@ -217,9 +217,10 @@ $(document).ready(function(){
 				data: {myBet:betString},
 				dataType: "text",
 				beforeSend:function(XMLHttpRequest){
-					$("#myModal").modal('toggle');
+					$("#myModal").modal('show');
 				},
 				success: function (data){
+					$("#myModal").modal('show');
 					$("#myModalLabel").toggle();
 					$("#betresp").text(data);
 					$("#betresp").toggle();

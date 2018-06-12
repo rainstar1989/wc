@@ -104,6 +104,9 @@ public class UserDao extends ConnectionFactory {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		finally {
+			closeAll();
+		}
 		return user;
 	}
 	

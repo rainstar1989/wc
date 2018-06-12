@@ -4,7 +4,7 @@ import java.sql.*;
 public class ConnectionFactory {
 	
 	private String driverClassName = "com.mysql.jdbc.Driver";
-	private String url = "jdbc:mysql://rainstar1989.asuscomm.com:8765/testdb?characterEncoding=utf8&useSSL=true";
+	private String url = "jdbc:mysql://localhost:3306/worldcup2018?characterEncoding=utf8&useSSL=true";
 	private String dbUser = "root";  
     private String dbPassword = "05151989";
     Connection conn;

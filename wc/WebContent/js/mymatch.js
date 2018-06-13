@@ -114,10 +114,39 @@ $(document).ready(function(){
 			success: function (data){
 				var str ="<tbody><tr><td>比赛id</td><td>对阵</td><td>您的预测</td><td>是否猜中</td><td>本场积分</td></tr>";
 				for(var i=0;i<data.length;i++){
-					str+="<tr><td>"+data[i].matchid+"</td><td>"+data[i].hteam+"vs"+data[i].gteam+"</td><td>"+data[i].betinfo+"</td><td>"+data[i].betresult+"</td><td>"+data[i].matchpoint+"</td></tr>";
+					str+="<tr><td>"+data[i].matchid+"</td><td>"+data[i].hteam+"vs"+data[i].gteam+"</td><td class='bbf' data-mid='"+data[i].matchid+"'>"+data[i].betinfo+"</td><td>"+data[i].betresult+"</td><td>"+data[i].matchpoint+"</td></tr>";
 				}
 				str+="</tbody>";
 				$("#betedmatchlist").html(str);
+				
+				$(".bbf").on("click",function(){//读取这场比赛大家的竞猜情况
+					var bbfmid=$(this).data("mid");
+					$.ajax({
+						type: "get",
+						url: "MatchBetinfoServlet",
+						cache:false,
+						data: {bbfmid:bbfmid},
+						dataType: "text",
+						beforeSend:function(XMLHttpRequest){
+							$("#myModal").modal('toggle');
+						},
+						success: function (data){
+							$("#myModalLabel").toggle();
+							$("#betresp").text(data);
+							$("#betresp").toggle();
+						},
+						error: function (xhr, textStatus, errorThrown) {
+							var sessionStatus = xhr.getResponseHeader('sessionstatus');
+					        if(sessionStatus == 'timeout') {
+					            alert("会话过期，请重新登陆！");
+					            window.location.replace("login.html");
+					        }else{
+					        	alert("MatchBetinfoServlet ajax出错");
+					        }
+							
+						}
+					});
+				});
 			},
 			complete:function(XMLHttpRequest,textStatus){
 				$("#myModal").modal('hide');

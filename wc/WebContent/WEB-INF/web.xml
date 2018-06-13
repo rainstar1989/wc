@@ -23,6 +23,7 @@
     <url-pattern>/ScoreBoardServlet</url-pattern>
     <url-pattern>/BetableMatchcountServlet</url-pattern>
     <url-pattern>/BetedMatchcountServlet</url-pattern>
+    <url-pattern>/MatchBetinfoServlet</url-pattern>
   </filter-mapping>
   <session-config>
     <session-timeout>30</session-timeout>

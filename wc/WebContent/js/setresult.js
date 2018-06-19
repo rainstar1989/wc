@@ -45,7 +45,7 @@ $(document).ready(function(){
 //				alert(textStatus);
 				var sessionStatus = xhr.getResponseHeader('sessionstatus');
 		        if(sessionStatus == 'timeout') {
-		            alert("会话过期，请重新登陆！");
+		            alert("会话过期，请重新登录！");
 		            window.location.replace("login.html");
 		        }else{
 		        	alert("MatchUnfinishedServlet ajax出错");
@@ -86,7 +86,7 @@ $(document).ready(function(){
 //				alert(textStatus);
 				var sessionStatus = xhr.getResponseHeader('sessionstatus');
 		        if(sessionStatus == 'timeout') {
-		            alert("会话过期，请重新登陆！");
+		            alert("会话过期，请重新登录！");
 		            window.location.replace("login.html");
 		        }else{
 		        	alert("MatchFinishedServlet ajax出错");
@@ -128,11 +128,11 @@ $(document).ready(function(){
 						data: {pomid:pomid,pohtm:pohtm,pogtm:pogtm},
 						dataType: "text",
 						beforeSend:function(XMLHttpRequest){
-							$("#myModal").modal('toggle');
+							$("#myModal").modal('show');
 						},
 						success: function (data){
 							$("#myModalLabel").toggle();
-							$("#setresp").text(data);
+							$("#setresp").html(data);
 							$("#setresp").toggle();
 							onoff=true;
 							rorp="setplayoffs";
@@ -140,7 +140,7 @@ $(document).ready(function(){
 						error: function (xhr, textStatus, errorThrown) {
 							var sessionStatus = xhr.getResponseHeader('sessionstatus');
 					        if(sessionStatus == 'timeout') {
-					            alert("会话过期，请重新登陆！");
+					            alert("会话过期，请重新登录！");
 					            window.location.replace("login.html");
 					        }else{
 					        	alert("SetPlayoffsServlet ajax出错");
@@ -160,7 +160,7 @@ $(document).ready(function(){
 			error: function (xhr, textStatus, errorThrown) {
 				var sessionStatus = xhr.getResponseHeader('sessionstatus');
 		        if(sessionStatus == 'timeout') {
-		            alert("会话过期，请重新登陆！");
+		            alert("会话过期，请重新登录！");
 		            window.location.replace("login.html");
 		        }else{
 		        	alert("PlayOffsServlet ajax出错");
@@ -208,7 +208,7 @@ $(document).ready(function(){
 				success: function (data){
 					$("#myModal").modal('show');
 					$("#myModalLabel").toggle();
-					$("#setresp").text(data);
+					$("#setresp").html(data);
 					$("#setresp").toggle();
 					onoff=true;
 					rorp="setresult";
@@ -216,7 +216,7 @@ $(document).ready(function(){
 				error: function (xhr, textStatus, errorThrown) {
 					var sessionStatus = xhr.getResponseHeader('sessionstatus');
 			        if(sessionStatus == 'timeout') {
-			            alert("会话过期，请重新登陆！");
+			            alert("会话过期，请重新登录！");
 			            window.location.replace("login.html");
 			        }else{
 			        	alert("SetResultServlet ajax出错");
@@ -301,7 +301,7 @@ $(document).ready(function(){
 			error: function (xhr, textStatus, errorThrown) {
 				var sessionStatus = xhr.getResponseHeader('sessionstatus');
 		        if(sessionStatus == 'timeout') {
-		            alert("会话过期，请重新登陆！");
+		            alert("会话过期，请重新登录！");
 		            window.location.replace("login.html");
 		        }else{
 		        	alert("BetableMatchcountServlet ajax出错");
@@ -335,7 +335,7 @@ $(document).ready(function(){
 			error: function (xhr, textStatus, errorThrown) {
 				var sessionStatus = xhr.getResponseHeader('sessionstatus');
 		        if(sessionStatus == 'timeout') {
-		            alert("会话过期，请重新登陆！");
+		            alert("会话过期，请重新登录！");
 		            window.location.replace("login.html");
 		        }else{
 		        	alert("BetedMatchcountServlet ajax出错");

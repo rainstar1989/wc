@@ -466,9 +466,33 @@ public class WCDao extends ConnectionFactory{
 		return text;
 	}
 	
+	public String bingoMatchType(String uid) {
+		String text="";
+		String sql="select count(case when evtype='groupmatch' then 1 end) as 'a',count(case when evtype='roundof16' then 1 end) as 'b',count(case when evtype='quarter-finals' then 1 end) as 'c',count(case when evtype='semi-finals' then 1 end) as 'd',count(case when evtype='matchfor3' then 1 end) as 'e',count(case when evtype='final' then 1 end) as 'f' from worldcup2018.events ev where ev.evid in (select ui.evid from worldcup2018.userbetinfo ui where ui.uid='"+uid+"' and ui.betresult=1)";
+		try {
+			conn=getConnection();
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			while(rs.next()) {
+				int c1=rs.getInt(1);
+				int c2=rs.getInt(2);
+				int c3=rs.getInt(3);
+				int c4=rs.getInt(4);
+				int c5=rs.getInt(5);
+				int c6=rs.getInt(6);
+				text="小组赛猜对："+c1+"场<br>"+"八分之一决赛猜对："+c2+"场<br>"+"四分之一决赛猜对："+c3+"场<br>"+"半决赛猜对："+c4+"场<br>"+"三四名决赛猜对："+c5+"场<br>"+"决赛猜对："+c6+"场";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		return text;
+	}
 	
 	public static void main(String[] args){
 		WCDao wd=new WCDao();
-		System.out.println(wd.matchBetInfo(1));
+		System.out.println(wd.bingoMatchType("rainstar1989"));
 	}
 }

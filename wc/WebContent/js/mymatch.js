@@ -28,7 +28,7 @@ $(document).ready(function(){
 //			alert(textStatus);
 			var sessionStatus = xhr.getResponseHeader('sessionstatus');
 	        if(sessionStatus == 'timeout') {
-	            alert("会话过期，请重新登陆！");
+	            alert("会话过期，请重新登录！");
 	            window.location.replace("login.html");
 	        }else{
 	        	alert("UserInfoServlet ajax出错");
@@ -91,7 +91,7 @@ $(document).ready(function(){
 //				alert(textStatus);
 				var sessionStatus = xhr.getResponseHeader('sessionstatus');
 		        if(sessionStatus == 'timeout') {
-		            alert("会话过期，请重新登陆！");
+		            alert("会话过期，请重新登录！");
 		            window.location.replace("login.html");
 		        }else{
 		        	alert("MatchTobetServlet ajax出错");
@@ -114,7 +114,11 @@ $(document).ready(function(){
 			success: function (data){
 				var str ="<tbody><tr><td>比赛id</td><td>对阵</td><td>您的预测</td><td>是否猜中</td><td>本场积分</td></tr>";
 				for(var i=0;i<data.length;i++){
-					str+="<tr><td>"+data[i].matchid+"</td><td>"+data[i].hteam+"vs"+data[i].gteam+"</td><td class='bbf' data-mid='"+data[i].matchid+"'>"+data[i].betinfo+"</td><td>"+data[i].betresult+"</td><td>"+data[i].matchpoint+"</td></tr>";
+					str+="<tr><td>"+data[i].matchid+"</td><td class='vs' data-mid='"+data[i].matchid+"'>"+data[i].hteam+"vs"+data[i].gteam+"</td><td class='bbf' data-mid='"+data[i].matchid+"'>"+data[i].betinfo+"</td><td";
+					if(data[i].betresult!="未赛"){
+						str+=" class='yisai' data-mid='"+data[i].matchid+"'";
+					}
+					str+=">"+data[i].betresult+"</td><td>"+data[i].matchpoint+"</td></tr>";
 				}
 				str+="</tbody>";
 				$("#betedmatchlist").html(str);
@@ -128,17 +132,19 @@ $(document).ready(function(){
 						data: {bbfmid:bbfmid},
 						dataType: "text",
 						beforeSend:function(XMLHttpRequest){
-							$("#myModal").modal('toggle');
+							$("#myModal").modal('show');
 						},
 						success: function (data){
+							$("#myModal").modal('show');
 							$("#myModalLabel").toggle();
-							$("#betresp").text(data);
+							var vs=$("[data-mid="+bbfmid+"]:first").html()+"<br>";
+							$("#betresp").html(vs+data);
 							$("#betresp").toggle();
 						},
 						error: function (xhr, textStatus, errorThrown) {
 							var sessionStatus = xhr.getResponseHeader('sessionstatus');
 					        if(sessionStatus == 'timeout') {
-					            alert("会话过期，请重新登陆！");
+					            alert("会话过期，请重新登录！");
 					            window.location.replace("login.html");
 					        }else{
 					        	alert("MatchBetinfoServlet ajax出错");
@@ -147,6 +153,51 @@ $(document).ready(function(){
 						}
 					});
 				});
+				
+				$(".yisai").on("click",function(){//读取已赛场次的猜对情况
+					
+					var wmid=$(this).data("mid");
+					$.ajax({
+						type: "get",
+						url: "BingoUserServlet",
+						cache:false,
+						data: {wmid:wmid},
+						dataType: "json",
+						beforeSend:function(XMLHttpRequest){
+							$("#myModal").modal('show');
+						},
+						success: function (data){
+							$("#myModalLabel").toggle();
+							$("#betresp").toggle();
+							if (data.length==0){
+								$("#betresp").html($("[data-mid="+wmid+"]:first").html()+'<br>全军覆没无人生还！');
+							}else {
+								var md=$("[data-mid="+wmid+"]:first").html()+" 猜中名单：<br>";
+								for(var i=0;i<data.length;i++){
+									md+=data[i].remark+"<br>";
+								}
+								if (data.length<10){
+									$(".modal-body").height($(".modal-body").height()+data.length*20);
+								}else{
+									$(".modal-body").height($(".modal-body").height()+data.length*20+30);
+								}
+								
+								$("#betresp").html(md);
+							}
+						},
+						error: function (xhr, textStatus, errorThrown) {
+							var sessionStatus = xhr.getResponseHeader('sessionstatus');
+					        if(sessionStatus == 'timeout') {
+					            alert("会话过期，请重新登录！");
+					            window.location.replace("login.html");
+					        }else{
+					        	alert("BingoUserServlet ajax出错");
+					        }
+							
+						}
+					});
+				});
+				
 			},
 			complete:function(XMLHttpRequest,textStatus){
 				$("#myModal").modal('hide');
@@ -160,7 +211,7 @@ $(document).ready(function(){
 //				alert(textStatus);
 				var sessionStatus = xhr.getResponseHeader('sessionstatus');
 		        if(sessionStatus == 'timeout') {
-		            alert("会话过期，请重新登陆！");
+		            alert("会话过期，请重新登录！");
 		            window.location.replace("login.html");
 		        }else{
 		        	alert("BetedMatchServlet ajax出错");
@@ -187,10 +238,43 @@ $(document).ready(function(){
 					if(data[i].remark==$("#userName span").html()){
 						myclass="class='myname'";
 					}
-					str+="<tr><td>"+data[i].rank+"</td><td "+myclass+">"+data[i].remark+"</td><td>"+data[i].bingonumber+"</td><td>"+data[i].userpoint+"</td></tr>";
+					str+="<tr><td>"+data[i].rank+"</td><td "+myclass+" data-uid='"+data[i].userid+"'>"+data[i].remark+"</td><td class='mtype' data-uid='"+data[i].userid+"'>"+data[i].bingonumber+"</td><td>"+data[i].userpoint+"</td></tr>";
 				}
 				str+="</tbody>";
 				$("#scoreboardlist").html(str);
+				
+				$(".mtype").on("click",function(){//读取猜中比赛类型
+					var buid=$(this).data("uid");
+					
+					$.ajax({
+						type: "get",
+						url: "BingoMatchtypeServlet",
+						cache:false,
+						data: {buid:buid},
+						dataType: "text",
+						beforeSend:function(XMLHttpRequest){
+							$("#myModal").modal('show');
+						},
+						success: function (data){
+							$("#myModal").modal('show');
+							$("#myModalLabel").toggle();
+							var vs=$("[data-uid="+buid+"]:first").html()+"<br>";
+							$(".modal-body").height(180);
+							$("#betresp").html(vs+data);
+							$("#betresp").toggle();
+						},
+						error: function (xhr, textStatus, errorThrown) {
+							var sessionStatus = xhr.getResponseHeader('sessionstatus');
+					        if(sessionStatus == 'timeout') {
+					            alert("会话过期，请重新登录！");
+					            window.location.replace("login.html");
+					        }else{
+					        	alert("MatchBetinfoServlet ajax出错");
+					        }
+							
+						}
+					});
+				});
 			},
 			complete:function(XMLHttpRequest,textStatus){
 				$("#myModal").modal('hide');
@@ -204,7 +288,7 @@ $(document).ready(function(){
 //				alert(textStatus);
 				var sessionStatus = xhr.getResponseHeader('sessionstatus');
 		        if(sessionStatus == 'timeout') {
-		            alert("会话过期，请重新登陆！");
+		            alert("会话过期，请重新登录！");
 		            window.location.replace("login.html");
 		        }else{
 		        	alert("ScoreBoardServlet ajax出错");
@@ -251,14 +335,14 @@ $(document).ready(function(){
 				success: function (data){
 					$("#myModal").modal('show');
 					$("#myModalLabel").toggle();
-					$("#betresp").text(data);
+					$("#betresp").html(data);
 					$("#betresp").toggle();
 					onoff=true;
 				},
 				error: function (xhr, textStatus, errorThrown) {
 					var sessionStatus = xhr.getResponseHeader('sessionstatus');
 			        if(sessionStatus == 'timeout') {
-			            alert("会话过期，请重新登陆！");
+			            alert("会话过期，请重新登录！");
 			            window.location.replace("login.html");
 			        }else{
 			        	alert("SubmitBetServlet ajax出错");
@@ -272,6 +356,7 @@ $(document).ready(function(){
 	
 	
 	$("#myModal").on('hidden.bs.modal', function(){//模态框消失时重置模态框内容
+		$(".modal-body").height(70);
 		$("#myModalLabel").show();
 		$("#betresp").hide();
 		if (onoff){

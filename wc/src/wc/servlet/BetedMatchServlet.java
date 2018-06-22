@@ -2,7 +2,9 @@ package wc.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -37,7 +39,10 @@ public class BetedMatchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String loginId=(String)session.getAttribute("loginId");
-		System.out.println("BetedMatchServlet，session中loginId:"+loginId);
+		Date today=new Date();
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String nowtime=df.format(today);//当前时间
+		System.out.println("---"+nowtime+"BetedMatchServlet，session中loginId:"+loginId+"---");
 		
 		
 		WCDao td=new WCDao();

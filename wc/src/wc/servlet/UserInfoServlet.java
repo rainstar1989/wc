@@ -2,6 +2,8 @@ package wc.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,7 +38,10 @@ public class UserInfoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String loginId=(String)session.getAttribute("loginId");
-		System.out.println("userinfoservlet,session中loginId:"+loginId);
+		Date today=new Date();
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String nowtime=df.format(today);//当前时间
+		System.out.println("---"+nowtime+"userinfoservlet,session中loginId:"+loginId+"---");
 		
 		User u=new User();
 		try {

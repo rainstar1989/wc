@@ -2,6 +2,8 @@ package wc.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,9 +42,12 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action=request.getParameter("action");
+		Date today=new Date();
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String nowtime=df.format(today);//当前时间
 		if("login".equals(action)){//用户登陆
 //            this.login(request, response);
-			System.out.println("收到登陆请求");
+			System.out.println("---"+nowtime+"收到登陆请求"+"---");
 			UserDao ud=new UserDao();
 			User u=new User();
 			System.out.println("账号："+request.getParameter("userid")+"试图登陆");

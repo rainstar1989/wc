@@ -58,11 +58,21 @@
 	
 	<div class="container" id="jccc"  style="display:none;">
 		<div class="container-fluid">
-        	<a class="navbar-text titlename" id="betablematchcount" href="#">可竞猜场数：<span></span></a>
+        	<a class="navbar-text titlename" href="#">添加竞猜结果：<span></span></a>
         </div>
-		<table class="table table-striped text-center tablelist" id="cclist">
-			
-		</table>
+		<label>选择用户昵称：</label>
+      	<select class="form-control" id="sslist">
+      	</select>
+      	<label>填写比赛ID：</label>
+      	<input type="text" class="form-control" id="mmid" placeholder="请输入比赛ID">
+      	<label>选择竞猜结果：</label>
+      	<select class="form-control" id="wtllist">
+      		<option>---请选择---</option>
+      		<option data-br='w'>胜</option>
+      		<option data-br='t'>平</option>
+      		<option data-br='l'>负</option>
+      	</select><br>
+      	<button class="btn btn-primary btn-block" id="bbsb" >提交</button>
 	</div>
 	
 	<nav class="navbar navbar-default navbar-fixed-bottom bottomnav container" role="navigation">
@@ -75,7 +85,7 @@
                      <a><i class="icon-calendar"> </i>淘汰赛</a>
                 </li>
                 <li class="col-xs-4 col-sm-4 col-md-4 col-lg-4" id="jccca">
-                     <a><i class="icon-user"> </i>竞猜场次</a>
+                     <a><i class="icon-user"> </i>竞猜填写</a>
                 </li>
             </ul>
         	

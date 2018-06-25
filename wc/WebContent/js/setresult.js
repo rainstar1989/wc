@@ -278,43 +278,78 @@ $(document).ready(function(){
 		$("#sgtba").removeClass("active");
 		$("#tts").hide();
 		$("#ttsa").removeClass("active");
-		betablematchcount();
-		betedmatchcount();
+//		betablematchcount();
+//		betedmatchcount();
+		userlist();
 	});
 	
-	function betablematchcount(){
-		$.ajax({
-			type: "get",
-			url: "BetableMatchcountServlet",
-			cache:false,
-			data: {},
-			dataType: "text",
-			beforeSend:function(XMLHttpRequest){
-				$("#myModal").modal('show');
-			},
-			success: function (data){
-				$("#betablematchcount span").html(data);
-			},
-			complete:function(XMLHttpRequest,textStatus){
-				$("#myModal").modal('hide');
-			},
-			error: function (xhr, textStatus, errorThrown) {
-				var sessionStatus = xhr.getResponseHeader('sessionstatus');
-		        if(sessionStatus == 'timeout') {
-		            alert("会话过期，请重新登录！");
-		            window.location.replace("login.html");
-		        }else{
-		        	alert("BetableMatchcountServlet ajax出错");
-		        }
-				
-			}
-		});
-	};
+//	function betablematchcount(){
+//		$.ajax({
+//			type: "get",
+//			url: "BetableMatchcountServlet",
+//			cache:false,
+//			data: {},
+//			dataType: "text",
+//			beforeSend:function(XMLHttpRequest){
+//				$("#myModal").modal('show');
+//			},
+//			success: function (data){
+//				$("#betablematchcount span").html(data);
+//			},
+//			complete:function(XMLHttpRequest,textStatus){
+//				$("#myModal").modal('hide');
+//			},
+//			error: function (xhr, textStatus, errorThrown) {
+//				var sessionStatus = xhr.getResponseHeader('sessionstatus');
+//		        if(sessionStatus == 'timeout') {
+//		            alert("会话过期，请重新登录！");
+//		            window.location.replace("login.html");
+//		        }else{
+//		        	alert("BetableMatchcountServlet ajax出错");
+//		        }
+//				
+//			}
+//		});
+//	};
 	
-	function betedmatchcount(){
+//	function betedmatchcount(){
+//		$.ajax({
+//			type: "get",
+//			url: "BetedMatchcountServlet",
+//			cache:false,
+//			data: {},
+//			dataType: "json",
+//			beforeSend:function(XMLHttpRequest){
+//				$("#myModal").modal('show');
+//			},
+//			success: function (data){
+//				var str = "<tbody><tr><td>昵称</td><td>已竞猜场次</td></tr>";
+//				for(var i=0;i<data.length;i++){
+//					str+="<tr><td>"+data[i].remark+"</td><td>"+data[i].betedcount+"</td></tr>";
+//				}
+//				str+="</tbody>";
+//				$("#cclist").html(str);
+//			},
+//			complete:function(XMLHttpRequest,textStatus){
+//				$("#myModal").modal('hide');
+//			},
+//			error: function (xhr, textStatus, errorThrown) {
+//				var sessionStatus = xhr.getResponseHeader('sessionstatus');
+//		        if(sessionStatus == 'timeout') {
+//		            alert("会话过期，请重新登录！");
+//		            window.location.replace("login.html");
+//		        }else{
+//		        	alert("BetedMatchcountServlet ajax出错");
+//		        }
+//				
+//			}
+//		});
+//	};
+	
+	function userlist(){
 		$.ajax({
 			type: "get",
-			url: "BetedMatchcountServlet",
+			url: "ScoreBoardServlet",
 			cache:false,
 			data: {},
 			dataType: "json",
@@ -322,29 +357,50 @@ $(document).ready(function(){
 				$("#myModal").modal('show');
 			},
 			success: function (data){
-				var str = "<tbody><tr><td>昵称</td><td>已竞猜场次</td></tr>";
+				var str="<option>---请选择---</option>";
 				for(var i=0;i<data.length;i++){
-					str+="<tr><td>"+data[i].remark+"</td><td>"+data[i].betedcount+"</td></tr>";
+					str+="<option data-uid='"+data[i].userid+"'>"+data[i].remark+"</option>";
 				}
-				str+="</tbody>";
-				$("#cclist").html(str);
+				$("#sslist").html(str);
+				$("#sslist").on('change',function(){
+					$(this).children().removeClass("sl");
+					if($(this).children('option:selected').val()!="---请选择---"){
+						$(this).children('option:selected').addClass("sl");
+					}
+				});
 			},
 			complete:function(XMLHttpRequest,textStatus){
 				$("#myModal").modal('hide');
+				
 			},
 			error: function (xhr, textStatus, errorThrown) {
+//				// 状态码
+//				alert(XMLHttpRequest.status);
+//				// 状态
+//				alert(XMLHttpRequest.readyState);
+//				// 错误信息   
+//				alert(textStatus);
 				var sessionStatus = xhr.getResponseHeader('sessionstatus');
 		        if(sessionStatus == 'timeout') {
 		            alert("会话过期，请重新登录！");
 		            window.location.replace("login.html");
 		        }else{
-		        	alert("BetedMatchcountServlet ajax出错");
+		        	alert("ScoreBoardServlet ajax出错");
 		        }
 				
 			}
 		});
 	};
 	
+	$("#wtllist").change(function(){
+		$(this).children().removeClass("sl");
+		if($(this).children('option:selected').val()!="---请选择---"){
+			$(this).children('option:selected').addClass("sl");
+		}
+	});
 	
+	$("#bbsb").click(function(){
+		alert();
+	});
 	
 })

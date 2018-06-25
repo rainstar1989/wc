@@ -15,20 +15,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
-import wc.bean.Match;
-import wc.dao.WCDao;
+import wc.bean.User;
+import wc.dao.UserDao;
 
 /**
- * Servlet implementation class PlayOffsServlet
+ * Servlet implementation class NotBetedServlet
  */
-@WebServlet("/PlayOffsServlet")
-public class PlayOffsServlet extends HttpServlet {
+@WebServlet("/NotBetedServlet")
+public class NotBetedServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PlayOffsServlet() {
+    public NotBetedServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,16 +42,15 @@ public class PlayOffsServlet extends HttpServlet {
 		Date today=new Date();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String nowtime=df.format(today);//当前时间
-		System.out.println("---"+nowtime+"PlayOffsServlet，session中loginId:"+loginId+"---");
+		System.out.println("---"+nowtime+"NotBetedServlet，session中loginId:"+loginId+"---");
 		
-		WCDao td=new WCDao();
-		
-		List<Match> li=new ArrayList<Match>();
-		li=td.queryPlayoffsMatch();
+		request.setCharacterEncoding("UTF-8");
+		int mid = Integer.parseInt(request.getParameter("nmid"));
+		UserDao ud=new UserDao();
+		List<User> li=new ArrayList<User>();
+		li=ud.noBetedUser(mid);
 		JSONArray jsonarray=JSONArray.fromObject(li.toArray());
-		
 		System.out.println("jsonarray大小"+jsonarray.size()+jsonarray.toString());
-		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter writer = response.getWriter();
 		writer.print(jsonarray.toString());

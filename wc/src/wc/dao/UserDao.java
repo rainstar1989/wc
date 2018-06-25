@@ -212,6 +212,27 @@ public class UserDao extends ConnectionFactory {
 		return list;
 	}
 	
+	public List<User> noBetedUser(int mid){
+		List<User> list=new ArrayList<User>();
+		String sql="select u.remark from worldcup2018.users u where u.uid not in (select ui.uid from worldcup2018.userbetinfo ui where ui.evid="+mid+")";
+		try {
+			conn=getConnection();
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			while(rs.next()) {
+				User u=new User();
+				u.setRemark(rs.getString(1));
+				list.add(u);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		return list;
+	}
+	
 	public static void main(String[] args){
 		UserDao ud=new UserDao();
 		

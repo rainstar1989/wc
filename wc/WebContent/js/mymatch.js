@@ -117,6 +117,8 @@ $(document).ready(function(){
 					str+="<tr><td>"+data[i].matchid+"</td><td class='vs' data-mid='"+data[i].matchid+"'>"+data[i].hteam+"vs"+data[i].gteam+"</td><td class='bbf' data-mid='"+data[i].matchid+"'>"+data[i].betinfo+"</td><td";
 					if(data[i].betresult!="未赛"){
 						str+=" class='yisai' data-mid='"+data[i].matchid+"'";
+					}else{
+						str+=" class='weisai' data-mid='"+data[i].matchid+"'";
 					}
 					str+=">"+data[i].betresult+"</td><td>"+data[i].matchpoint+"</td></tr>";
 				}
@@ -198,6 +200,49 @@ $(document).ready(function(){
 					});
 				});
 				
+				$(".weisai").on("click",function(){//读取未赛场次还没下注的人员名单
+					var nmid=$(this).data("mid");
+					$.ajax({
+						type: "get",
+						url: "NotBetedServlet",
+						cache:false,
+						data: {nmid:nmid},
+						dataType: "json",
+						beforeSend:function(XMLHttpRequest){
+							$("#myModal").modal('show');
+						},
+						success: function (data){
+							$("#myModalLabel").toggle();
+							$("#betresp").toggle();
+							if (data.length==0){
+								$("#betresp").html($("[data-mid="+nmid+"]:first").html()+'<br>都猜啦^_^');
+							}else {
+								var md=$("[data-mid="+nmid+"]:first").html()+" 未竞猜名单：<br>";
+								for(var i=0;i<data.length;i++){
+									md+=data[i].remark+"<br>";
+								}
+								if (data.length<10){
+									$(".modal-body").height($(".modal-body").height()+data.length*20);
+								}else{
+									$(".modal-body").height($(".modal-body").height()+data.length*20+30);
+								}
+								
+								$("#betresp").html(md);
+							}
+						},
+						error: function (xhr, textStatus, errorThrown) {
+							var sessionStatus = xhr.getResponseHeader('sessionstatus');
+					        if(sessionStatus == 'timeout') {
+					            alert("会话过期，请重新登录！");
+					            window.location.replace("login.html");
+					        }else{
+					        	alert("NotBetedServlet ajax出错");
+					        }
+							
+						}
+					});
+				});
+				
 			},
 			complete:function(XMLHttpRequest,textStatus){
 				$("#myModal").modal('hide');
@@ -269,7 +314,7 @@ $(document).ready(function(){
 					            alert("会话过期，请重新登录！");
 					            window.location.replace("login.html");
 					        }else{
-					        	alert("MatchBetinfoServlet ajax出错");
+					        	alert("BingoMatchtypeServlet ajax出错");
 					        }
 							
 						}

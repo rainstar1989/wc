@@ -27,6 +27,7 @@
     <url-pattern>/BingoUserServlet</url-pattern>
     <url-pattern>/BingoMatchtypeServlet</url-pattern>
     <url-pattern>/NotBetedServlet</url-pattern>
+    <url-pattern>/AdminSetbetServlet</url-pattern>
   </filter-mapping>
   <session-config>
     <session-timeout>30</session-timeout>

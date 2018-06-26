@@ -362,12 +362,6 @@ $(document).ready(function(){
 					str+="<option data-uid='"+data[i].userid+"'>"+data[i].remark+"</option>";
 				}
 				$("#sslist").html(str);
-				$("#sslist").on('change',function(){
-					$(this).children().removeClass("sl");
-					if($(this).children('option:selected').val()!="---请选择---"){
-						$(this).children('option:selected').addClass("sl");
-					}
-				});
 			},
 			complete:function(XMLHttpRequest,textStatus){
 				$("#myModal").modal('hide');
@@ -392,15 +386,44 @@ $(document).ready(function(){
 		});
 	};
 	
-	$("#wtllist").change(function(){
-		$(this).children().removeClass("sl");
-		if($(this).children('option:selected').val()!="---请选择---"){
-			$(this).children('option:selected').addClass("sl");
-		}
-	});
 	
 	$("#bbsb").click(function(){
-		alert();
+		if ($("#mmid").val()!=""&&$("#sslist").children('option:selected').val()!="---请选择---"&&$("#wtllist").children('option:selected').val()!="---请选择---"){
+			var betObj={};
+			betObj["matchid"]=$("#mmid").val();
+			betObj["betinfo"]=$("#wtllist").children('option:selected').data("br");
+			betObj["userid"]=$("#sslist").children('option:selected').data("uid");
+			var betString=JSON.stringify(betObj)
+			$.ajax({
+				type: "post",
+				url: "AdminSetbetServlet",
+				cache:false,
+				data: {myBet:betString},
+				dataType: "text",
+				beforeSend:function(XMLHttpRequest){
+					$("#myModal").modal('show');
+				},
+				success: function (data){
+					$("#myModal").modal('show');
+					$("#myModalLabel").toggle();
+					$("#setresp").html(data);
+					$("#setresp").toggle();
+				},
+				error: function (xhr, textStatus, errorThrown) {
+					var sessionStatus = xhr.getResponseHeader('sessionstatus');
+			        if(sessionStatus == 'timeout') {
+			            alert("会话过期，请重新登录！");
+			            window.location.replace("login.html");
+			        }else{
+			        	alert("AdminSetbetServlet ajax出错");
+			        }
+					
+				}
+			});
+		}else{
+			alert("请填写完整！");
+			return false;
+		}
 	});
 	
 })

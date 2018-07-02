@@ -3,12 +3,12 @@ package wc.dao;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
-
-
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 import wc.bean.BetInfo;
 import wc.bean.Match;
+import wc.bean.User;
 
 public class WCDao extends ConnectionFactory{
 	
@@ -342,6 +342,49 @@ public class WCDao extends ConnectionFactory{
 		return matchpoint;
 	}
 	
+	public String calMatchAveragePoint(int mid) {//计算积分平均到每个猜对的人
+		String ap=null;
+		String sql="select (select count(ui.uid) from worldcup2018.userbetinfo ui where ui.evid="+mid+" and betresult=1) as '猜对人数',(select ev.evtype from worldcup2018.events ev where ev.evid="+mid+") as '比赛类型'";
+		int countright=0;
+		String matchtype=null;
+		DecimalFormat df = new DecimalFormat("0.00");
+		try {
+			conn=getConnection();
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			while(rs.next()) {
+				countright=rs.getInt(1);
+				matchtype=rs.getString(2);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		if(countright==0) {
+			ap="0.00";
+		}else {
+			if(matchtype.equals("groupmatch")) {
+				ap=df.format((float)10/countright);
+			}else if(matchtype.equals("roundof16")) {
+				ap=df.format((float)10/countright);
+			}else if(matchtype.equals("quarter-finals")) {
+				ap=df.format((float)10/countright);
+			}else if(matchtype.equals("semi-finals")) {
+				ap=df.format((float)10/countright);
+			}else if(matchtype.equals("matchfor3")) {
+				ap=df.format((float)10/countright);
+			}else if(matchtype.equals("final")) {
+				ap=df.format((float)10/countright);
+			}else {
+				System.out.println("比赛类型有问题！");
+			}
+		}
+		
+		return ap;
+	}
+	
 	public int queryUserPoint(String userid) {//计算用户积分
 		int userpoint=0;
 		String sql="select sum(ub.point) from worldcup2018.userbetinfo ub where uid='"+userid+"'";
@@ -491,8 +534,43 @@ public class WCDao extends ConnectionFactory{
 		return text;
 	}
 	
+	public List<Match> bingoMatches(String uid){
+		List<Match> list =new ArrayList<Match>();
+		String sql="select evid from worldcup2018.userbetinfo where uid='"+uid+"' and betresult=1";
+		try {
+			conn=getConnection();
+			ptmt=conn.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			while(rs.next()) {
+				Match match =new Match();
+				match.setMatchid(rs.getInt(1));
+				list.add(match);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeAll();
+		}
+		return list;
+	}
+	
 	public static void main(String[] args){
 		WCDao wd=new WCDao();
-		System.out.println(wd.bingoMatchType("rainstar1989"));
+		UserDao ud=new UserDao();
+		List<User> ulist=ud.userList();
+		DecimalFormat df = new DecimalFormat("0.00");
+		
+		for (int i=0;i<ulist.size();i++) {
+			String uid=ulist.get(i).getUserid();
+			List<Match> mlist=wd.bingoMatches(uid);
+			float uscore=0f;
+			for (int j=0;j<mlist.size();j++) {
+				int mid=mlist.get(j).getMatchid();
+				String mscore=wd.calMatchAveragePoint(mid);
+				uscore+=Float.parseFloat(mscore);
+			}
+			System.out.println("昵称:"+ulist.get(i).getRemark()+",得分:"+df.format(uscore));
+		}
 	}
 }

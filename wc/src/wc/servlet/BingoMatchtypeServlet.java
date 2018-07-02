@@ -42,8 +42,10 @@ public class BingoMatchtypeServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		String uid=request.getParameter("buid");
+		System.out.println("uid:"+uid);
 		WCDao wd=new WCDao();
 		String flag=wd.bingoMatchType(uid);
+		System.out.println(flag);
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter writer = response.getWriter();
 		writer.print(flag);
